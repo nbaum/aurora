@@ -10,6 +10,7 @@ gem 'slim-rails'
 gem 'rdiscount'
 
 gem 'sass-rails', '~> 4.0.3'
+gem 'compass-rails'
 
 gem 'therubyracer', platforms: :ruby
 gem 'coffee-rails', '~> 4.0.0'
