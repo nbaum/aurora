@@ -8,4 +8,6 @@ class IfViewExists < ActionView::LookupContext
 end
 
 Rails.application.routes.draw do
+  root 'pages#view'
+  get  '*path', to: 'pages#view', constraints: IfViewExists.new
 end
