@@ -7,6 +7,7 @@ gem 'sqlite3'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'slim-rails'
+gem 'rdiscount'
 
 gem 'sass-rails', '~> 4.0.3'
 
