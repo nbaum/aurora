@@ -1,6 +1,6 @@
 class IfViewExists < ActionView::LookupContext
   def initialize
-    super(p Rails.root.join('app', 'views'))
+    super(Rails.root.join('app', 'views'))
   end
   def matches? (request)
     template_exists?("pages" + File.expand_path(request.params["path"], "/"))
