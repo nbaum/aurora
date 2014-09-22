@@ -1,0 +1,23 @@
+$serif: inherit;
+$sans: inherit;
+$monospace: inherit;
+
+@mixin google-font($name) {
+  @import url("http://fonts.googleapis.com/css?family=#{$name}:300,700,300italic,700italic");
+}
+
+@mixin serif-font($name) {
+  @include google-font($name);
+  $serif: $name;
+}
+
+@mixin sans-font($name) {
+  @include google-font($name);
+  $sans: $name;
+}
+
+@mixin monospace-font($name) {
+  @include google-font($name);
+  $monospace: $name;
+}
+

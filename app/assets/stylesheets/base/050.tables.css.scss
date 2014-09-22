@@ -1,0 +1,14 @@
+table:not(.properties) {
+  & > * > tr {
+    & > th, & > td {
+      padding: 0.1em 0.5em;
+    }
+  }
+  th {
+    font-weight: bold;
+  }
+  margin: 0.9em -0.5em -0.1em -0.5em;
+  .right {
+    text-align: right;
+  }
+}

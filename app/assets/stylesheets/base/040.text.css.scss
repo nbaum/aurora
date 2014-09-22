@@ -1,0 +1,72 @@
+body {
+  font: normal 14px/1.2 $font-family;
+}
+
+a[href] {
+  color: #05a;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.active {
+    color: inherit;
+  }
+}
+
+em, i, cite {
+  font-style: italic;
+}
+
+strong, b {
+  font-weight: bold;
+}
+
+small, sub, sup {
+  font-size: 80%;
+}
+
+rt {
+  font-size: 70%;
+}
+
+s, del {
+  text-decoration: line-through;
+}
+
+q {
+  quotes: "“" "”" "‘" "’";
+}
+
+dfn {
+  font-variant: small-caps;
+  text-transform: lowercase;
+}
+
+code, samp, kbd, pre {
+  font-family: $monospace;
+}
+
+var {
+  font-family: $serif;
+  font-style: italic;
+}
+
+sub, sup {
+  position: relative;
+}
+
+sub {
+  top: 0.2em;
+}
+
+sup {
+  bottom: 0.2em;
+}
+
+mark {
+  text-shadow: #ff0 0 0 1px;
+  background: rgba(#ff0, 0.25);
+}
+
+u, ins {
+  text-decoration: underline;
+}

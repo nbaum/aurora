@@ -1,0 +1,68 @@
+body {
+  background: #fff;
+  color: #000;
+}
+
+body > header {
+  @include clearfix;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  h1, li {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  h1 {
+    font-weight: bold;
+    color: #943;
+    text-shadow: rgba(#fff, 1.0) 1px 1px 0;
+    padding: 1rem;
+  }
+  menu {
+    margin: 0;
+    display: inline;
+  }
+  li {
+    display: inline-block;
+    padding: 1rem;
+    margin: 0 0 0 1em;
+  }
+}
+
+main {
+  h1, h2, h3, h4, h5, h6, aside {
+    margin: 1rem 0 0;
+  }
+  h1 { font-size: 2.0em; }
+  //h2 { font-size: 1.8em; }
+  //h3 { font-size: 1.6em; }
+  //h4 { font-size: 1.4em; }
+  //h5 { font-size: 1.2em; }
+  //h6 { font-size: 1.0em; }
+  margin: 1em;
+  header + header {
+    background: #d0d0d0;
+  }
+  header {
+    @include clearfix;
+    background: #e0e0e0;
+    padding: 1em;
+    border-bottom: 1px solid #ccc;
+    margin: -1em -1em 1em -1em;
+    h1 {
+      float: left;
+      font-size: 1em;
+      font-weight: bold;
+      color: #666;
+      text-shadow: rgba(#fff, 1.0) 1px 1px 0;
+      margin: 0 2em 0 0;
+    }
+    menu {
+      margin: 0;
+      float: left;
+    }
+  }
+}
+
+aside {
+  float: right;
+}
