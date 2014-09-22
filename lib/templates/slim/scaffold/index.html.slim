@@ -1,0 +1,21 @@
+= render("header")
+table.table
+  thead
+    tr
+      th
+<% attributes.each do |attribute| -%>
+      th <%= attribute.human_name %>
+<% end -%>
+      th
+  tbody
+    - @<%= plural_table_name %>.each do |<%= singular_table_name %>|
+      tr
+        td
+          .links
+            = link_to icon("view", "View"), <%= singular_table_name %>
+            = link_to icon("edit", "Edit"), [:edit, <%= singular_table_name %>]
+<% attributes.each do |attribute| -%>
+        td = <%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+        td = button_to <%= singular_table_name %>, method: :delete do
+          = icon("trash-o", "Delete")

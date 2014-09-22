@@ -1,0 +1,8 @@
+= render("header")
+
+table.properties
+<% attributes.each do |attribute| -%>
+  tr
+    th <%= attribute.human_name %>
+    td = @<%= singular_table_name %>.<%= attribute.name %>
+<% end -%>

@@ -1,0 +1,13 @@
+header
+  - if @<%= singular_table_name %>.nil?
+    h1 <%= plural_table_name.capitalize %>
+    menu
+      li = link_to "New <%= human_name %>", [:new, :<%= singular_table_name %>]
+  - elsif @<%= singular_table_name %>.new_record?
+    h1 New <%= human_name %>
+    menu
+  - else
+    h1 <%= human_name %>
+    menu
+      li = link_to "View", @<%= singular_table_name %>, exact: true
+      li = link_to "Edit", [:edit, @<%= singular_table_name %>]
