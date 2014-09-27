@@ -1,21 +1,21 @@
 body {
-  background: #fff;
-  color: #000;
+  background: #666;
+  color: #fff;
 }
 
 body > header {
   @include clearfix;
-  background: #f0f0f0;
-  border-bottom: 1px solid #ccc;
+  background: #333;
+  color: #fff;
+  border-bottom: 1px solid #666;
   h1, li {
     display: inline-block;
     vertical-align: middle;
   }
   h1 {
     font-weight: bold;
-    color: #943;
-    text-shadow: rgba(#fff, 1.0) 1px 1px 0;
-    padding: 1rem;
+    color: #d63;
+    padding: 0.5em 1rem;
   }
   menu {
     margin: 0;
@@ -23,7 +23,7 @@ body > header {
   }
   li {
     display: inline-block;
-    padding: 1rem;
+    padding: 0.5em 1rem;
     margin: 0 0 0 1em;
   }
 }
@@ -38,7 +38,6 @@ main {
   //h4 { font-size: 1.4em; }
   //h5 { font-size: 1.2em; }
   //h6 { font-size: 1.0em; }
-  margin: 1em;
   header + header {
     background: #d0d0d0;
   }

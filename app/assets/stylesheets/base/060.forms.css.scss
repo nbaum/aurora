@@ -15,14 +15,14 @@ fieldset {
 }
 
 table.properties > tbody {
-  & > tr > td {
+  & > tr > td, & > tr > th {
     padding-left: 1em;
   }
   & > tr:first-child > td, tr:first-child > th {
     padding-top: 0;
   }
   & > tr > td, & > tr > th {
-    padding-top: 0.5em;
+    padding-top: 1em;
   }
 }
 
@@ -46,6 +46,7 @@ textarea,
 input:not([type])
 {
   background: #fff;
+  color: #000;
   border-radius: 0.3em;
   box-shadow: rgba(#000, 0.3) 0 1px 1px 1px;
   fieldset & {
@@ -67,7 +68,9 @@ input[type='color'],
 button,
 summary
 {
-  background: linear-gradient(#d5d5d5, #c5c5c5);
+  color: #000;
+  background: #d0d0d0;
+  background-image: linear-gradient(#d5d5d5, #c5c5c5);
   border-radius: 0.3em;
   border: 0;
   padding: 0.2em 0.8em;
@@ -87,7 +90,9 @@ summary
 
 select
 {
-  background: linear-gradient(#d5d5d5, #c5c5c5);
+  color: #000;
+  background: #d0d0d0;
+  background-image: linear-gradient(#d5d5d5, #c5c5c5);
   border-radius: 0.3em;
   border: 0;
   padding: 0.2em 0 0.2em 0.5em;
