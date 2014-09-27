@@ -11,4 +11,15 @@ body
     h1 = link_to "vTin", :root
     menu.breadcrumbs = yield :breadcrumbs
     menu.links
+      li = link_to 'Servers', :servers
+      li = link_to 'Volumes', :volumes
+      li = link_to 'Networks', :networks
+      li = link_to 'Addresses', :addresses
+      li = link_to 'Tariffs', :tariffs
+      li = link_to 'Transactions', :transactions
+      li = link_to 'Accounts', :accounts
+      li = link_to 'Users', :users
+      li = link_to 'Hosts', :hosts
+      li = link_to 'Zones', :zones
   main class=@main_class = yield
+
