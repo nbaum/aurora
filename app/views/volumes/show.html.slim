@@ -1,0 +1,33 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @volume.name
+    tr
+      th Size
+      td = @volume.size
+    tr
+      th Ephemeral
+      td = @volume.ephemeral
+    tr
+      th Optical
+      td = @volume.optical
+    tr
+      th Server
+      td = @volume.server
+    tr
+      th Base
+      td = @volume.base
+    tr
+      th Account
+      td = @volume.account
+    tr
+      th Bundle
+      td = @volume.bundle
+    tr
+      th Storage pool
+      td = @volume.storage_pool
+    tr
+      th Published at
+      td = @volume.published_at

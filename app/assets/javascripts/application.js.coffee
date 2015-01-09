@@ -15,3 +15,6 @@
 #= require jquery-ui
 #= require turbolinks
 #= require_tree .
+
+$(document).on "page:change", ->
+  $(".tabs").tabs()

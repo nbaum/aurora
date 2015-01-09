@@ -1,0 +1,18 @@
+= render("header")
+main
+  = paginate @appliances
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Internal class
+        th Template
+    tbody
+      - @appliances.each do |appliance|
+        tr
+          td = link_to appliance.id, appliance
+          td = appliance.name
+          td = appliance.internal_class
+          td = appliance.template
+  = paginate @appliances

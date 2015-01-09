@@ -1,0 +1,15 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Ip
+      td = @address.ip
+    tr
+      th Account
+      td = @address.account
+    tr
+      th Server
+      td = @address.server
+    tr
+      th Network
+      td = @address.network

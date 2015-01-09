@@ -1,13 +1,16 @@
-header
-  - if @<%= singular_table_name %>.nil?
-    h1 <%= plural_table_name.capitalize %>
-    menu
-      li = link_to "New <%= human_name %>", [:new, :<%= singular_table_name %>]
-  - elsif @<%= singular_table_name %>.new_record?
-    h1 New <%= human_name %>
-    menu
-  - else
-    h1 <%= human_name %>
-    menu
-      li = link_to "View", @<%= singular_table_name %>, exact: true
-      li = link_to "Edit", [:edit, @<%= singular_table_name %>]
+- @title << <%= human_name.pluralize.inspect %>
+- if @<%= singular_table_name %>.nil? or @<%= singular_table_name %>.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:<%= plural_table_name %>], exact: true
+    li = link_to "New", [:new, :<%= singular_table_name %>]
+  - @title << "New" if !@<%= singular_table_name %>.nil?
+- else
+  - @title << <%= human_name.inspect %>
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← <%= human_name %> List", :<%= plural_table_name %>, exact: true, class: "bare"
+    li = link_to "View", @<%= singular_table_name %>, exact: true
+    li = link_to "Edit", [:edit, @<%= singular_table_name %>]

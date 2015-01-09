@@ -1,15 +1,24 @@
 module ApplicationHelper
 
   def convert_options_to_data_attributes (options, html_options)
-    url = url_for(options)
+    html_options = ActiveSupport::HashWithIndifferentAccess.new(html_options)
+    case options
+    when String
+      url = url_for(options)
+    else
+      url = url_for([*options, anchor: (html_options || {})[:anchor]])
+    end
     path = request.path
     path += "?" + request.query_string unless request.query_string == ""
     html_options ||= {}
     html_options['href'] ||= url
-    html_options['path'] = path
     if path == url or (html_options[:exact] != true and path.start_with?(url))
-      html_options['class'] = "active"
-      html_options['href'] = nil if path == url
+      if html_options['class']
+        html_options['class'] << " active"
+      else
+        html_options['class'] = "active"
+      end
+      #html_options['href'] = nil if path == url
     end
     html_options.delete(:exact)
     super(options, html_options)
@@ -22,16 +31,16 @@ module ApplicationHelper
     content_tag(:a, name || url, html_options, &block)
   end
 
-  def page_title (*parts)
-    (@page_title = parts.empty? ? @page_title : parts) || []
+  def icon (icon, text = nil, fw: false, **options)
+    options[:class] = "fa-fw" if fw
+    options.merge!(text: text) if text
+    fa_icon(icon, options)
   end
 
-  def icon (icon, text)
-    text
-  end
-
-  def crumb (name, link = nil)
-    
+  def gravatar_url (email, options)
+    url = "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.strip.downcase)}"
+    url = url + "?" + options.to_query unless options.empty?
+    url
   end
 
 end

@@ -1,0 +1,15 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @storage_pool.name
+    tr
+      th Size
+      td = @storage_pool.size
+    tr
+      th Account
+      td = @storage_pool.account
+    tr
+      th Host
+      td = @storage_pool.host

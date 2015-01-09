@@ -1,67 +1,139 @@
-body {
-  background: #666;
-  color: #fff;
+
+html, body {
+  height: 100%;
 }
 
-body > header {
-  @include clearfix;
-  background: #333;
-  color: #fff;
-  border-bottom: 1px solid #666;
-  h1, li {
-    display: inline-block;
-    vertical-align: middle;
+body > .vbox {
+  height: 100%;
+}
+
+.vbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.hbox {
+  display: flex;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+$sidebar-width: 11em;
+
+.flash {
+  padding: 0.5em;
+  position: relative;
+  z-index: 1;
+  box-shadow: rgba(#000, 0.1) 0 1px 2px;
+  &.notice {
+    background: #dfd;
+    border-bottom: 2px solid #dfd - #333;
+    color: #030;
   }
+  &.alert {
+    background: #fdd;
+    border-bottom: 2px solid #fdd - #333;
+    color: #300;
+  }
+}
+
+body > * > header {
+  box-shadow: rgba(#000, 0.1) 0 1px 2px;
+  position: relative;
+  z-index: 1;
+  flex-basis: 44px;
+  flex-shrink: 0;
   h1 {
+    display: inline-block;
+    width: $sidebar-width;
+    background: #234 linear-gradient(#234 + #111, #234 - #111);
+    color: #fff;
     font-weight: bold;
-    color: #d63;
-    padding: 0.5em 1rem;
+    padding: 1em;
   }
   menu {
-    margin: 0;
+    overflow: hide;
     display: inline;
-  }
-  li {
-    display: inline-block;
-    padding: 0.5em 1rem;
-    margin: 0 0 0 1em;
+    &.account {
+      float: right;
+      padding-right: 1em;
+    }
+    &.links {
+      padding-left: 1em;
+    }
+    li {
+      padding: 1em;
+      display: inline-block;
+      &.search {
+        padding: 0 1em;
+      }
+      &.avatar {
+        padding: 0 1em;
+        img {
+          display: inline-block;
+          vertical-align: middle;
+          border-radius: 50%;
+        }
+      }
+    }
   }
 }
 
 main {
-  h1, h2, h3, h4, h5, h6, aside {
-    margin: 1rem 0 0;
-  }
-  h1 { font-size: 2.0em; }
-  //h2 { font-size: 1.8em; }
-  //h3 { font-size: 1.6em; }
-  //h4 { font-size: 1.4em; }
-  //h5 { font-size: 1.2em; }
-  //h6 { font-size: 1.0em; }
-  header + header {
-    background: #d0d0d0;
-  }
-  header {
-    @include clearfix;
-    background: #e0e0e0;
-    padding: 1em;
-    border-bottom: 1px solid #ccc;
-    margin: -1em -1em 1em -1em;
-    h1 {
-      float: left;
-      font-size: 1em;
-      font-weight: bold;
-      color: #666;
-      text-shadow: rgba(#fff, 1.0) 1px 1px 0;
-      margin: 0 2em 0 0;
+  flex-grow: 1;
+  > nav {
+    flex-basis: $sidebar-width;
+    flex-shrink: 0;
+    background: #234 + #111;
+    color: #fff;
+    a[href] {
+      color: #fff;
     }
-    menu {
-      margin: 0;
-      float: left;
+    menu li {
+      h2 {
+        padding: 1em 1em 0.5em 1em;
+        opacity: 0.5;
+      }
+      a {
+        display: block;
+        padding: 0.5em 1em;
+        &:hover {
+          background: rgba(#fff, 0.2);
+        }
+        &.active {
+          background: rgba(#fff, 0.1);
+        }
+      }
+    }
+  }
+  > article {
+    overflow: auto;
+    flex-grow: 1;
+    padding: 1em 2em;
+    background: #f0f0f0;
+    > header {
+      background: #f7f7f7;
+      padding: 1em 2em;
+      margin: -1em -2em 1em -2em;
+      box-shadow: rgba(#000, 0.1) 0 1px 2px;
+      position: relative;
+      h1 {
+        font-size: 2em;
+      }
+      menu > li {
+        display: inline-block;
+        margin-right: 0.5em;
+      }
+      aside {
+        background: #f7f7f7;
+        padding: 1em;
+        margin: -1em 1em -1em 1em;
+        box-shadow: rgba(#fff, 1.0) -1px 0,
+                    rgba(#000, 0.1) -2px 0;
+      }
     }
   }
 }
 
-aside {
-  float: right;
-}

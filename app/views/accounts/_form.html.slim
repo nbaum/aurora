@@ -1,0 +1,24 @@
+= form_for @account do |f|
+  - if @account.errors.any?
+    .errors
+      h2 = "#{pluralize(@account.errors.count, "error")} prohibited this account from being saved:"
+      ul
+        - @account.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :balance
+      td = f.text_field :balance
+    tr
+      th = f.label :tariff
+      td = f.text_field :tariff
+    tr
+      th = f.label :zone
+      td = f.text_field :zone
+    tr
+      th
+      td = f.button @account.new_record? ? "Create" : "Update"

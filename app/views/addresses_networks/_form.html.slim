@@ -1,0 +1,21 @@
+= form_for @addresses_network do |f|
+  - if @addresses_network.errors.any?
+    .errors
+      h2 = "#{pluralize(@addresses_network.errors.count, "error")} prohibited this addresses_network from being saved:"
+      ul
+        - @addresses_network.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :attachment
+      td = f.text_field :attachment
+    tr
+      th = f.label :server
+      td = f.text_field :server
+    tr
+      th = f.label :network
+      td = f.text_field :network
+    tr
+      th
+      td = f.button @addresses_network.new_record? ? "Create" : "Update"

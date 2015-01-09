@@ -1,0 +1,12 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Amount
+      td = @transaction.amount
+    tr
+      th Description
+      td = @transaction.description
+    tr
+      th Account
+      td = @transaction.account

@@ -1,0 +1,12 @@
+= render("header")
+- @title << "Console"
+main
+  p No in-browser console is available.
+  p Sorry about that.
+  p In the meantime, you can use VNC, like your grandpa used to.
+  p
+    ' Connect to
+    strong' = @server.vnc_address
+    ' with password
+    strong = @server.vnc_password
+    | .

@@ -1,0 +1,18 @@
+= render("header")
+main
+  = paginate @transactions
+  table.table
+    thead
+      tr
+        th ID
+        th Amount
+        th Description
+        th Account
+    tbody
+      - @transactions.each do |transaction|
+        tr
+          td = link_to transaction.id, transaction
+          td = transaction.amount
+          td = transaction.description
+          td = transaction.account
+  = paginate @transactions

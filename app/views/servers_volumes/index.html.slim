@@ -1,0 +1,18 @@
+= render("header")
+main
+  = paginate @servers_volumes
+  table.table
+    thead
+      tr
+        th ID
+        th Attachment
+        th Server
+        th Volume
+    tbody
+      - @servers_volumes.each do |servers_volume|
+        tr
+          td = link_to servers_volume.id, servers_volume
+          td = servers_volume.attachment
+          td = servers_volume.server
+          td = servers_volume.volume
+  = paginate @servers_volumes

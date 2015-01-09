@@ -1,0 +1,30 @@
+= render("header")
+main
+  = paginate @hosts
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Cores
+        th Memory
+        th Storage
+        th Url
+        th Address
+        th Compute
+        th Storage
+        th Zone
+    tbody
+      - @hosts.each do |host|
+        tr
+          td = link_to host.id, host
+          td = host.name
+          td = host.cores
+          td = host.memory
+          td = host.storage
+          td = host.url
+          td = host.address
+          td = host.compute
+          td = host.storage
+          td = host.zone
+  = paginate @hosts

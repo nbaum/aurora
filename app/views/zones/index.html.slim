@@ -1,0 +1,18 @@
+= render("header")
+main
+  = paginate @zones
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Dns1
+        th Dns2
+    tbody
+      - @zones.each do |zone|
+        tr
+          td = link_to zone.id, zone
+          td = zone.name
+          td = zone.dns1
+          td = zone.dns2
+  = paginate @zones

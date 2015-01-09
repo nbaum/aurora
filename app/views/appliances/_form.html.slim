@@ -1,0 +1,21 @@
+= form_for @appliance do |f|
+  - if @appliance.errors.any?
+    .errors
+      h2 = "#{pluralize(@appliance.errors.count, "error")} prohibited this appliance from being saved:"
+      ul
+        - @appliance.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :internal_class
+      td = f.text_field :internal_class
+    tr
+      th = f.label :template
+      td = f.text_field :template
+    tr
+      th
+      td = f.button @appliance.new_record? ? "Create" : "Update"

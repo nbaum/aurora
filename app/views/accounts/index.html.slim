@@ -1,0 +1,20 @@
+= render("header")
+main
+  = paginate @accounts
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Balance
+        th Tariff
+        th Zone
+    tbody
+      - @accounts.each do |account|
+        tr
+          td = link_to account.id, account
+          td = account.name
+          td = account.balance
+          td = account.tariff
+          td = account.zone
+  = paginate @accounts

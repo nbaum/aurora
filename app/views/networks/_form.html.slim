@@ -1,0 +1,39 @@
+= form_for @network do |f|
+  - if @network.errors.any?
+    .errors
+      h2 = "#{pluralize(@network.errors.count, "error")} prohibited this network from being saved:"
+      ul
+        - @network.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :bridge
+      td = f.text_field :bridge
+    tr
+      th = f.label :gateway
+      td = f.text_field :gateway
+    tr
+      th = f.label :prefix
+      td = f.number_field :prefix
+    tr
+      th = f.label :first
+      td = f.text_field :first
+    tr
+      th = f.label :last
+      td = f.text_field :last
+    tr
+      th = f.label :account
+      td = f.text_field :account
+    tr
+      th = f.label :bundle
+      td = f.text_field :bundle
+    tr
+      th = f.label :zone
+      td = f.text_field :zone
+    tr
+      th
+      td = f.button @network.new_record? ? "Create" : "Update"

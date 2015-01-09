@@ -1,0 +1,54 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @server.name
+    tr
+      th Cores
+      td = @server.cores
+    tr
+      th Memory
+      td #{@server.memory} MiB
+    tr
+      th Storage
+      td #{@server.storage} GB
+    tr
+      th Password
+      td = @server.password
+    tr
+      th Status
+      td = @server.status
+    tr
+      th Affinity group
+      td = @server.affinity_group
+    /tr
+      th Appliance data
+      td = @server.appliance_data
+    tr
+      th Template
+      td = @server.template_link
+    /tr
+      th Host
+      td = @server.host_link
+    /tr
+      th Account
+      td = @server.account_link
+    tr
+      th Zone
+      td = @server.zone_link
+    tr
+      th Appliance
+      td = @server.appliance_link
+    tr
+      th Bundle
+      td = @server.bundle_link
+    /tr
+      th Published at
+      td = @server.published_at
+    /tr
+      th Base
+      td = @server.base
+    /tr
+      th Current
+      td = @server.current

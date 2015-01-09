@@ -1,0 +1,30 @@
+= render("header")
+main
+  = paginate @networks
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Bridge
+        th Gateway
+        th Prefix
+        th First
+        th Last
+        th Account
+        th Bundle
+        th Zone
+    tbody
+      - @networks.each do |network|
+        tr
+          td = link_to network.id, network
+          td = network.name
+          td = network.bridge
+          td = network.gateway
+          td = network.prefix
+          td = network.first
+          td = network.last
+          td = network.account
+          td = network.bundle
+          td = network.zone
+  = paginate @networks

@@ -1,12 +1,16 @@
-table.padded {
-  & > * > tr {
-    & > th, & > td {
-      padding: 0.1em 0.5em;
+table > {
+  * > tr > {
+    th { font-weight: bold; }
+    th, td {
+      padding: 0.3em 0.5em;
+      &:first-child { padding-left: 0; }
+      &:last-child { padding-right: 0; }
     }
   }
-  margin: 0.9em -0.5em -0.1em -0.5em;
-}
-
-table th {
-  font-weight: bold;
+  *:first-child > tr:first-child > {
+    th, td { padding-top: 0; }
+  }
+  *:last-child > tr:last-child > {
+    th, td { padding-bottom: 0; }
+  }
 }

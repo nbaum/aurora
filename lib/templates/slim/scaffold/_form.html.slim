@@ -1,7 +1,8 @@
 = form_for @<%= singular_table_name %> do |f|
   - if @<%= singular_table_name %>.errors.any?
-    .error_explanation
-      h2 = "#{pluralize(<%= singular_table_name %>.errors.count, "error")} prohibited this <%= singular_table_name %> from being saved:"
+    .errors
+      i.fa.fa-exclamation-triangle.fa-fw
+      h2 = "#{pluralize(@<%= singular_table_name %>.errors.count, "error")} prohibited this <%= singular_table_name %> from being saved:"
       ul
         - @<%= singular_table_name %>.errors.full_messages.each do |message|
           li = message
@@ -12,6 +13,6 @@
       th = f.label :<%= attribute.name %>
       td = f.<%= attribute.field_type %> :<%= attribute.name %>
 <% end -%>
-
-  p.actions
-    =' f.button @<%= singular_table_name %>.new_record? ? "Create" : "Update"
+    tr
+      th
+      td = f.button @<%= singular_table_name %>.new_record? ? "Create" : "Update"

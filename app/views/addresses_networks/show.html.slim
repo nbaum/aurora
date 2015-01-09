@@ -1,0 +1,12 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Attachment
+      td = @addresses_network.attachment
+    tr
+      th Server
+      td = @addresses_network.server
+    tr
+      th Network
+      td = @addresses_network.network

@@ -1,0 +1,21 @@
+= form_for @zone do |f|
+  - if @zone.errors.any?
+    .errors
+      h2 = "#{pluralize(@zone.errors.count, "error")} prohibited this zone from being saved:"
+      ul
+        - @zone.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :dns1
+      td = f.text_field :dns1
+    tr
+      th = f.label :dns2
+      td = f.text_field :dns2
+    tr
+      th
+      td = f.button @zone.new_record? ? "Create" : "Update"

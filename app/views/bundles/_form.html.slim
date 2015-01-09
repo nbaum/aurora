@@ -1,0 +1,21 @@
+= form_for @bundle do |f|
+  - if @bundle.errors.any?
+    .errors
+      h2 = "#{pluralize(@bundle.errors.count, "error")} prohibited this bundle from being saved:"
+      ul
+        - @bundle.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :published_at
+      td = f.datetime_select :published_at
+    tr
+      th = f.label :account
+      td = f.text_field :account
+    tr
+      th
+      td = f.button @bundle.new_record? ? "Create" : "Update"

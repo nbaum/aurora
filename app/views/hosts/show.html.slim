@@ -1,0 +1,30 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @host.name
+    tr
+      th Cores
+      td = @host.cores
+    tr
+      th Memory
+      td = @host.memory
+    tr
+      th Storage
+      td = @host.storage
+    tr
+      th Url
+      td = @host.url
+    tr
+      th Address
+      td = @host.address
+    tr
+      th Compute
+      td = @host.compute
+    tr
+      th Storage
+      td = @host.storage
+    tr
+      th Zone
+      td = @host.zone

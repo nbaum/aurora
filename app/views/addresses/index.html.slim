@@ -1,0 +1,20 @@
+= render("header")
+main
+  = paginate @addresses
+  table.table
+    thead
+      tr
+        th ID
+        th Ip
+        th Account
+        th Server
+        th Network
+    tbody
+      - @addresses.each do |address|
+        tr
+          td = link_to address.id, address
+          td = address.ip
+          td = address.account
+          td = address.server
+          td = address.network
+  = paginate @addresses

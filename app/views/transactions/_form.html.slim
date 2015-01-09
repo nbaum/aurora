@@ -1,0 +1,21 @@
+= form_for @transaction do |f|
+  - if @transaction.errors.any?
+    .errors
+      h2 = "#{pluralize(@transaction.errors.count, "error")} prohibited this transaction from being saved:"
+      ul
+        - @transaction.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :amount
+      td = f.text_field :amount
+    tr
+      th = f.label :description
+      td = f.text_field :description
+    tr
+      th = f.label :account
+      td = f.text_field :account
+    tr
+      th
+      td = f.button @transaction.new_record? ? "Create" : "Update"

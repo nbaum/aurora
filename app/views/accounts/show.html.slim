@@ -1,0 +1,15 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @account.name
+    tr
+      th Balance
+      td = @account.balance
+    tr
+      th Tariff
+      td = @account.tariff
+    tr
+      th Zone
+      td = @account.zone

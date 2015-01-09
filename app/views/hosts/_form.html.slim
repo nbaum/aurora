@@ -1,0 +1,39 @@
+= form_for @host do |f|
+  - if @host.errors.any?
+    .errors
+      h2 = "#{pluralize(@host.errors.count, "error")} prohibited this host from being saved:"
+      ul
+        - @host.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :cores
+      td = f.number_field :cores
+    tr
+      th = f.label :memory
+      td = f.number_field :memory
+    tr
+      th = f.label :storage
+      td = f.number_field :storage
+    tr
+      th = f.label :url
+      td = f.text_field :url
+    tr
+      th = f.label :address
+      td = f.text_field :address
+    tr
+      th = f.label :compute
+      td = f.check_box :compute
+    tr
+      th = f.label :storage
+      td = f.check_box :storage
+    tr
+      th = f.label :zone
+      td = f.text_field :zone
+    tr
+      th
+      td = f.button @host.new_record? ? "Create" : "Update"

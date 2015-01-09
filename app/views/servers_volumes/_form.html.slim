@@ -1,0 +1,21 @@
+= form_for @servers_volume do |f|
+  - if @servers_volume.errors.any?
+    .errors
+      h2 = "#{pluralize(@servers_volume.errors.count, "error")} prohibited this servers_volume from being saved:"
+      ul
+        - @servers_volume.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :attachment
+      td = f.text_field :attachment
+    tr
+      th = f.label :server
+      td = f.text_field :server
+    tr
+      th = f.label :volume
+      td = f.text_field :volume
+    tr
+      th
+      td = f.button @servers_volume.new_record? ? "Create" : "Update"

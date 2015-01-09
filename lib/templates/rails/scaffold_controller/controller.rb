@@ -8,6 +8,10 @@ class <%= controller_class_name %>Controller < ApplicationController
   before_action :set_<%= plural_table_name %>
   before_action :set_<%= singular_table_name %>, except: [:new]
 
+  def index
+    @<%= plural_table_name %> = @<%= plural_table_name %>.page(params[:page]).decorate
+  end
+
   def new
     @<%= singular_table_name %> = <%= orm_class.build("@#{plural_table_name}") %>
   end
@@ -25,7 +29,7 @@ class <%= controller_class_name %>Controller < ApplicationController
     if @<%= orm_instance.update("#{singular_table_name}_params") %>
       redirect_to @<%= singular_table_name %>, notice: <%= "'#{human_name} was successfully updated.'" %>
     else
-      render :show
+      render :edit
     end
   end
 
@@ -42,7 +46,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   def set_<%= singular_table_name %>
     return if params[:id].nil?
-    @<%= singular_table_name %> = <%= orm_class.find("@#{plural_table_name}", "params[:id]") %>
+    @<%= singular_table_name %> = <%= orm_class.find("@#{plural_table_name}", "params[:id]") %>.decorate
   end
 
   def <%= singular_table_name%>_params

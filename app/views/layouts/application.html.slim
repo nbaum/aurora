@@ -1,25 +1,44 @@
 doctype html
 meta charset="utf-8"
-title = page_title.join(" - ")
+title = @title.reverse.join(" - ")
 = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
 = javascript_include_tag 'application', 'data-turbolinks-track' => true
 = csrf_meta_tags
-- flash.each do |name, msg|
-  .flash class=name = msg
-body
+.vbox
+  - if msg = flash[:alert]
+    .flash.alert
+      i.fa.fa-fw.fa-exclamation-triangle
+      = msg
+  - if msg = flash[:notice]
+    .flash.notice
+      i.fa.fa-fw.fa-info
+      = msg
   header
-    h1 = link_to "vTin", :root
-    menu.breadcrumbs = yield :breadcrumbs
+    h1 = link_to "<i>v</i>Tin".html_safe, :root
     menu.links
-      li = link_to 'Servers', :servers
-      li = link_to 'Volumes', :volumes
-      li = link_to 'Networks', :networks
-      li = link_to 'Addresses', :addresses
-      li = link_to 'Tariffs', :tariffs
-      li = link_to 'Transactions', :transactions
-      li = link_to 'Accounts', :accounts
-      li = link_to 'Users', :users
-      li = link_to 'Hosts', :hosts
-      li = link_to 'Zones', :zones
-  main class=@main_class = yield
-
+      li = link_to "New Server", :new_server
+    menu.account
+      li = link_to "#{current_user.name} ▼", current_user
+      li.avatar = image_tag gravatar_url(current_user.email, s: 34)
+  main.hbox class=@main_class
+    nav
+      menu.site
+        li: h2 Resources
+        /li = link_to icon('cubes', 'Bundles', fw: true), :bundles
+        li = link_to icon('cube', 'Servers', fw: true), :servers
+        li = link_to icon('database', 'Storage', fw: true), :volumes
+        li = link_to icon('sitemap', 'Networks', fw: true), :networks
+        li: h2 Financials
+        li = link_to icon('book', 'Tariffs', fw: true), :tariffs
+        li = link_to icon('gbp', 'Transactions', fw: true), :transactions
+        li: h2 Management
+        li = link_to icon('users', 'Users', fw: true), :users
+        /li = link_to icon('sliders', 'Settings', fw: true), '#'
+      menu.admin
+        li: h2 Administration
+        li = link_to icon('institution', 'Accounts', fw: true), :accounts
+        li = link_to icon('desktop', 'Hosts', fw: true), :hosts
+        li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools
+        li = link_to icon('building-o', 'Zones', fw: true), :zones
+        /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
+    article = yield

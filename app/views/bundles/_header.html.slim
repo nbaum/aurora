@@ -1,0 +1,16 @@
+- @title << "Bundles"
+- if @bundle.nil? or @bundle.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:bundles], exact: true
+    li = link_to "New", [:new, :bundle]
+  - @title << "New" if !@bundle.nil?
+- else
+  - @title << "Bundle"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Bundle List", :bundles, exact: true, class: "bare"
+    li = link_to "View", @bundle, exact: true
+    li = link_to "Edit", [:edit, @bundle]

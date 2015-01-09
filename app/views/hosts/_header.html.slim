@@ -1,0 +1,16 @@
+- @title << "Hosts"
+- if @host.nil? or @host.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:hosts], exact: true
+    li = link_to "New", [:new, :host]
+  - @title << "New" if !@host.nil?
+- else
+  - @title << "Host"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Host List", :hosts, exact: true, class: "bare"
+    li = link_to "View", @host, exact: true
+    li = link_to "Edit", [:edit, @host]

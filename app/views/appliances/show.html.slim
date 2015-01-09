@@ -1,0 +1,12 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @appliance.name
+    tr
+      th Internal class
+      td = @appliance.internal_class
+    tr
+      th Template
+      td = @appliance.template

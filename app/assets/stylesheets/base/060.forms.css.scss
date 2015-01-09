@@ -1,28 +1,26 @@
-fieldset {
-  background: #e5e5e5;
-  box-shadow: rgba(#000, 0.3) 0 2px 2px 1px;
+form .errors {
+  margin-bottom: 1em;
+  display: inline-block;
+  background: #fee;
+  color: #c00;
+  border-radius: 1em;
+  padding: 1em;
+  border: 1px solid #edd;
+  box-shadow: rgba(#000, 0.2) 1px 1px 1px;
   position: relative;
-  padding: 2em 1em 1em;
-  color: #333;
-  legend {
+  padding-left: 3em;
+  i {
     position: absolute;
-    top: 1em;
-    left: 0.5em;
-    color: #aaa;
+    top: 1rem;
+    left: 0.5rem;
+    font-size: 1.5em;
+  }
+  h2 {
     font-weight: bold;
-    padding: 0 0.25em;
   }
-}
-
-table.properties > tbody {
-  & > tr > td, & > tr > th {
-    padding-left: 1em;
-  }
-  & > tr:first-child > td, tr:first-child > th {
-    padding-top: 0;
-  }
-  & > tr > td, & > tr > th {
-    padding-top: 1em;
+  ul {
+    list-style: square;
+    padding-left: 1.5em;
   }
 }
 
@@ -45,19 +43,13 @@ input[type='number'],
 textarea,
 input:not([type])
 {
-  background: #fff;
   color: #000;
-  border-radius: 0.3em;
-  box-shadow: rgba(#000, 0.3) 0 1px 1px 1px;
-  fieldset & {
-    box-shadow: rgba(#000, 0.3) 0 1px 1px;
-  }
-  padding: 0.2em 0.4em;
-}
-
-input[type='checkbox']
-{
   background: #fff;
+  padding: 0.2em 0.6em;
+  border-radius: 1em;
+  box-shadow: rgba(#000, 0.2) 1px 1px 1px inset,
+              rgba(#000, 0.2) 0 0 1px;
+  padding: 0.2em 0.4em;
 }
 
 input[type='submit'],
@@ -68,42 +60,40 @@ input[type='color'],
 button,
 summary
 {
-  color: #000;
-  background: #d0d0d0;
-  background-image: linear-gradient(#d5d5d5, #c5c5c5);
-  border-radius: 0.3em;
-  border: 0;
-  padding: 0.2em 0.8em;
-  box-shadow: rgba(#000, 0.3) 0 1px 1px 1px;
-  fieldset & {
-    box-shadow: rgba(#000, 0.5) 0 1px 1px;
-  }
+  color: #fff;
+  background: #58a linear-gradient(#58a + #111, #58a - #111);
+  border-radius: 1em;
+  padding: 0.4em 0.8em;
+  box-shadow: rgba(#000, 0.3) 1px 1px 1px;
+  display: inline-block;
   &:hover, &:active {
-    background: linear-gradient(#fff, #f0f0f0);
+    background: #58a+#111 linear-gradient(#58a + #222, #58a - #000);
   }
   &:active:hover {
     color: #eee;
-    background: #666;
-    box-shadow: rgba(#000, 0.2) 0 0 10px 1px inset;
+    background: #58a-#111 linear-gradient(#58a - #111, #58a - #222);
+    box-shadow: rgba(#000, 0.2) 0 0 10px 1px inset,
+                rgba(#fff, 0.4) 1px 1px,
+                rgba(#000, 0.1) -1px -1px;
   }
 }
 
 select
 {
   color: #000;
-  background: #d0d0d0;
+  background: #fff;
   background-image: linear-gradient(#d5d5d5, #c5c5c5);
-  border-radius: 0.3em;
+  border-radius: 1em;
   border: 0;
   padding: 0.2em 0 0.2em 0.5em;
-  box-shadow: rgba(#000, 0.3) 0 1px 1px 1px;
-  fieldset & {
-    box-shadow: rgba(#000, 0.5) 0 1px 1px;
-  }
-  &:hover {
-    background: linear-gradient(#fff, #f0f0f0);
+  box-shadow: rgba(#000, 0.3) 1px 1px 1px;
+  &:active, &:hover {
+    background: linear-gradient(#d5d5d5+#111, #c5c5c5+#111);
   }
 }
+
+/*
+
 
 progress, meter {
   border-radius: 0.3em;
@@ -151,3 +141,5 @@ summary {
   margin-top: -1em + 0.15em;
   padding: 0.15em 0.5em 0.35em;
 }
+
+*/

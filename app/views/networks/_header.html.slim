@@ -1,0 +1,16 @@
+- @title << "Networks"
+- if @network.nil? or @network.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:networks], exact: true
+    li = link_to "New", [:new, :network]
+  - @title << "New" if !@network.nil?
+- else
+  - @title << "Network"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Network List", :networks, exact: true, class: "bare"
+    li = link_to "View", @network, exact: true
+    li = link_to "Edit", [:edit, @network]

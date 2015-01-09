@@ -1,0 +1,5 @@
+= render("header")
+main
+  = paginate @servers
+  = render("table", servers: @servers)
+  = paginate @servers

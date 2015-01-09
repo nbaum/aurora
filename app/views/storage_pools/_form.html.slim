@@ -1,0 +1,24 @@
+= form_for @storage_pool do |f|
+  - if @storage_pool.errors.any?
+    .errors
+      h2 = "#{pluralize(@storage_pool.errors.count, "error")} prohibited this storage_pool from being saved:"
+      ul
+        - @storage_pool.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :size
+      td = f.number_field :size
+    tr
+      th = f.label :account
+      td = f.text_field :account
+    tr
+      th = f.label :host
+      td = f.text_field :host
+    tr
+      th
+      td = f.button @storage_pool.new_record? ? "Create" : "Update"

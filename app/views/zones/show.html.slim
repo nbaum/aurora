@@ -1,0 +1,12 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @zone.name
+    tr
+      th Dns1
+      td = @zone.dns1
+    tr
+      th Dns2
+      td = @zone.dns2

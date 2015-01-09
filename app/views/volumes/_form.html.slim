@@ -1,0 +1,42 @@
+= form_for @volume do |f|
+  - if @volume.errors.any?
+    .errors
+      h2 = "#{pluralize(@volume.errors.count, "error")} prohibited this volume from being saved:"
+      ul
+        - @volume.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :size
+      td = f.number_field :size
+    tr
+      th = f.label :ephemeral
+      td = f.check_box :ephemeral
+    tr
+      th = f.label :optical
+      td = f.check_box :optical
+    tr
+      th = f.label :server
+      td = f.text_field :server
+    tr
+      th = f.label :base
+      td = f.text_field :base
+    tr
+      th = f.label :account
+      td = f.text_field :account
+    tr
+      th = f.label :bundle
+      td = f.text_field :bundle
+    tr
+      th = f.label :storage_pool
+      td = f.text_field :storage_pool
+    tr
+      th = f.label :published_at
+      td = f.datetime_select :published_at
+    tr
+      th
+      td = f.button @volume.new_record? ? "Create" : "Update"

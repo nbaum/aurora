@@ -1,0 +1,38 @@
+.ui-tabs {
+  > .ui-tabs-nav {
+    box-shadow: rgba(#000, 0.5) 0 -2px 2px -2px inset;
+    padding-top: 1em;
+    li {
+      display: inline-block;
+      position: relative;
+      &.ui-state-active {
+        a[href], a[href]:hover {
+          box-shadow: rgba(#000, 0.5) 0 0 2px;
+          border-bottom: 1px solid #f0f0f0;
+          background: #f0f0f0;
+          color: #000;
+        }
+      }
+      a[href] {
+        box-shadow: rgba(#000, 0.5) 0 0 2px,
+                    rgba(#000, 0.5) 0 -2px 2px -2px inset;
+        padding: 0.3em 0.8em;
+        display: inline-block;
+        margin-bottom: -1px;
+        background: #bbb linear-gradient(#bfbfbf, #b0b0b0);
+        color: #333;
+        text-shadow: rgba(#fff, 0.2) 1px 1px;
+        margin-left: 1em;
+        border-bottom: 1px solid #b0b0b0;
+        &:hover {
+          background: #bbb linear-gradient(#bfbfbf + #111, #b0b0b0 + #111);
+        }
+      }
+    }
+  }
+  > .ui-tabs-panel {
+    position: relative;
+    padding: 1em;
+    background: #f0f0f0;
+  }
+}

@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.1.6'
+gem 'draper'
 
-gem 'sqlite3'
+gem 'pg'
+gem 'postgres_ext'
 
 gem 'uglifier', '>= 1.3.0'
 
@@ -10,7 +12,7 @@ gem 'slim-rails'
 gem 'rdiscount'
 
 gem 'sass-rails', '~> 4.0'
-gem 'bourbon'
+gem 'compass-rails'
 
 gem 'therubyracer', platforms: :ruby
 gem 'coffee-rails', '~> 4.0'
@@ -19,6 +21,10 @@ gem 'jquery-ui-rails'
 
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+
+gem 'font-awesome-rails'
+
+gem 'kaminari'
 
 gem 'bcrypt'
 
@@ -31,3 +37,5 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
 end
+
+gem 'faraday'

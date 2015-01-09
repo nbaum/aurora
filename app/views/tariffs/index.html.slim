@@ -1,0 +1,24 @@
+= render("header")
+main
+  = paginate @tariffs
+  table.table
+    thead
+      tr
+        th ID
+        th Default
+        th Name
+        th Core
+        th Memory
+        th Storage
+        th Address
+    tbody
+      - @tariffs.each do |tariff|
+        tr
+          td = link_to tariff.id, tariff
+          td = tariff.default
+          td = tariff.name
+          td = tariff.core
+          td = tariff.memory
+          td = tariff.storage
+          td = tariff.address
+  = paginate @tariffs

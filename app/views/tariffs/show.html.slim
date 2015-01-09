@@ -1,0 +1,21 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Default
+      td = @tariff.default
+    tr
+      th Name
+      td = @tariff.name
+    tr
+      th Core
+      td = @tariff.core
+    tr
+      th Memory
+      td = @tariff.memory
+    tr
+      th Storage
+      td = @tariff.storage
+    tr
+      th Address
+      td = @tariff.address

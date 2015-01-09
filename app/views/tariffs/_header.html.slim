@@ -1,0 +1,16 @@
+- @title << "Tariffs"
+- if @tariff.nil? or @tariff.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:tariffs], exact: true
+    li = link_to "New", [:new, :tariff]
+  - @title << "New" if !@tariff.nil?
+- else
+  - @title << "Tariff"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Tariff List", :tariffs, exact: true, class: "bare"
+    li = link_to "View", @tariff, exact: true
+    li = link_to "Edit", [:edit, @tariff]

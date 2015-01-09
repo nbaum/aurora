@@ -1,0 +1,20 @@
+= render("header")
+main
+  = paginate @storage_pools
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Size
+        th Account
+        th Host
+    tbody
+      - @storage_pools.each do |storage_pool|
+        tr
+          td = link_to storage_pool.id, storage_pool
+          td = storage_pool.name
+          td = storage_pool.size
+          td = storage_pool.account
+          td = storage_pool.host
+  = paginate @storage_pools

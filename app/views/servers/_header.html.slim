@@ -1,0 +1,72 @@
+- @title << "Servers"
+- if @server.nil? or @server.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:servers], exact: true
+    li = link_to "New", [:new, :server]
+  - @title << "New" if !@server.nil?
+- else
+  - @title << @server.name
+  header
+    .hbox
+      div
+        h1 = @title.last
+        menu
+          li = button_to [:start, @server] do
+            = icon("play", "Start")
+          li = button_to [:pause, @server] do
+            = icon("pause", "Pause")
+          li = button_to [:unpause, @server] do
+            = icon("unpause", "Resume")
+          /li = button_to [:suspend, @server] do
+            = icon("compress", "Suspend")
+          li = button_to [:stop, @server] do
+            = icon("stop", "Stop")
+      aside
+        table.properties
+          tr
+            th Status
+            td = @server.status
+          tr
+            th Zone
+            td
+              = @server.zone_link
+          tr
+            th Host
+            td
+              = @server.host_link
+      aside
+        table.properties
+          tr
+            th Cores
+            td = @server.cores
+          tr
+            th Memory
+            td
+              =' @server.memory
+              | MiB
+          tr
+            th Storage
+            td
+              =' @server.storage
+              | GB
+      aside
+        table.properties
+          tr
+            th Address
+            td: .subdue() (None assigned)
+          tr
+            th Gateway
+            td: .subdue() (None assigned)
+          tr
+            th DNS
+            td = @server.zone.dns.join(", ")
+  menu
+    li = link_to "← Server List", :servers, exact: true, class: "bare"
+    li = link_to "View", @server, exact: true
+    li = link_to "Edit", [:edit, @server]
+    li = link_to "Storage", [:storage, @server]
+    li = link_to "Network", [:network, @server]
+    li = link_to "Console", [:console, @server]
+

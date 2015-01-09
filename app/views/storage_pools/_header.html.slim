@@ -1,0 +1,16 @@
+- @title << "Storage pools"
+- if @storage_pool.nil? or @storage_pool.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:storage_pools], exact: true
+    li = link_to "New", [:new, :storage_pool]
+  - @title << "New" if !@storage_pool.nil?
+- else
+  - @title << "Storage pool"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Storage pool List", :storage_pools, exact: true, class: "bare"
+    li = link_to "View", @storage_pool, exact: true
+    li = link_to "Edit", [:edit, @storage_pool]

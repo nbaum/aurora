@@ -1,0 +1,30 @@
+= form_for @tariff do |f|
+  - if @tariff.errors.any?
+    .errors
+      h2 = "#{pluralize(@tariff.errors.count, "error")} prohibited this tariff from being saved:"
+      ul
+        - @tariff.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :default
+      td = f.check_box :default
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :core
+      td = f.text_field :core
+    tr
+      th = f.label :memory
+      td = f.text_field :memory
+    tr
+      th = f.label :storage
+      td = f.text_field :storage
+    tr
+      th = f.label :address
+      td = f.text_field :address
+    tr
+      th
+      td = f.button @tariff.new_record? ? "Create" : "Update"

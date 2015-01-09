@@ -1,0 +1,12 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Attachment
+      td = @servers_volume.attachment
+    tr
+      th Server
+      td = @servers_volume.server
+    tr
+      th Volume
+      td = @servers_volume.volume

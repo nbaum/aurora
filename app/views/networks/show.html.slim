@@ -1,0 +1,30 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @network.name
+    tr
+      th Bridge
+      td = @network.bridge
+    tr
+      th Gateway
+      td = @network.gateway
+    tr
+      th Prefix
+      td = @network.prefix
+    tr
+      th First
+      td = @network.first
+    tr
+      th Last
+      td = @network.last
+    tr
+      th Account
+      td = @network.account
+    tr
+      th Bundle
+      td = @network.bundle
+    tr
+      th Zone
+      td = @network.zone

@@ -1,0 +1,21 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @user.name
+    tr
+      th Email
+      td = @user.email
+    tr
+      th Password digest
+      td = @user.password_digest
+    tr
+      th Account
+      td = @user.account
+    tr
+      th Administrator
+      td = @user.administrator
+    tr
+      th Ssh keys
+      td = @user.ssh_keys

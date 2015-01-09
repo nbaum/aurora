@@ -1,0 +1,18 @@
+= render("header")
+main
+  = paginate @bundles
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Published at
+        th Account
+    tbody
+      - @bundles.each do |bundle|
+        tr
+          td = link_to bundle.id, bundle
+          td = bundle.name
+          td = bundle.published_at
+          td = bundle.account
+  = paginate @bundles

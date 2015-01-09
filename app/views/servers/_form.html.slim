@@ -1,0 +1,72 @@
+= form_for @server do |f|
+  - if @server.errors.any?
+    .errors
+      i.fa.fa-exclamation-triangle.fa-fw
+      h2 = "#{pluralize(@server.errors.count, "error")} prohibited this server from being saved:"
+      ul
+        - @server.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :name
+      td = f.text_field :name, size: 50
+    tr
+      th = f.label :cores
+      td = f.number_field :cores, min: 1, max: 8
+    tr
+      th = f.label :memory
+      td
+        = f.number_field :memory, min: 128, max: 2**16, step: 128
+        ' MiB 
+    tr
+      th = f.label :storage
+      td
+        = f.number_field :storage, min: 1, max: 1000
+        ' GB
+    tr
+      th = f.label :password
+      td = f.text_field :password
+    /tr
+      th = f.label :status
+      td = f.select :status, [["unknown", nil], *Server::STATUSES]
+    tr
+      th = f.label :affinity_group
+      td = f.number_field :affinity_group, min: 0, max: 10
+    /tr
+      th = f.label :appliance_data
+      td = f.text_field :appliance_data
+    tr
+      th = f.label :template_id
+      td = f.select :template_id, [["(None)", 0], *Server.pluck(:name, :id)]
+    /tr
+      th = f.label :host_id
+      td = f.select :host_id, [["(None)", 0], *Host.pluck(:name, :id)]
+    /tr
+      th = f.label :account_id
+      td = f.select :account_id, [["(None)", 0], *Account.pluck(:name, :id)]
+    tr
+      th = f.label :zone_id
+      td = f.select :zone_id, [["(None)", 0], *Zone.pluck(:name, :id)]
+    tr
+      th = f.label :appliance_id
+      td = f.select :appliance_id, [["(None)", 0], *Appliance.pluck(:name, :id)]
+    tr
+      th = f.label :bundle_id
+      td = f.select :bundle_id, [["(None)", 0], *Bundle.pluck(:name, :id)]
+    /tr
+      th = f.label :published_at
+      td = f.datetime_select :published_at
+    /tr
+      th = f.label :base
+      td = f.text_field :base
+    /tr
+      th = f.label :current
+      td = f.text_field :current
+    tr
+      th
+      td
+        - if @server.new_record?
+          = f.button "Create"
+        - else
+          = f.button "Update"

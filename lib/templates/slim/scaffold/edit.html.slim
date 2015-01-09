@@ -1,2 +1,6 @@
 = render("header")
-= render("form")
+- @title << "Edit"
+main
+  = render("form")
+  p = button_to @<%= singular_table_name %>, method: :delete do
+    = icon("trash-o", "Delete")

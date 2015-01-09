@@ -1,0 +1,16 @@
+- @title << "Users"
+- if @user.nil? or @user.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:users], exact: true
+    li = link_to "New", [:new, :user]
+  - @title << "New" if !@user.nil?
+- else
+  - @title << "User"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← User List", :users, exact: true, class: "bare"
+    li = link_to "View", @user, exact: true
+    li = link_to "Edit", [:edit, @user]

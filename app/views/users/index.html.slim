@@ -1,0 +1,24 @@
+= render("header")
+main
+  = paginate @users
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Email
+        th Password digest
+        th Account
+        th Administrator
+        th Ssh keys
+    tbody
+      - @users.each do |user|
+        tr
+          td = link_to user.id, user
+          td = user.name
+          td = user.email
+          td = user.password_digest
+          td = user.account
+          td = user.administrator
+          td = user.ssh_keys
+  = paginate @users

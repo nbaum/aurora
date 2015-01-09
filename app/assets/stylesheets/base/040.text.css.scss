@@ -3,7 +3,7 @@ body {
 }
 
 a[href] {
-  color: #0af;
+  color: #02a;
   &:hover {
     text-decoration: underline;
   }
@@ -18,6 +18,10 @@ em, i, cite {
 
 strong, b {
   font-weight: bold;
+}
+
+.subdue {
+  opacity: 0.5;
 }
 
 small, sub, sup {
