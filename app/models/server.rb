@@ -29,8 +29,8 @@ class Server < ActiveRecord::Base
   after_initialize do
     self.name ||= Chaucer.server_name
     self.cores ||= 1
-    self.memory ||= 512
-    self.storage ||= 1000
+    self.memory ||= 1024
+    self.storage ||= 20
     self.password ||= SecureRandom.base64(6)
     self.affinity_group ||= 0
     self.zone ||= account && account.zone
