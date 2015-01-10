@@ -1,0 +1,11 @@
+h1 Internal Server Error
+
+p
+  strong = @error.class
+  ' :
+  = @error.message
+
+table
+  - @error.backtrace.each do |frame|
+    tr: td = frame
+

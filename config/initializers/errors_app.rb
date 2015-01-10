@@ -1,3 +1,3 @@
 Rails.application.config.exceptions_app = lambda do |env|
-  self.routes.call(env.merge("PATH_INFO" => "/errors"))
+  Rails.application.routes.call(env.merge("PATH_INFO" => "/errors#{env["PATH_INFO"]}"))
 end

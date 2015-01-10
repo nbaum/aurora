@@ -24,4 +24,8 @@ Rails.application.routes.draw do
   resources :bundles
 
   root "pages#index"
+  get 'boom' => 'pages#boom'
+
+  get 'errors/:status' => 'pages#error'
+
 end
