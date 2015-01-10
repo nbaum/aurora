@@ -39,3 +39,11 @@ group :development do
 end
 
 gem 'faraday'
+
+gem 'capistrano'
+gem 'capistrano-rvm'
+gem 'capistrano-bundler'
+gem 'capistrano-rails'
+gem 'capistrano-passenger'
+
+gem 'dotenv'
