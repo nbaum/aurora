@@ -26,6 +26,6 @@ Rails.application.routes.draw do
   root "pages#index"
   get 'boom' => 'pages#boom'
 
-  get 'errors/:status' => 'pages#error'
+  match 'errors/:status' => 'pages#error', via: :all
 
 end
