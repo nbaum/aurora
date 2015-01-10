@@ -26,7 +26,16 @@ class ServerDecorator < Draper::Decorator
   end
 
   def status_icon
-    h.content_tag(:i, '', class: 'fa fa-fw fa-stop')
+    case status
+    when 'stopped'
+      h.content_tag(:i, '', class: 'fa fa-fw fa-stop')
+    when 'running'
+      h.content_tag(:i, '', class: 'fa fa-fw fa-play')
+    when 'paused'
+      h.content_tag(:i, '', class: 'fa fa-fw fa-pause')
+    else
+      h.content_tag(:i, '', class: 'fa fa-fw fa-question')
+    end
   end
 
 end
