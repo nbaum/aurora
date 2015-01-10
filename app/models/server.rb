@@ -94,6 +94,7 @@ class Server < ActiveRecord::Base
       password: vnc_password,
       guest_data: guest_data,
       type: "pc",
+      iso: "isoimages/FreeBSD-10.1-RELEASE-amd64-uefi-disc1.iso"
     }
   end
 
