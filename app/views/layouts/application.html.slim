@@ -17,7 +17,7 @@ title = @title.reverse.join(" - ")
     h1 = link_to "vTin 10".html_safe, :root
     menu.links
       li = link_to "New Server", :new_server
-    menu.account
+    /menu.account
       li = link_to "#{current_user.name} ▼", current_user
       li.avatar = image_tag gravatar_url(current_user.email, s: 34)
   main.hbox class=@main_class
@@ -26,19 +26,19 @@ title = @title.reverse.join(" - ")
         li: h2 Resources
         /li = link_to icon('cubes', 'Bundles', fw: true), :bundles
         li = link_to icon('cube', 'Servers', fw: true), :servers
-        li = link_to icon('database', 'Storage', fw: true), :volumes
-        li = link_to icon('sitemap', 'Networks', fw: true), :networks
-        li: h2 Financials
-        li = link_to icon('book', 'Tariffs', fw: true), :tariffs
-        li = link_to icon('gbp', 'Transactions', fw: true), :transactions
-        li: h2 Management
-        li = link_to icon('users', 'Users', fw: true), :users
+        /li = link_to icon('database', 'Storage', fw: true), :volumes
+        /li = link_to icon('sitemap', 'Networks', fw: true), :networks
+        /li: h2 Financials
+        /li = link_to icon('book', 'Tariffs', fw: true), :tariffs
+        /li = link_to icon('gbp', 'Transactions', fw: true), :transactions
+        /li: h2 Management
+        /li = link_to icon('users', 'Users', fw: true), :users
         /li = link_to icon('sliders', 'Settings', fw: true), '#'
       menu.admin
         li: h2 Administration
-        li = link_to icon('institution', 'Accounts', fw: true), :accounts
+        /li = link_to icon('institution', 'Accounts', fw: true), :accounts
         li = link_to icon('desktop', 'Hosts', fw: true), :hosts
-        li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools
+        /li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools
         li = link_to icon('building-o', 'Zones', fw: true), :zones
         /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
     article = yield
