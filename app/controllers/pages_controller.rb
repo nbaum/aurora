@@ -10,7 +10,7 @@ class PagesController < ApplicationController
     when "404"
       render "not_found", layout: false, status: params["status"].to_i
     else
-      render "server_error", layout: false, status: params["status"].to_i
+      render "server_error", layout: false, status: (params["status"] || '500').to_i
     end
   end
 
