@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141013044656) do
+ActiveRecord::Schema.define(version: 20150114032006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,26 @@ ActiveRecord::Schema.define(version: 20141013044656) do
 
   add_index "bundles", ["account_id"], name: "index_bundles_on_account_id", using: :btree
 
+  create_table "campaigns", force: true do |t|
+    t.string   "name"
+    t.integer  "snippet_id"
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "campaigns", ["account_id"], name: "index_campaigns_on_account_id", using: :btree
+  add_index "campaigns", ["snippet_id"], name: "index_campaigns_on_snippet_id", using: :btree
+
+  create_table "data_sources", force: true do |t|
+    t.string   "name"
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "data_sources", ["account_id"], name: "index_data_sources_on_account_id", using: :btree
+
   create_table "hosts", force: true do |t|
     t.string   "name"
     t.integer  "cores"
@@ -111,7 +131,7 @@ ActiveRecord::Schema.define(version: 20141013044656) do
     t.integer  "memory"
     t.integer  "storage"
     t.string   "password"
-    t.string   "status"
+    t.string   "state"
     t.integer  "affinity_group"
     t.json     "appliance_data"
     t.integer  "template_id"
@@ -146,6 +166,18 @@ ActiveRecord::Schema.define(version: 20141013044656) do
 
   add_index "servers_volumes", ["server_id"], name: "index_servers_volumes_on_server_id", using: :btree
   add_index "servers_volumes", ["volume_id"], name: "index_servers_volumes_on_volume_id", using: :btree
+
+  create_table "snippets", force: true do |t|
+    t.string   "name"
+    t.text     "html"
+    t.text     "css"
+    t.text     "plain"
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "snippets", ["account_id"], name: "index_snippets_on_account_id", using: :btree
 
   create_table "storage_pools", force: true do |t|
     t.string   "name"

@@ -2,7 +2,7 @@ require 'chaucer'
 
 class Server < ActiveRecord::Base
 
-  STATUSES = [
+  STATES = [
     "stopped",
     "starting",
     "running",
@@ -34,34 +34,34 @@ class Server < ActiveRecord::Base
     self.password ||= SecureRandom.base64(6)
     self.affinity_group ||= 0
     self.zone ||= account && account.zone
-    self.status ||= 'stopped'
+    self.state ||= 'stopped'
   end
 
   def start
-    raise "Server isn't stopped" unless status == 'stopped'
+    raise "Server isn't stopped" unless state == 'stopped'
     assign_host unless host
-    self.status = 'running'
+    self.state = 'running'
     save!
     api.start
   end
 
   def pause
-    raise "Server isn't running" unless status == 'running'
-    self.status = 'paused'
+    raise "Server isn't running" unless state == 'running'
+    self.state = 'paused'
     save!
     api.pause
   end
 
   def unpause
-    raise "Server isn't paused" unless status == 'paused'
-    self.status = 'running'
+    raise "Server isn't paused" unless state == 'paused'
+    self.state = 'running'
     save!
     api.unpause
   end
 
   def stop
-    raise "Server isn't running or paused" unless status == 'running' or status == 'paused'
-    self.status = 'stopped'
+    raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
+    self.state = 'stopped'
     api_ = api
     self.host = nil
     save!
@@ -69,7 +69,7 @@ class Server < ActiveRecord::Base
   end
 
   def vnc_address
-    raise "Server isn't running or paused" unless status == 'running' or status == 'paused'
+    raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
     "#{host.address}:#{id}"
   end
 

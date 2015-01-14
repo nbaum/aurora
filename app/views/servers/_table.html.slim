@@ -23,7 +23,7 @@ table.table
     - servers.each do |server|
       tr
         /td = server.id, server
-        td = server.status_icon
+        td = server.state_icon
         td = link_to server.name, server
         td = server.cores
         td #{server.memory} MiB

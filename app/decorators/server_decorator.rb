@@ -25,8 +25,8 @@ class ServerDecorator < Draper::Decorator
     link_if(host)
   end
 
-  def status_icon
-    case status
+  def state_icon
+    case state
     when 'stopped'
       h.content_tag(:i, '', class: 'fa fa-fw fa-stop')
     when 'running'

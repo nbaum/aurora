@@ -28,8 +28,8 @@
       th = f.label :password
       td = f.text_field :password
     /tr
-      th = f.label :status
-      td = f.select :status, [["unknown", nil], *Server::STATUSES]
+      th = f.label :state
+      td = f.select :state, [["unknown", nil], *Server::STATES]
     tr
       th = f.label :affinity_group
       td = f.number_field :affinity_group, min: 0, max: 10
