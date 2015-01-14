@@ -6,6 +6,7 @@ main
       tr
         th ID
         th Name
+        th Path
         th Size
         th Account
         th Host
@@ -14,6 +15,7 @@ main
         tr
           td = link_to storage_pool.id, storage_pool
           td = storage_pool.name
+          td = storage_pool.path
           td = storage_pool.size
           td = storage_pool.account
           td = storage_pool.host

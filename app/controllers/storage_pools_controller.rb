@@ -33,6 +33,11 @@ class StoragePoolsController < ApplicationController
     redirect_to storage_pools_url, notice: 'Storage pool was successfully destroyed.'
   end
 
+  def refresh
+    @storage_pool.refresh
+    redirect_to :back
+  end
+
   private
 
   def set_storage_pools
@@ -45,7 +50,7 @@ class StoragePoolsController < ApplicationController
   end
 
   def storage_pool_params
-    params.require(:storage_pool).permit(:name, :size, :account_id, :host_id)
+    params.require(:storage_pool).permit(:name, :size, :path, :account_id, :host_id)
   end
 
 end

@@ -4,7 +4,14 @@ Rails.application.routes.draw do
   resources :zones
   resources :hosts
   resources :accounts
-  resources :storage_pools
+  
+  resources :storage_pools do
+    member do
+      get :volumes
+      post :refresh
+    end
+  end
+
   resources :users
   resources :transactions
   resources :tariffs

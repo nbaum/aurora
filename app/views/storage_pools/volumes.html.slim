@@ -1,0 +1,4 @@
+= render("header")
+- @title << "Volumes"
+main
+  = render("volumes/table", volumes: @storage_pool.volumes)

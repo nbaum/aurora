@@ -1,0 +1,28 @@
+table.table
+  thead
+    tr
+      th ID
+      th Name
+      th Size
+      th Ephemeral
+      th Optical
+      th Server
+      th Base
+      th Account
+      th Bundle
+      th Storage pool
+      th Published at
+  tbody
+    - volumes.each do |volume|
+      tr
+        td = link_to volume.id, volume
+        td = volume.name
+        td = volume.size
+        td = volume.ephemeral
+        td = volume.optical
+        td = volume.server
+        td = volume.base
+        td = volume.account
+        td = volume.bundle
+        td = volume.storage_pool
+        td = volume.published_at
