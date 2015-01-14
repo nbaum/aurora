@@ -14,7 +14,6 @@ gem 'rdiscount'
 gem 'sass-rails', '~> 4.0'
 gem 'compass-rails'
 
-gem 'therubyracer', platforms: :ruby
 gem 'coffee-rails', '~> 4.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
