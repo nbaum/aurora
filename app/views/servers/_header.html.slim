@@ -13,16 +13,20 @@
       div
         h1 = @title.last
         menu
-          li = button_to [:start, @server] do
-            = icon("play", "Start")
-          li = button_to [:pause, @server] do
-            = icon("pause", "Pause")
-          li = button_to [:unpause, @server] do
-            = icon("unpause", "Resume")
+          - if @server.state == "stopped"
+            li = button_to [:start, @server] do
+              = icon("play", "Start")
+          - if @server.state == "running"
+            li = button_to [:pause, @server] do
+              = icon("pause", "Pause")
+          - if @server.state == "paused"
+            li = button_to [:unpause, @server] do
+              = icon("unpause", "Resume")
           /li = button_to [:suspend, @server] do
             = icon("compress", "Suspend")
-          li = button_to [:stop, @server] do
-            = icon("stop", "Stop")
+          - if @server.state == "running" or @server.state == "paused"
+            li = button_to [:stop, @server] do
+              = icon("stop", "Stop")
       aside
         table.properties
           tr
