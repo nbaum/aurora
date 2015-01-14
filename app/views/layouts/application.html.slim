@@ -1,6 +1,6 @@
 doctype html
 meta charset="utf-8"
-title = @title.reverse.join(" - ")
+title = [@title.reverse, "Aurora"].join(" - ")
 = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
 = javascript_include_tag 'application', 'data-turbolinks-track' => true
 = csrf_meta_tags
@@ -14,7 +14,8 @@ title = @title.reverse.join(" - ")
       i.fa.fa-fw.fa-info
       = msg
   header
-    h1 = link_to "vTin 10".html_safe, :root
+    h1
+      = link_to image_tag("logo.png") + " Aurora", :root
     menu.links
       li = link_to "New Server", :new_server
     /menu.account

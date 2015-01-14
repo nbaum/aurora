@@ -46,12 +46,19 @@ body > * > header {
   flex-basis: 44px;
   flex-shrink: 0;
   h1 {
+    img {
+      position: absolute;
+      top: 11px;
+      left: 11px;
+    }
+    position: relative;
     display: inline-block;
     width: $sidebar-width;
     background: #234 linear-gradient(#234 + #111, #234 - #111);
     color: #fff;
     font-weight: bold;
     padding: 1em;
+    padding-left: 44px;
   }
   menu {
     overflow: hide;
