@@ -39,33 +39,41 @@ class Server < ActiveRecord::Base
 
   def start
     raise "Server isn't stopped" unless state == 'stopped'
-    assign_host unless host
-    self.state = 'running'
-    save!
-    api.start
+    transaction do |tx|
+      assign_host unless host
+      self.state = 'running'
+      save!
+      api.start
+    end
   end
 
   def pause
     raise "Server isn't running" unless state == 'running'
-    self.state = 'paused'
-    save!
-    api.pause
+    transaction do |tx|
+      self.state = 'paused'
+      save!
+      api.pause
+    end
   end
 
   def unpause
     raise "Server isn't paused" unless state == 'paused'
-    self.state = 'running'
-    save!
-    api.unpause
+    transaction do |tx|
+      self.state = 'running'
+      save!
+      api.unpause
+    end
   end
 
   def stop
     raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
-    self.state = 'stopped'
-    api_ = api
-    self.host = nil
-    save!
-    api_.stop
+    transaction do |tx|
+      self.state = 'stopped'
+      api_ = api
+      self.host = nil
+      save!
+      api_.stop
+    end
   end
 
   def vnc_address
