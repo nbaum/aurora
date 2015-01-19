@@ -46,3 +46,5 @@ gem 'capistrano-rails'
 gem 'capistrano-passenger'
 
 gem 'dotenv'
+
+gem 'awesome_print'
