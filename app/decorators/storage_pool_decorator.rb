@@ -10,4 +10,16 @@ class StoragePoolDecorator < Draper::Decorator
   #     end
   #   end
 
+  def link_if (item, name = item && item.name)
+    item ? h.link_to(name, item) : h.content_tag(:span, "(None)", class: 'subdue')
+  end
+
+  def account_link
+    link_if(account)
+  end
+
+  def host_link
+    link_if(host)
+  end
+
 end
