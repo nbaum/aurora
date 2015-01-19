@@ -16,6 +16,9 @@
           - if @server.state == "stopped"
             li = button_to [:start, @server] do
               = icon("play", "Start")
+          - if @server.state == "running" or @server.state == "running"
+            li = button_to [:reset, @server] do
+              = icon("refresh", "Reset")
           - if @server.state == "running"
             li = button_to [:pause, @server] do
               = icon("pause", "Pause")

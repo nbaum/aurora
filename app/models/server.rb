@@ -86,6 +86,13 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def reset
+    raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
+    transaction do |tx|
+      api.reset
+    end
+  end
+
   def vnc_address
     raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
     "#{host.address}:#{id}"

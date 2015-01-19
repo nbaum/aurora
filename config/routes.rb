@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :servers do
     member do
       get :storage, :network, :console, :debug
-      post :start, :pause, :unpause, :suspend, :stop
+      post :start, :pause, :unpause, :suspend, :stop, :reset
     end
   end
 

@@ -48,6 +48,11 @@ class ServersController < ApplicationController
     redirect_to @server, notice: 'Server resumed'
   end
 
+  def reset
+    @server.reset
+    redirect_to @server, notice: 'Server reset'
+  end
+
   def stop
     @server.stop
     redirect_to @server, notice: 'Server stopped'
