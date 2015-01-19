@@ -57,7 +57,7 @@ class Server < ActiveRecord::Base
       allocate_address
       self.state = 'running'
       save!
-      api.start
+      api.start(config: config)
     end
   end
 
@@ -157,7 +157,7 @@ class Server < ActiveRecord::Base
   end
 
   def api
-    host.api(instance: id, config: config)
+    host.api(instance: id)
   end
 
   def address
