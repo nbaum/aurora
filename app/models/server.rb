@@ -41,6 +41,7 @@ class Server < ActiveRecord::Base
     self.memory ||= 1024
     self.storage ||= 20
     self.machine_type ||= 'pc'
+    self.boot_order = 'cdn'
   end
 
   before_save do
@@ -146,6 +147,7 @@ class Server < ActiveRecord::Base
       password: vnc_password,
       guest_data: guest_data,
       type: machine_type,
+      boot_order: boot_order,
       name: name,
       cd: iso && iso.config,
       hd: root && root.config

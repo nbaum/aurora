@@ -35,6 +35,9 @@
       th = f.label :machine_type
       td = f.select :machine_type, [["PC", "pc"], ["Mac", "mac"]]
     tr
+      th = f.label :boot_order
+      td = f.select :boot_order, [["Disk, ISO, Network", "cdn"], ["ISO, Disk, Network", "dcn"], ["Network, ISO, Disk", "ncd"]]
+    tr
       th = f.label :iso_id
       td = f.select :iso_id, [["(None)", nil], *Volume.where(optical: true).pluck(:name, :id)]
     /tr
