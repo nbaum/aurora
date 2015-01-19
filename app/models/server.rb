@@ -33,6 +33,7 @@ class Server < ActiveRecord::Base
     self.affinity_group ||= 0
     self.zone ||= account && account.zone
     self.state ||= 'stopped'
+    self.password ||= SecureRandom.base64(6)
   end
 
   after_initialize do
