@@ -25,6 +25,14 @@ class ServerDecorator < Draper::Decorator
     link_if(host)
   end
 
+  def iso_link
+    link_if(iso)
+  end
+
+  def root_link
+    link_if(root)
+  end
+
   def state_icon
     case state
     when 'stopped'

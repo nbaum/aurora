@@ -3,6 +3,7 @@ require 'aurora/corona'
 class Zone < ActiveRecord::Base
 
   has_many :hosts
+  has_many :pools, through: :hosts, class_name: 'StoragePool'
 
   def dns
     [dns1, dns2]

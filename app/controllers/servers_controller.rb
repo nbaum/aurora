@@ -65,7 +65,13 @@ class ServersController < ApplicationController
   end
 
   def server_params
-    params.require(:server).permit(:name, :cores, :memory, :storage, :password, :state, :affinity_group, :appliance_data, :template_id, :host_id, :account_id, :zone_id, :appliance_id, :bundle_id, :published_at, :base_id, :current_id)
+    params.require(:server).permit(:name, :cores, :memory, :storage,
+                                   :password, :state, :affinity_group,
+                                   :appliance_data, :template_id,
+                                   :host_id, :account_id, :zone_id,
+                                   :appliance_id, :bundle_id,
+                                   :published_at, :base_id, :current_id,
+                                   :iso_id)
   end
 
 end

@@ -1,4 +1,14 @@
 = render("header")
 - @title << "Storage"
 main
-  h2 I like your optimism.
+  table
+    thead: tr
+      th Volume
+      th Attached as
+    - @server.attachments.each do |att|
+      tr
+        - if att.volume
+          td = link_to att.volume.name, att.volume
+        - else
+          td Volume missing!
+        td = att.attachment

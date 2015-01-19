@@ -8,7 +8,7 @@ class VolumesController < ApplicationController
   end
 
   def new
-    @volume = @volumes.new
+    @volume = @volumes.new.decorate
   end
 
   def create
@@ -33,10 +33,14 @@ class VolumesController < ApplicationController
     redirect_to volumes_url, notice: 'Volume was successfully destroyed.'
   end
 
+  def attach
+    raise params.inspect
+  end
+
   private
 
   def set_volumes
-    @volumes = Volume.all
+    @volumes = Volume.order(id: :desc)
   end
 
   def set_volume

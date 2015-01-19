@@ -23,10 +23,12 @@ class Server < ActiveRecord::Base
   belongs_to :base, class_name: 'Server'
   belongs_to :current, class_name: 'Server'
 
+  has_many :attachments, class_name: 'ServerVolume'
+
   validates :name, presence: true
   validates :password, presence: true, allow_nil: true, length: { is: 8 }
 
-  after_initialize do
+  after_initialize if: :new_record? do
     self.name ||= Chaucer.server_name
     self.cores ||= 1
     self.memory ||= 1024
@@ -37,10 +39,15 @@ class Server < ActiveRecord::Base
     self.state ||= 'stopped'
   end
 
+  before_save do
+    #allocate_storage
+  end
+
   def start
     raise "Server isn't stopped" unless state == 'stopped'
     transaction do |tx|
       assign_host unless host
+      allocate_storage
       self.state = 'running'
       save!
       api.start
@@ -85,25 +92,66 @@ class Server < ActiveRecord::Base
     password
   end
 
-  private
+  def iso_attachment
+    attachments.joins(:volume).where(volumes: {optical: true}).first
+  end
 
-  def assign_host
-    self.host = zone.pick_host(self)
+  def iso
+    iso_attachment && iso_attachment.volume
+  end
+
+  def iso_id
+    iso && iso.id
+  end
+
+  def iso_id= (id)
+    if id.to_i == 0
+      attachments.joins(:volume).where(volumes: {optical: true}).delete_all
+    elsif i = iso_attachment
+     i.id = id
+    else
+      attachments.new(volume: Volume.find(id), attachment: 'cdrom')
+    end
+  end
+
+  def root_attachment
+    attachments.joins(:volume).where(volumes: {optical: false}).first
+  end
+
+  def root
+    root_attachment && root_attachment.volume
+  end
+
+  def root_id
+    root && root.id
   end
 
   def config
     {
       memory: memory,
       cores: cores,
-      storage: storage,
       display: id,
-      #iso: "isoimages/#{iso}",
       mac: generate_mac,
       password: vnc_password,
       guest_data: guest_data,
       type: "pc",
-      iso: "isoimages/FreeBSD-10.1-RELEASE-amd64-uefi-disc1.iso"
+      cd: iso && iso.config,
+      hd: root && root.config
     }
+  end
+
+  private
+
+  def allocate_storage
+    if !root and self.storage > 0
+      volume = Volume.new(server: self, account: account, size: storage * 1_000_000_000, zone: zone, name: "#{name}'s root", path: "vm#{id}/root")
+      attachments.new(volume: volume, attachment: 'hda')
+    end
+    root.allocate
+  end
+
+  def assign_host
+    self.host = zone.pick_host(self)
   end
 
   def guest_data
@@ -120,8 +168,10 @@ class Server < ActiveRecord::Base
 
   def generate_mac
     return nil unless id
-    h = id << 2 | 0x2
-    [h].pack("Q").unpack("H2" * 6).join(":")
+    h = id #<< 2 | 0x2
+    h <<= 4
+    h |= 0x020000000000
+    [h << 16].pack("Q>").unpack("H2" * 6).join(":")
   end
 
 end

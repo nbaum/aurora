@@ -12,13 +12,21 @@ main
       td #{@server.memory} MiB
     tr
       th Storage
-      td #{@server.storage} GB
+      td
+        - if @server.root
+          =' @server.root_link
+          ' (#{@server.root.size / 1_000_000_000} GB)
+        - else
+          ' #{@server.storage} GB
     tr
       th Password
       td = @server.password
     tr
       th State
       td = @server.state
+    tr
+      th ISO
+      td = @server.iso_link
     tr
       th Affinity group
       td = @server.affinity_group
