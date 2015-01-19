@@ -41,7 +41,7 @@ class Server < ActiveRecord::Base
     self.memory ||= 1024
     self.storage ||= 20
     self.machine_type ||= 'pc'
-    self.boot_order = 'cdn'
+    self.boot_order ||= 'cdn'
   end
 
   before_save do
