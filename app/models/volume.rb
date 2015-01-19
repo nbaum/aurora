@@ -35,4 +35,8 @@ class Volume < ActiveRecord::Base
     api.allocate(size: size)
   end
 
+  def wipe
+    api.wipe
+  end
+
 end

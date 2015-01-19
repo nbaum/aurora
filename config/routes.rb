@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :volumes do
     member do
       get :attachments
+      post :wipe
     end
   end
 

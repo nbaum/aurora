@@ -37,6 +37,11 @@ class VolumesController < ApplicationController
     raise params.inspect
   end
 
+  def wipe
+    @volume.wipe
+    redirect_to @volume, notice: 'Volume was successfully wiped.'
+  end
+
   private
 
   def set_volumes
