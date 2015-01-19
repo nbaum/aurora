@@ -30,13 +30,16 @@ class Server < ActiveRecord::Base
 
   after_initialize if: :new_record? do
     self.name ||= Chaucer.server_name
-    self.cores ||= 1
-    self.memory ||= 1024
-    self.storage ||= 20
-    self.password ||= SecureRandom.base64(6)
     self.affinity_group ||= 0
     self.zone ||= account && account.zone
     self.state ||= 'stopped'
+  end
+
+  after_initialize do
+    self.cores ||= 1
+    self.memory ||= 1024
+    self.storage ||= 20
+    self.machine_type ||= 'pc'
   end
 
   before_save do
@@ -134,7 +137,8 @@ class Server < ActiveRecord::Base
       mac: generate_mac,
       password: vnc_password,
       guest_data: guest_data,
-      type: "pc",
+      type: machine_type,
+      name: name,
       cd: iso && iso.config,
       hd: root && root.config
     }

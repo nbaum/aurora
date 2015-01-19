@@ -71,7 +71,7 @@ class ServersController < ApplicationController
                                    :host_id, :account_id, :zone_id,
                                    :appliance_id, :bundle_id,
                                    :published_at, :base_id, :current_id,
-                                   :iso_id)
+                                   :iso_id, :machine_type)
   end
 
 end
