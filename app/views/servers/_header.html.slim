@@ -66,12 +66,21 @@
           tr
             th DNS
             td = @server.zone.dns.join(", ")
+      - if @server.state == "running" or @server.state == "paused"
+        aside
+          table.properties
+            tr
+              th Console
+              td = @server.vnc_address
+            tr
+              th Password
+              td = @server.vnc_password
   menu
     li = link_to "← Server List", :servers, exact: true, class: "bare"
     li = link_to "View", @server, exact: true
     li = link_to "Edit", [:edit, @server]
     li = link_to "Storage", [:storage, @server]
-    li = link_to "Network", [:network, @server]
-    li = link_to "Console", [:console, @server]
+    /li = link_to "Network", [:network, @server]
+    /li = link_to "Console", [:console, @server]
     li = link_to "Debug", [:debug, @server]
 
