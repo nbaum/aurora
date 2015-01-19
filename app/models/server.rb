@@ -108,7 +108,7 @@ class Server < ActiveRecord::Base
     if id.to_i == 0
       attachments.joins(:volume).where(volumes: {optical: true}).delete_all
     elsif i = iso_attachment
-     i.id = id
+      i.update! volume_id: id
     else
       attachments.new(volume: Volume.find(id), attachment: 'cdrom')
     end
