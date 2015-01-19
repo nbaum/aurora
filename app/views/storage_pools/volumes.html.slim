@@ -1,4 +1,4 @@
 = render("header")
 - @title << "Volumes"
 main
-  = render("volumes/table", volumes: @storage_pool.volumes)
+  = render("volumes/table", volumes: @storage_pool.volumes.decorate)

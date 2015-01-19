@@ -16,15 +16,15 @@ table.table
   tbody
     - volumes.each do |volume|
       tr
-        td = link_to volume.id, volume
-        td = volume.name
+        td = volume.id
+        td = link_to volume.name, volume
         td = volume.path
         td = volume.size
         td = volume.ephemeral
         td = volume.optical
-        td = volume.server
-        td = volume.base
-        td = volume.account
-        td = volume.bundle
-        td = volume.storage_pool
+        td = volume.server_link
+        td = volume.base_link
+        td = volume.account_link
+        td = volume.bundle_link
+        td = volume.pool_link
         td = volume.published_at

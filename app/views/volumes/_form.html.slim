@@ -9,7 +9,7 @@
   table.properties
     tr
       th = f.label :name
-      td = f.text_field :name
+      td = f.text_field :name, size: 32
     tr
       th = f.label :path
       td = f.text_field :path, size: 128
@@ -18,25 +18,31 @@
       td = f.number_field :size
     tr
       th = f.label :ephemeral
-      td = f.check_box :ephemeral
+      td
+        label
+          =' f.check_box :ephemeral
+          ' Changes to this volume do not persist, and are not shared between multiple attachments.
     tr
       th = f.label :optical
-      td = f.check_box :optical
+      td
+        label
+          =' f.check_box :optical
+          ' Attach as a virtual optical drive than a virtual disk drive.
     tr
       th = f.label :server
-      td = f.text_field :server
+      td = @volume.server_link
     tr
       th = f.label :base
-      td = f.text_field :base
+      td = @volume.base_link
     tr
       th = f.label :account
-      td = f.text_field :account
+      td = @volume.account_link
     tr
-      th = f.label :bundle
-      td = f.text_field :bundle
+      th = f.label :bundle_id
+      td = f.text_field :bundle_id
     tr
-      th = f.label :storage_pool
-      td = f.text_field :storage_pool
+      th = f.label :storage_pool_id
+      td = f.text_field :storage_pool_id
     tr
       th = f.label :published_at
       td = f.datetime_select :published_at
