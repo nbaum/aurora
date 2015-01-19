@@ -1,0 +1,12 @@
+= render("header")
+- @title << "Attachments"
+main
+  = form_tag [:attachments, @volume]
+    table
+      thead: tr
+        th Server
+        th Attached?
+      - Server.all.each do |server|
+        tr
+          td = link_to server.name, server
+          td = !server.volumes.where(volume: @volume).empty?

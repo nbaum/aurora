@@ -19,7 +19,12 @@ Rails.application.routes.draw do
   resources :addresses
   resources :networks
   resources :servers_volumes
-  resources :volumes
+
+  resources :volumes do
+    member do
+      get :attachments
+    end
+  end
 
   resources :servers do
     member do
