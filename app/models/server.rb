@@ -144,10 +144,11 @@ class Server < ActiveRecord::Base
 
   def allocate_storage
     if !root and self.storage > 0
-      volume = Volume.new(server: self, account: account, size: storage * 1_000_000_000, zone: zone, name: "#{name}'s root", path: "vm#{id}/root")
-      attachments.new(volume: volume, attachment: 'hda')
+      volume = Volume.create!(server: self, account: account, size: storage * 1_000_000_000, zone: zone, name: "#{name}'s root", path: "vm#{id}/root")
+      attachments.create!(volume: volume, attachment: 'hda')
+      volume.allocate
     end
-    root.allocate
+    root && root.allocate
   end
 
   def assign_host
