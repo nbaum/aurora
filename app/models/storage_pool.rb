@@ -9,7 +9,7 @@ class StoragePool < ActiveRecord::Base
       v = volumes.where(path: data[:name]).first_or_initialize(size: data[:size])
       v.optical = !!(data[:name] =~ /\.iso$/)
       v.ephemeral = false
-      v.name = v.path
+      v.name ||= v.path
       v.save!
     end
   end
