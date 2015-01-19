@@ -62,10 +62,18 @@
         table.properties
           tr
             th Address
-            td: .subdue() (None assigned)
+            td
+              - if @server.address
+                = @server.address.ip
+              - else
+                .subdue() (None assigned)
           tr
             th Gateway
-            td: .subdue() (None assigned)
+            td
+              - if @server.address
+                = @server.address.network.gateway
+              - else
+                .subdue() (None assigned)
           tr
             th DNS
             td = @server.zone.dns.join(", ")

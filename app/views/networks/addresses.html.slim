@@ -1,0 +1,13 @@
+= render("header")
+- @title << "Addresses"
+main
+  table
+    thead: tr
+      th Address
+      th Server
+      th Account
+    - @network.addresses.order(:ip).decorate.each do |addr|
+      tr
+        td = addr.ip
+        td = addr.server_link
+        td = addr.account_link

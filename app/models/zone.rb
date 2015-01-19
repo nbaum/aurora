@@ -5,6 +5,8 @@ class Zone < ActiveRecord::Base
   has_many :hosts
   has_many :pools, through: :hosts, class_name: 'StoragePool'
 
+  has_many :networks
+
   def dns
     [dns1, dns2]
   end

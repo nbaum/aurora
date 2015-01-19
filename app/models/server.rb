@@ -24,6 +24,7 @@ class Server < ActiveRecord::Base
   belongs_to :current, class_name: 'Server'
 
   has_many :attachments, class_name: 'ServerVolume'
+  has_many :addresses
 
   validates :name, presence: true
   validates :password, presence: true, allow_nil: true, length: { is: 8 }
@@ -53,6 +54,7 @@ class Server < ActiveRecord::Base
     transaction do |tx|
       assign_host unless host
       allocate_storage
+      allocate_address
       self.state = 'running'
       save!
       api.start
@@ -154,7 +156,22 @@ class Server < ActiveRecord::Base
     }
   end
 
+  def api
+    host.api(instance: id, config: config)
+  end
+
+  def address
+    addresses.first
+  end
+
   private
+
+  def allocate_address
+    if !address
+      a = zone.networks.first.addresses.unassigned.first
+      a.update! server: self
+    end
+  end
 
   def allocate_storage
     if !root and self.storage > 0
@@ -171,14 +188,12 @@ class Server < ActiveRecord::Base
 
   def guest_data
     {
-      #ip: ip,
-      #keys: User.all.map(&:ssh_key).join("\n"),
+      address: address.ip.to_s,
+      prefix: address.network.prefix,
+      netmask: address.network.netmask,
+      gateway: address.network.gateway,
       hostname: name.downcase.tr('^a-z0-9-', '')
     }
-  end
-
-  def api
-    host.api(instance: id, config: config)
   end
 
   def generate_mac

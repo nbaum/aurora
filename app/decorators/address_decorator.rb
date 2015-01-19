@@ -10,4 +10,16 @@ class AddressDecorator < Draper::Decorator
   #     end
   #   end
 
+  def link_if (item, name = item && item.name)
+    item ? h.link_to(name, item) : h.content_tag(:span, "(None)", class: 'subdue')
+  end
+
+  def server_link
+    link_if(server)
+  end
+
+  def account_link
+    link_if(account)
+  end
+
 end

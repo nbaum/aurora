@@ -15,9 +15,14 @@ Rails.application.routes.draw do
   resources :users
   resources :transactions
   resources :tariffs
-  resources :addresses_networks
   resources :addresses
-  resources :networks
+  
+  resources :networks do
+    member do
+      get :addresses
+    end
+  end
+  
   resources :servers_volumes
 
   resources :volumes do
