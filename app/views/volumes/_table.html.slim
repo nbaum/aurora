@@ -3,6 +3,7 @@ table.table
     tr
       th ID
       th Name
+      th Path
       th Size
       th Ephemeral
       th Optical
@@ -17,6 +18,7 @@ table.table
       tr
         td = link_to volume.id, volume
         td = volume.name
+        td = volume.path
         td = volume.size
         td = volume.ephemeral
         td = volume.optical
