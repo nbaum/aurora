@@ -1,12 +1,113 @@
 = render("header")
 - @title << "Console"
+css:
+  #noVNC_buttons input[type=button] { display: inline }
+  #noVNC_screen.fullscreen {
+    position: fixed;
+    background: #fff;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+
 main
-  p No in-browser console is available.
-  p Sorry about that.
-  p In the meantime, you can use VNC, like your grandpa used to.
-  p
-    ' Connect to
-    strong' = @server.vnc_address
-    ' with password
-    strong = @server.vnc_password
-    | .
+  div id="noVNC_screen"
+    div id="noVNC_status_bar" class="noVNC_status_bar" style="margin-top: 0px;"
+      table border=0 width="100%": tr
+        td width="1%" style="white-space: nowrap": div id="noVNC_buttons"
+          input' type="button" value="<>" id="fullscreen"
+          input' type="button" value="Ctrl" id="sendCtrl"
+          input' type="button" value="Meta" id="sendWindows"
+          input' type="button" value="Alt" id="sendAlt"
+        td: div id="noVNC_status" style="position: relative; height: auto;" Loading
+    canvas data-password=@server.vnc_password data-host=@server.websocket_host data-port=@server.websocket_port id="noVNC_canvas" width="640px" height="20px" Canvas not supported.
+  script src="/novnc/util.js"
+  coffee:
+    $ ->
+      $(window).on "beforeunload", ->
+        alert("uh-oh")
+  javascript:
+      INCLUDE_URI = "/novnc/"
+      // Load supporting scripts
+      Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
+                         "keysymdef.js", "keyboard.js", "input.js", "display.js",
+                         "jsunzip.js", "rfb.js", "keysym.js"]);
+      var rfb;
+      function sendCtrlAltDel() {
+          rfb.sendCtrlAltDel();
+          return false;
+      }
+      function setupModifier(id, mod) {
+        var e = $D(id), state = 1
+        e.onclick = function () {
+          rfb.sendKey(mod, state)
+          if (state == 1) {
+            e.className = 'active'
+          } else {
+            e.className = ''
+          }
+          state = 1 - state
+        }
+      }
+      function setupFullscreen() {
+        var b = $D("fullscreen"), e = $D("noVNC_screen"), state = 0
+        b.onclick = function () {
+          if (state == 0) {
+            b.className = 'active'
+            e.className = 'fullscreen'
+          } else {
+            b.className = ''
+            e.className = ''
+          }
+          state = 1 - state
+        }
+      }
+      function updateState(rfb, state, oldstate, msg) {
+          var s, sb, cad, level;
+          s = $D('noVNC_status');
+          sb = $D('noVNC_status_bar');
+          switch (state) {
+              case 'failed':       level = "error";  break;
+              case 'fatal':        level = "error";  break;
+              case 'normal':       level = "normal"; break;
+              case 'disconnected': level = "normal"; break;
+              case 'loaded':       level = "normal"; break;
+              default:             level = "warn";   break;
+          }
+
+          if (typeof(msg) !== 'undefined') {
+              sb.setAttribute("class", "noVNC_status_" + level);
+              s.innerHTML = msg;
+          }
+      }
+      window.onscriptsload = function () {
+          var host, port, password, path, token;
+          setupFullscreen()
+          setupModifier('sendCtrl', XK_Control_L)
+          setupModifier('sendAlt', XK_Alt_L)
+          setupModifier('sendWindows', XK_Meta_L)
+          WebUtil.init_logging('warn');
+          document.title = unescape(#{json @server.name});
+          // By default, use the host and port of server that served this file
+          host = #{json @server.websocket_host};
+          port = #{json @server.websocket_port};
+          password = #{json @server.vnc_password};
+          path = 'websockify';
+          if ((!host) || (!port)) {
+              updateState('failed',
+                  "Must specify host and port in URL");
+              return;
+          }
+          rfb = new RFB({'target':       $D('noVNC_canvas'),
+                         'encrypt':      false,
+                         'repeaterID':   WebUtil.getQueryVar('repeaterID', ''),
+                         'true_color':   WebUtil.getQueryVar('true_color', true),
+                         'local_cursor': WebUtil.getQueryVar('cursor', true),
+                         'shared':       WebUtil.getQueryVar('shared', true),
+                         'view_only':    WebUtil.getQueryVar('view_only', false),
+                         'onUpdateState':  updateState});
+          rfb.connect(host, port, password, path);
+      };
+
