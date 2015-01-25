@@ -43,4 +43,8 @@ module ApplicationHelper
     url
   end
 
+  def json (data)
+    data.to_json.html_safe
+  end
+
 end
