@@ -106,6 +106,14 @@ class Server < ActiveRecord::Base
     password
   end
 
+  def websocket_host
+    host.address.to_s
+  end
+
+  def websocket_port
+    id + 39000
+  end
+
   def iso_attachment
     attachments.joins(:volume).where(volumes: {optical: true}).first
   end
