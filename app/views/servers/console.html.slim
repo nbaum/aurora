@@ -111,13 +111,13 @@ main
           port = #{json @server.websocket_port};
           password = #{json @server.vnc_password};
           path = 'websockify';
-          rfb = new RFB({'target':       $D('noVNC_canvas'),
-                         'encrypt':      false,
-                         'repeaterID':   WebUtil.getQueryVar('repeaterID', ''),
-                         'true_color':   WebUtil.getQueryVar('true_color', true),
-                         'local_cursor': WebUtil.getQueryVar('cursor', true),
-                         'shared':       WebUtil.getQueryVar('shared', true),
-                         'view_only':    WebUtil.getQueryVar('view_only', false),
+          rfb = new RFB({'target':         $D('noVNC_canvas'),
+                         'encrypt':        false,
+                         'repeaterID':     false,
+                         'true_color':     true,
+                         'local_cursor':   false,
+                         'shared':         true,
+                         'view_only':      false,
                          'onUpdateState':  updateState});
           rfb.connect(host, port, password, path);
       };
