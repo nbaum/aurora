@@ -40,7 +40,7 @@ main
           input' type="button" value="Meta" id="sendWindows"
           input' type="button" value="Alt" id="sendAlt"
         td: div id="noVNC_status" style="position: relative; height: auto;" Loading
-    canvas data-password=@server.vnc_password data-host=@server.websocket_host data-port=@server.websocket_port id="noVNC_canvas" width="640px" height="20px" Canvas not supported.
+    canvas id="noVNC_canvas" Canvas not supported.
   script src="/novnc/util.js"
   coffee:
     $ ->
@@ -106,18 +106,11 @@ main
           setupModifier('sendCtrl', XK_Control_L)
           setupModifier('sendAlt', XK_Alt_L)
           setupModifier('sendWindows', XK_Meta_L)
-          WebUtil.init_logging('warn');
           document.title = unescape(#{json @server.name});
-          // By default, use the host and port of server that served this file
           host = #{json @server.websocket_host};
           port = #{json @server.websocket_port};
           password = #{json @server.vnc_password};
           path = 'websockify';
-          if ((!host) || (!port)) {
-              updateState('failed',
-                  "Must specify host and port in URL");
-              return;
-          }
           rfb = new RFB({'target':       $D('noVNC_canvas'),
                          'encrypt':      false,
                          'repeaterID':   WebUtil.getQueryVar('repeaterID', ''),
