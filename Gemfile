@@ -48,3 +48,5 @@ gem 'capistrano-passenger'
 gem 'dotenv'
 
 gem 'awesome_print'
+
+gem 'puma'
