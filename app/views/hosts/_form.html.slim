@@ -26,14 +26,14 @@
       th = f.label :address
       td = f.text_field :address
     tr
-      th = f.label :compute
-      td = f.check_box :compute
+      th = f.label :compute?
+      td = f.check_box :has_compute
     tr
-      th = f.label :storage
-      td = f.check_box :storage
+      th = f.label :storage?
+      td = f.check_box :has_storage
     tr
-      th = f.label :zone
-      td = f.text_field :zone
+      th = f.label :zone_id
+      td = f.text_field :zone_id
     tr
       th
       td = f.button @host.new_record? ? "Create" : "Update"

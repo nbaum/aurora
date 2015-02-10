@@ -11,8 +11,8 @@ main
         th Storage
         th Url
         th Address
-        th Compute
-        th Storage
+        th Compute?
+        th Storage?
         th Zone
     tbody
       - @hosts.each do |host|
@@ -24,7 +24,7 @@ main
           td = host.storage
           td = host.url
           td = host.address
-          td = host.compute
-          td = host.storage
-          td = host.zone
+          td = host.has_compute
+          td = host.has_storage
+          td = host.zone_link
   = paginate @hosts

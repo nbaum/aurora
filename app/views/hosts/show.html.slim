@@ -21,10 +21,10 @@ main
       td = @host.address
     tr
       th Compute
-      td = @host.compute
+      td = @host.has_compute?
     tr
       th Storage
-      td = @host.storage
+      td = @host.has_storage?
     tr
       th Zone
-      td = @host.zone
+      td = @host.zone_link
