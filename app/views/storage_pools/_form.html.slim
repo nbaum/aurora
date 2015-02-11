@@ -20,8 +20,8 @@
       th = f.label :account
       td = f.text_field :account
     tr
-      th = f.label :host
-      td = f.text_field :host
+      th = f.label :host_id
+      td = f.select :host_id, Host.storage.pluck(:name, :id)
     tr
       th
       td = f.button @storage_pool.new_record? ? "Create" : "Update"

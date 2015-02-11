@@ -33,7 +33,7 @@
       td = f.check_box :has_storage
     tr
       th = f.label :zone_id
-      td = f.text_field :zone_id
+      td = f.select :zone_id, Zone.pluck(:name, :id)
     tr
       th
       td = f.button @host.new_record? ? "Create" : "Update"
