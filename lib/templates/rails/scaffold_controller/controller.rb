@@ -9,7 +9,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   before_action :set_<%= singular_table_name %>, except: [:new]
 
   def index
-    @<%= plural_table_name %> = @<%= plural_table_name %>.page(params[:page]).decorate
+    @<%= plural_table_name %> = @<%= plural_table_name %>.order(:id).page(params[:page]).decorate
   end
 
   def new

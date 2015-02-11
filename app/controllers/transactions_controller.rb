@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
   before_action :set_transaction, except: [:new]
 
   def index
-    @transactions = @transactions.page(params[:page]).decorate
+    @transactions = @transactions.order(:id).page(params[:page]).decorate
   end
 
   def new

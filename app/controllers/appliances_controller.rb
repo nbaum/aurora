@@ -5,7 +5,7 @@ class AppliancesController < ApplicationController
   before_action :set_appliance, except: [:new]
 
   def index
-    @appliances = @appliances.page(params[:page]).decorate
+    @appliances = @appliances.order(:id).page(params[:page]).decorate
   end
 
   def new

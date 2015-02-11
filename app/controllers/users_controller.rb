@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :set_user, except: [:new]
 
   def index
-    @users = @users.page(params[:page]).decorate
+    @users = @users.order(:id).page(params[:page]).decorate
   end
 
   def new

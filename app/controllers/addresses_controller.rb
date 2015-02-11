@@ -4,7 +4,7 @@ class AddressesController < ApplicationController
   before_action :set_address, except: [:new]
 
   def index
-    @addresses = @addresses.page(params[:page]).decorate
+    @addresses = @addresses.order(:id).page(params[:page]).decorate
   end
 
   def new

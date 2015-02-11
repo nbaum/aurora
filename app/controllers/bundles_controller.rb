@@ -4,7 +4,7 @@ class BundlesController < ApplicationController
   before_action :set_bundle, except: [:new]
 
   def index
-    @bundles = @bundles.page(params[:page]).decorate
+    @bundles = @bundles.order(:id).page(params[:page]).decorate
   end
 
   def new

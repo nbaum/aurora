@@ -4,7 +4,7 @@ class ServersVolumesController < ApplicationController
   before_action :set_servers_volume, except: [:new]
 
   def index
-    @servers_volumes = @servers_volumes.page(params[:page]).decorate
+    @servers_volumes = @servers_volumes.order(:id).page(params[:page]).decorate
   end
 
   def new

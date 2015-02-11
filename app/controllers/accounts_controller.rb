@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   before_action :set_account, except: [:new]
 
   def index
-    @accounts = @accounts.page(params[:page]).decorate
+    @accounts = @accounts.order(:id).page(params[:page]).order(:id).decorate
   end
 
   def new

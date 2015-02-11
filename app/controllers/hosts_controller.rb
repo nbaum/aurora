@@ -4,7 +4,7 @@ class HostsController < ApplicationController
   before_action :set_host, except: [:new]
 
   def index
-    @hosts = @hosts.page(params[:page]).decorate
+    @hosts = @hosts.order(:id).page(params[:page]).decorate
   end
 
   def new

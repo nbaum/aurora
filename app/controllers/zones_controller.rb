@@ -4,7 +4,7 @@ class ZonesController < ApplicationController
   before_action :set_zone, except: [:new]
 
   def index
-    @zones = @zones.page(params[:page]).decorate
+    @zones = @zones.order(:id).page(params[:page]).decorate
   end
 
   def new

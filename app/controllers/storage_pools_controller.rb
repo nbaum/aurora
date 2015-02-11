@@ -4,7 +4,7 @@ class StoragePoolsController < ApplicationController
   before_action :set_storage_pool, except: [:new]
 
   def index
-    @storage_pools = @storage_pools.page(params[:page]).decorate
+    @storage_pools = @storage_pools.order(:id).page(params[:page]).decorate
   end
 
   def new

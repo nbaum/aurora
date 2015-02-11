@@ -4,7 +4,7 @@ class VolumesController < ApplicationController
   before_action :set_volume, except: [:new]
 
   def index
-    @volumes = @volumes.page(params[:page]).decorate
+    @volumes = @volumes.order(:id).page(params[:page]).decorate
   end
 
   def new

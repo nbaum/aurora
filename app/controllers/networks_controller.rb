@@ -4,7 +4,7 @@ class NetworksController < ApplicationController
   before_action :set_network, except: [:new]
 
   def index
-    @networks = @networks.page(params[:page]).decorate
+    @networks = @networks.order(:id).page(params[:page]).decorate
   end
 
   def new

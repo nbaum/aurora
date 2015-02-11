@@ -4,7 +4,7 @@ class TariffsController < ApplicationController
   before_action :set_tariff, except: [:new]
 
   def index
-    @tariffs = @tariffs.page(params[:page]).decorate
+    @tariffs = @tariffs.order(:id).page(params[:page]).decorate
   end
 
   def new
