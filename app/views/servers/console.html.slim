@@ -43,10 +43,6 @@ main
         td: div id="noVNC_status" style="position: relative; height: auto;" Loading
     canvas id="noVNC_canvas" Canvas not supported.
   script src="/novnc/util.js"
-  coffee:
-    $ ->
-      $(window).on "beforeunload", ->
-        alert("uh-oh")
   javascript:
       INCLUDE_URI = "/novnc/"
       // Load supporting scripts
