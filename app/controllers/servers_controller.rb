@@ -1,4 +1,7 @@
+Thread.abort_on_exception = true
+
 class ServersController < ApplicationController
+  include Tubesock::Hijack
 
   before_action :set_servers
   before_action :set_server, except: [:new]
@@ -56,6 +59,21 @@ class ServersController < ApplicationController
   def stop
     @server.stop
     redirect_to @server, notice: 'Server stopped'
+  end
+
+  def socket
+    hijack do |ws|
+      sock = TCPSocket.new(*@server.vnc_address)
+      Thread.new do
+        while true
+          IO.select([sock])
+          ws.send_data Base64.strict_encode64(sock.recv(8192))
+        end
+      end
+      ws.onmessage do |data|
+        sock << Base64.decode64(data)
+      end
+    end
   end
 
   private

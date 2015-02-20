@@ -123,7 +123,7 @@ var RFB;
             'view_only': false,                     // Disable client mouse/keyboard
             'xvp_password_sep': '@',                // Separator for XVP password fields
             'disconnectTimeout': 3,                 // Time (s) to wait for disconnection
-            'wsProtocols': ['binary', 'base64'],    // Protocols to use in the WebSocket connection
+            'wsProtocols': ['base64'],    // Protocols to use in the WebSocket connection
             'repeaterID': '',                       // [UltraVNC] RepeaterID to connect to
             'viewportDrag': false,                  // Move the viewport on mouse drags
 

@@ -99,19 +99,15 @@ class Server < ActiveRecord::Base
 
   def vnc_address
     raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
-    "#{host.address}:#{id}"
+    [host.address.to_s, id + 5900]
   end
 
   def vnc_password
     password
   end
 
-  def websocket_host
-    host.address.to_s
-  end
-
-  def websocket_port
-    id + 39000
+  def websocket_path
+    "vnc/#{vnc_address}"
   end
 
   def iso_attachment
