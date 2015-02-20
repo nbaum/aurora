@@ -119,6 +119,9 @@ main
                          'view_only':      false,
                          'onUpdateState':  updateState});
           //rfb.connect(window.location.hostname, 9393, password, "/" + path);
+          port = window.location.port;
+          if (port === "")
+            port = 80;
           rfb.connect(window.location.hostname, window.location.port, password, path);
       };
 
