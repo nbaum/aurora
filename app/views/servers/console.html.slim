@@ -118,6 +118,6 @@ main
           port = window.location.port;
           if (port === "")
             port = 80;
-          rfb.connect(window.location.hostname, window.location.port, password, path);
+          rfb.connect(window.location.hostname, port, password, path);
       };
 
