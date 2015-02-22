@@ -4,15 +4,13 @@ main
   table.table
     thead
       tr
-        th ID
         th Name
-        th Published at
+        /th Published at
         th Account
     tbody
       - @bundles.each do |bundle|
         tr
-          td = link_to bundle.id, bundle
-          td = bundle.name
-          td = bundle.published_at
-          td = bundle.account
+          td = link_to bundle.name, bundle
+          /td = bundle.published_at
+          td = bundle.account_link
   = paginate @bundles

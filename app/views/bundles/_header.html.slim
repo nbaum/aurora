@@ -9,7 +9,24 @@
 - else
   - @title << "Bundle"
   header
-    h1 = @title.last
+    .hbox
+      div
+        h1 = @title.last
+        menu
+          li = button_to [:start, @bundle] do
+            = icon("play", "Start")
+          li = button_to [:reset, @bundle] do
+            = icon("refresh", "Reset")
+          li = button_to [:pause, @bundle] do
+            = icon("pause", "Pause")
+          li = button_to [:unpause, @bundle] do
+            = icon("play", "Resume")
+          li = button_to [:stop, @bundle] do
+            = icon("stop", "Stop")
+          li = button_to [:clone, @bundle] do
+            = icon("copy", "Clone")
+          li = button_to @bundle, method: 'delete' do
+            = icon("trash", "Delete")
   menu
     li = link_to "← Bundle List", :bundles, exact: true, class: "bare"
     li = link_to "View", @bundle, exact: true

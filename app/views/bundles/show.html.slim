@@ -16,7 +16,7 @@ main
           td = @bundle.published_at
         tr
           th Account
-          td = @bundle.account
+          td = @bundle.account_link
     #servers.tab
       = render("servers/table", servers: @bundle.servers.order(:id).page(params["page"]).decorate)
     #storage.tab
