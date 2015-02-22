@@ -2,6 +2,8 @@ require 'chaucer'
 
 class Server < ActiveRecord::Base
 
+  Error = Class.new(StandardError)
+
   STATES = [
     "stopped",
     "starting",
@@ -51,7 +53,7 @@ class Server < ActiveRecord::Base
   end
 
   def start
-    raise "Server isn't stopped" unless state == 'stopped'
+    raise Error.new("Server isn't stopped") unless state == 'stopped'
     transaction do |tx|
       assign_host unless host
       realize_storage
@@ -63,7 +65,7 @@ class Server < ActiveRecord::Base
   end
 
   def pause
-    raise "Server isn't running" unless state == 'running'
+    raise Error.new("Server isn't running") unless state == 'running'
     transaction do |tx|
       self.state = 'paused'
       save!
@@ -72,7 +74,7 @@ class Server < ActiveRecord::Base
   end
 
   def unpause
-    raise "Server isn't paused" unless state == 'paused'
+    raise Error.new("Server isn't paused") unless state == 'paused'
     transaction do |tx|
       self.state = 'running'
       save!
@@ -81,7 +83,7 @@ class Server < ActiveRecord::Base
   end
 
   def stop
-    raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
+    raise Error.new("Server isn't running or paused") unless state == 'running' or state == 'paused'
     transaction do |tx|
       self.state = 'stopped'
       api_ = api
@@ -92,7 +94,7 @@ class Server < ActiveRecord::Base
   end
 
   def reset
-    raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
+    raise Error.new("Server isn't running or paused") unless state == 'running' or state == 'paused'
     transaction do |tx|
       api.reset
     end

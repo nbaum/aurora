@@ -2,6 +2,16 @@ module Aurora
   
   class Corona < BasicObject
     
+    class Error < ::StandardError
+      def initialize (message = nil, klass, backtrace)
+        super(message)
+        @klass, @backtrace = klass, backtrace
+      end
+      def backtrace
+        @backtrace
+      end
+    end
+    
     def initialize (url, args = {})
       @url = url
       @http = ::Faraday.new(url: url)
@@ -17,7 +27,8 @@ module Aurora
       if res.status == 200
         ::YAML.load(res.body)
       elsif res.status == 500
-        ::Kernel.raise ::Exception, *::YAML.load(res.body)
+        klass, message, backtrace = *::YAML.load(res.body)
+        ::Kernel.raise Error.new(message, klass, backtrace + ["/dev/null:0:in `API call to #{@url}'"] + ::Kernel.caller)
       else
         ::Kernel.raise "Unexpected Corona status #{res.status}"
       end
