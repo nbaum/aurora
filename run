@@ -1,5 +1,3 @@
 #! /bin/sh
 cd $(dirname $0)
-while true; do
-  bundle exec puma $*
-done
+exec bundle exec puma $*
