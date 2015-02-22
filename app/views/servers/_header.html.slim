@@ -24,42 +24,24 @@
               = icon("pause", "Pause")
           - if @server.state == "paused"
             li = button_to [:unpause, @server] do
-              = icon("unpause", "Resume")
-          /li = button_to [:suspend, @server] do
-            = icon("compress", "Suspend")
+              = icon("play", "Resume")
+          /- if @server.state == "running"
+            li = button_to [:suspend, @server] do
+              = icon("compress", "Suspend")
           - if @server.state == "running" or @server.state == "paused"
             li = button_to [:stop, @server] do
               = icon("stop", "Stop")
+          - if @server.state == "stopped"
+            li = button_to [:clone, @server] do
+              = icon("copy", "Clone")
+          - if @server.state == "stopped"
+            li = button_to @server, method: 'delete' do
+              = icon("trash", "Delete")
       aside
         table.properties
           tr
             th State
             td = @server.state
-          tr
-            th Zone
-            td
-              = @server.zone_link
-          tr
-            th Host
-            td
-              = @server.host_link
-      aside
-        table.properties
-          tr
-            th Cores
-            td = @server.cores
-          tr
-            th Memory
-            td
-              =' @server.memory
-              | MiB
-          tr
-            th Storage
-            td
-              =' @server.storage
-              | GB
-      aside
-        table.properties
           tr
             th Address
             td
@@ -68,24 +50,14 @@
               - else
                 .subdue() (None assigned)
           tr
-            th Gateway
+            th Spec
             td
-              - if @server.address
-                = @server.address.network.gateway
-              - else
-                .subdue() (None assigned)
-          tr
-            th DNS
-            td = @server.zone.dns.join(", ")
-      - if @server.state == "running" or @server.state == "paused"
-        aside
-          table.properties
-            tr
-              th Console
-              td = @server.vnc_address
-            tr
-              th Password
-              td = @server.vnc_password
+              =' @server.cores
+              ' vCPU,
+              =' @server.memory
+              ' MiB,
+              =' @server.storage
+              ' GB
   menu
     li = link_to "← Server List", :servers, exact: true, class: "bare"
     li = link_to "View", @server, exact: true

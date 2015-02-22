@@ -61,6 +61,13 @@ class ServersController < ApplicationController
     redirect_to @server, notice: 'Server stopped'
   end
 
+  def clone
+    new_server = @server.clone
+    if new_server.save
+      redirect_to new_server, notice: 'Server copied'
+    end
+  end
+
   def socket
     hijack do |ws|
       sock = TCPSocket.new(*@server.vnc_address)
@@ -84,7 +91,8 @@ class ServersController < ApplicationController
 
   def set_server
     return if params[:id].nil?
-    @server = @servers.find(params[:id]).decorate
+    @server = @servers.find(params[:id])
+    @server = @server.decorate unless request.method == 'POST'
   end
 
   def server_params

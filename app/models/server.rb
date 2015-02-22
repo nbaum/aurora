@@ -23,7 +23,8 @@ class Server < ActiveRecord::Base
   belongs_to :base, class_name: 'Server'
   belongs_to :current, class_name: 'Server'
 
-  has_many :attachments, class_name: 'ServerVolume'
+  has_many :volumes, :dependent => :destroy
+  has_many :attachments, class_name: 'ServerVolume', :dependent => :destroy
   has_many :addresses
 
   validates :name, presence: true
@@ -46,14 +47,14 @@ class Server < ActiveRecord::Base
   end
 
   before_save do
-    #allocate_storage
+    #realize_storage
   end
 
   def start
     raise "Server isn't stopped" unless state == 'stopped'
     transaction do |tx|
       assign_host unless host
-      allocate_storage
+      realize_storage
       allocate_address
       self.state = 'running'
       save!
@@ -94,6 +95,27 @@ class Server < ActiveRecord::Base
     raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
     transaction do |tx|
       api.reset
+    end
+  end
+
+  def clone
+    raise "Server isn't stopped" unless state == 'stopped'
+    transaction do |tx|
+      s = Server.new(name: name.succ)
+      %i"cores memory storage affinity_group appliance_data template_id account_id zone_id appliance_id bundle_id machine_type boot_order".each do |field|
+        s[field] = self[field]
+      end
+      map = {}
+      volumes.each do |vol|
+        nvol = vol.clone
+        s.volumes << nvol
+        map[vol.id] = nvol
+      end
+      attachments.each do |att|
+        s.attachments << ServerVolume.new(attachment: att.attachment,
+                                          volume: map[att.volume.id] || att.volume)
+      end
+      s
     end
   end
 
@@ -177,13 +199,13 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def allocate_storage
+  def realize_storage
     if !root and self.storage > 0
-      volume = Volume.create!(server: self, account: account, size: storage * 1_000_000_000, zone: zone, name: "#{name}'s root", path: "vm#{id}/root")
+      volume = Volume.create!(server: self, account: account, size: storage * 1_000_000_000, zone: zone, name: "root")
       attachments.create!(volume: volume, attachment: 'hda')
-      volume.allocate
+      volume.realize
     end
-    root && root.allocate
+    root && root.realize
   end
 
   def assign_host

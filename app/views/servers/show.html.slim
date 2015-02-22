@@ -1,5 +1,6 @@
 = render("header")
 main
+  h2 Properties
   table.properties
     tr
       th Name
@@ -63,3 +64,23 @@ main
     /tr
       th Current
       td = @server.current
+  h2 Network Settings
+  table.properties
+    tr
+      th Address
+      td
+        - if @server.address
+          = @server.address.ip
+        - else
+          .subdue() (None assigned)
+    tr
+      th Gateway
+      td
+        - if @server.address
+          = @server.address.network.gateway
+        - else
+          .subdue() (None assigned)
+    tr
+      th DNS
+      td = @server.zone.dns.join(", ")
+

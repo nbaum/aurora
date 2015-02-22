@@ -69,7 +69,7 @@ summary
   &:hover, &:active {
     background: #58a+#111 linear-gradient(#58a + #222, #58a - #000);
   }
-  &:active:hover, &.active:hover, &.active {
+  &:active:hover, &.active:hover {
     color: #eee;
     background: #58a-#111 linear-gradient(#58a - #111, #58a - #222);
     box-shadow: rgba(#000, 0.2) 0 0 10px 1px inset,

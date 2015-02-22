@@ -1,6 +1,7 @@
 = render("header")
 - @title << "Storage"
 main
+  h2 Attached
   table
     thead: tr
       th Volume
@@ -12,3 +13,10 @@ main
         - else
           td Volume missing!
         td = att.attachment
+  h2 Owned
+  table
+    thead: tr
+      th Volume
+    - @server.volumes.each do |vol|
+      tr
+        td = link_to vol.name, vol

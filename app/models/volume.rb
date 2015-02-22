@@ -1,6 +1,6 @@
 class Volume < ActiveRecord::Base
   belongs_to :server
-  belongs_to :base
+  belongs_to :base, class_name: 'Volume'
   belongs_to :account
   belongs_to :bundle
   belongs_to :pool, class_name: 'StoragePool', foreign_key: 'storage_pool_id'
@@ -13,14 +13,26 @@ class Volume < ActiveRecord::Base
     self.pool = @zone && @zone.pools.first
     self.ephemeral = false
     self.optical = false
+    uuid = SecureRandom.uuid
+    self.path = [*uuid.chars[0, 4], uuid].join("/")
   end
 
   after_destroy do
     api.delete()
   end
 
+  after_create do
+    realize if base
+  end
+
+  def name ()
+    n = super
+    n = "#{server.name}'s #{n}" if server
+    n
+  end
+
   def api ()
-    pool.host.api(pool: pool.path, path: path)
+    pool && pool.host && pool.host.api(pool: pool.path, path: path)
   end
 
   def zone= (zone)
@@ -31,8 +43,18 @@ class Volume < ActiveRecord::Base
     "#{pool.path}/#{path}"
   end
 
-  def allocate
-    api.allocate(size: size)
+  def clone (**attrs)
+    attrs = attributes.merge(attrs).merge("id" => nil, "base_id" => self.id)
+    attrs.delete("path")
+    v = Volume.new
+    attrs.each do |key, value|
+      v[key] = value
+    end
+    v
+  end
+
+  def realize
+    api.realize(base: base && { pool: base.pool.path, path: base.path }, size: size)
   end
 
   def wipe

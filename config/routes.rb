@@ -36,11 +36,15 @@ Rails.application.routes.draw do
     member do
       get :storage, :network, :console, :debug
       get "console/socket" => 'servers#socket'
-      post :start, :pause, :unpause, :suspend, :stop, :reset
+      post :start, :pause, :unpause, :suspend, :stop, :reset, :clone
     end
   end
 
-  resources :bundles
+  resources :bundles do
+    member do
+      post :start, :pause, :unpause, :suspend, :stop, :reset, :clone
+    end
+  end
 
   root "pages#index"
   get 'boom' => 'pages#boom'
