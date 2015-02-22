@@ -98,12 +98,12 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def clone
+  def clone (**attrs)
     raise "Server isn't stopped" unless state == 'stopped'
     transaction do |tx|
       s = Server.new(name: name.succ)
       %i"cores memory storage affinity_group appliance_data template_id account_id zone_id appliance_id bundle_id machine_type boot_order".each do |field|
-        s[field] = self[field]
+        s[field] = attrs[field] || self[field]
       end
       map = {}
       volumes.each do |vol|

@@ -1,23 +1,4 @@
 = render("header")
 main
-  .tabs
-    ul
-      li = link_to 'Properties', '#props'
-      li = link_to 'Servers', '#servers'
-      li = link_to 'Storage', '#storage'
-      li = link_to 'Networks', '#networks'
-    #props.tab
-      table.properties
-        tr
-          th Name
-          td = @bundle.name
-        tr
-          th Published at
-          td = @bundle.published_at
-        tr
-          th Account
-          td = @bundle.account_link
-    #servers.tab
-      = render("servers/table", servers: @bundle.servers.order(:id).page(params["page"]).decorate)
-    #storage.tab
-    #networks.tab
+  h2 Servers
+  = render("servers/table", servers: @bundle.servers.order(:id).page(params["page"]).decorate)

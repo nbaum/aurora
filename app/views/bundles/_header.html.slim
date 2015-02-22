@@ -7,7 +7,7 @@
     li = link_to "New", [:new, :bundle]
   - @title << "New" if !@bundle.nil?
 - else
-  - @title << "Bundle"
+  - @title << @bundle.name
   header
     .hbox
       div

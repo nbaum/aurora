@@ -33,6 +33,38 @@ class BundlesController < ApplicationController
     redirect_to bundles_url, notice: 'Bundle was successfully destroyed.'
   end
 
+  def start
+    @bundle.start
+    redirect_to @bundle, notice: 'Bundle started'
+  end
+
+  def pause
+    @bundle.pause
+    redirect_to @bundle, notice: 'Bundle paused'
+  end
+
+  def unpause
+    @bundle.unpause
+    redirect_to @bundle, notice: 'Bundle resumed'
+  end
+
+  def reset
+    @bundle.reset
+    redirect_to @bundle, notice: 'Bundle reset'
+  end
+
+  def stop
+    @bundle.stop
+    redirect_to @bundle, notice: 'Bundle stopped'
+  end
+
+  def clone
+    new_server = @bundle.clone
+    if new_server.save
+      redirect_to new_server, notice: 'Bundle copied'
+    end
+  end
+
   private
 
   def set_bundles
@@ -41,7 +73,8 @@ class BundlesController < ApplicationController
 
   def set_bundle
     return if params[:id].nil?
-    @bundle = @bundles.find(params[:id]).decorate
+    @bundle = @bundles.find(params[:id])
+    @bundle = @bundle.decorate unless request.method == 'POST'
   end
 
   def bundle_params
