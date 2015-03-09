@@ -21,10 +21,6 @@ class Volume < ActiveRecord::Base
     api.delete()
   end
 
-  after_create do
-    realize if base
-  end
-
   def name ()
     n = super
     n = "#{server.name}'s #{n}" if server

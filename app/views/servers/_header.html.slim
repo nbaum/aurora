@@ -13,9 +13,12 @@
       div
         h1 = @title.last
         menu
-          - if @server.state == "stopped"
+          - if @server.state == "stopped" or @server.state == "suspended"
             li = button_to [:start, @server] do
               = icon("play", "Start")
+          - if @server.state == "suspended"
+            li = button_to [:resume, @server] do
+              = icon("play", "Resume")
           - if @server.state == "running" or @server.state == "running"
             li = button_to [:reset, @server] do
               = icon("refresh", "Reset")
@@ -24,17 +27,16 @@
               = icon("pause", "Pause")
           - if @server.state == "paused"
             li = button_to [:unpause, @server] do
-              = icon("play", "Resume")
-          /- if @server.state == "running"
+              = icon("play", "Unpause")
+          - if @server.state == "running"
             li = button_to [:suspend, @server] do
               = icon("compress", "Suspend")
           - if @server.state == "running" or @server.state == "paused"
             li = button_to [:stop, @server] do
               = icon("stop", "Stop")
-          - if @server.state == "stopped"
-            li = button_to [:clone, @server] do
-              = icon("copy", "Clone")
-          - if @server.state == "stopped"
+          li = button_to [:clone, @server] do
+            = icon("copy", "Clone")
+          - if @server.state == "stopped" or @server.state == "suspended"
             li = button_to @server, method: 'delete' do
               = icon("trash", "Delete")
       aside

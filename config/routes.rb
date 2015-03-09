@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     member do
       get :storage, :network, :console, :debug
       get "console/socket" => 'servers#socket'
-      post :start, :pause, :unpause, :suspend, :stop, :reset, :clone
+      post :start, :pause, :unpause, :suspend, :stop, :reset, :clone, :resume
     end
   end
 

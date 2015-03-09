@@ -23,6 +23,7 @@ module Aurora
     end
     
     def method_missing (name, args = {})
+      ::Kernel.raise ::TypeError, "API arguments aren't a hash: #{args.inspect}" unless ::Hash === args
       res = @http.post(name.to_s, @args.merge(args).to_yaml)
       if res.status == 200
         ::YAML.load(res.body)

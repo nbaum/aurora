@@ -41,7 +41,8 @@ class AddressesController < ApplicationController
 
   def set_address
     return if params[:id].nil?
-    @address = @addresses.find(params[:id]).decorate
+    @address = @addresses.find(params[:id])
+    @address = @address.decorate unless request.method == 'POST'
   end
 
   def address_params

@@ -33,16 +33,20 @@ class ServerDecorator < Draper::Decorator
     link_if(root)
   end
 
+  def base_link
+    link_if(base)
+  end
+
   def state_icon
     case state
     when 'stopped'
-      h.content_tag(:i, '', class: 'fa fa-fw fa-stop')
+      h.content_tag(:i, '', class: 'fa fa-fw fa-stop', title: state)
     when 'running'
-      h.content_tag(:i, '', class: 'fa fa-fw fa-play')
+      h.content_tag(:i, '', class: 'fa fa-fw fa-play', title: state)
     when 'paused'
-      h.content_tag(:i, '', class: 'fa fa-fw fa-pause')
+      h.content_tag(:i, '', class: 'fa fa-fw fa-pause', title: state)
     else
-      h.content_tag(:i, '', class: 'fa fa-fw fa-question')
+      h.content_tag(:i, '', class: 'fa fa-fw fa-question', title: state)
     end
   end
 

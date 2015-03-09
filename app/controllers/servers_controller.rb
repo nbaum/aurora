@@ -61,6 +61,16 @@ class ServersController < ApplicationController
     redirect_to @server, notice: 'Server stopped'
   end
 
+  def suspend
+    @server.suspend
+    redirect_to @server, notice: 'Server suspended'
+  end
+
+  def resume
+    @server.resume
+    redirect_to @server, notice: 'Server resumed'
+  end
+
   def clone
     new_server = @server.clone
     if new_server.save
@@ -68,17 +78,18 @@ class ServersController < ApplicationController
     end
   end
 
+  # TODO: Figure out what to do about errors.
   def socket
     hijack do |ws|
       sock = TCPSocket.new(*@server.vnc_address)
       Thread.new do
         while true
           IO.select([sock])
-          ws.send_data Base64.strict_encode64(sock.recv(8192))
+          ws.send_data Base64.strict_encode64(sock.recv(8192)) rescue break
         end
       end
       ws.onmessage do |data|
-        sock << Base64.decode64(data)
+        sock << Base64.decode64(data) rescue nil
       end
     end
   end

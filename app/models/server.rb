@@ -48,19 +48,52 @@ class Server < ActiveRecord::Base
     self.boot_order ||= 'cdn'
   end
 
+  before_create do
+    self.state = 'suspended' if template and (template.state == 'running' or template.state == 'paused') 
+  end
+
+  after_create do
+    if template
+      template.api.suspend(tag: id.to_s) if suspended = (template.state == 'running' or template.state == 'paused')
+      volumes.each do |vol|
+        vol.realize if vol.base
+      end
+      template.api.unpause if suspended
+    end
+  end
+
   before_save do
     #realize_storage
   end
 
-  def start
-    raise Error.new("Server isn't stopped") unless state == 'stopped'
+  def suspend (tag = id)
+    raise Error.new("Server isn't running") unless state == 'running' or state == 'paused'
+    transaction do |tx|
+      self.state = 'suspended'
+      save!
+      api.suspend(tag: tag.to_s)
+      api.stop
+    end
+  end
+
+  def resume (tag = id)
+    start(true, tag)
+  end
+
+  def start (resume = false, tag = id)
+    raise Error.new("Server isn't suspended") unless !resume or state == 'suspended'
+    raise Error.new("Server isn't stopped") unless state == 'stopped' or state == 'suspended'
     transaction do |tx|
       assign_host unless host
       realize_storage
       allocate_address
       self.state = 'running'
       save!
-      api.start(config: config)
+      if resume
+        api.resume(tag: tag.to_s, config: config)
+      else
+        api.start(config: config)
+      end
     end
   end
 
@@ -101,10 +134,9 @@ class Server < ActiveRecord::Base
   end
 
   def clone (**attrs)
-    raise "Server isn't stopped" unless state == 'stopped'
     transaction do |tx|
-      s = Server.new(name: name.succ)
-      %i"cores memory storage affinity_group appliance_data template_id account_id zone_id appliance_id bundle_id machine_type boot_order".each do |field|
+      s = Server.new(name: name.succ, template: self)
+      %i"cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order".each do |field|
         s[field] = attrs[field] || self[field]
       end
       map = {}

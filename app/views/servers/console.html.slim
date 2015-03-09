@@ -42,8 +42,8 @@ main
           input' type="button" value="Alt" id="sendAlt"
         td: div id="noVNC_status" style="position: relative; height: auto;" Loading
     canvas id="noVNC_canvas" Canvas not supported.
-  script src="/novnc/util.js"
   javascript:
+    ready = function () {
       INCLUDE_URI = "/novnc/"
       // Load supporting scripts
       Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
@@ -98,26 +98,29 @@ main
           }
       }
       window.onscriptsload = function () {
-          var host, port, password, path, token;
-          setupFullscreen()
-          setupModifier('sendCtrl', XK_Control_L)
-          setupModifier('sendAlt', XK_Alt_L)
-          setupModifier('sendWindows', XK_Meta_L)
-          document.title = unescape(#{json @server.name});
-          password = #{json @server.vnc_password};
-          path = #{json console_socket_server_path(@server)};
-          rfb = new RFB({'target':         $D('noVNC_canvas'),
-                         'encrypt':        false,
-                         'repeaterID':     false,
-                         'true_color':     true,
-                         'local_cursor':   false,
-                         'shared':         true,
-                         'view_only':      false,
-                         'onUpdateState':  updateState});
-          //rfb.connect(window.location.hostname, 9393, password, "/" + path);
-          port = window.location.port;
-          if (port === "")
-            port = 80;
-          rfb.connect(window.location.hostname, port, password, path);
-      };
+        var host, port, password, path, token;
+        setupFullscreen()
+        setupModifier('sendCtrl', XK_Control_L)
+        setupModifier('sendAlt', XK_Alt_L)
+        setupModifier('sendWindows', XK_Meta_L)
+        document.title = unescape(#{json @server.name});
+        password = #{json @server.vnc_password};
+        path = #{json console_socket_server_path(@server)};
+        rfb = new RFB({'target':         $D('noVNC_canvas'),
+                       'encrypt':        false,
+                       'repeaterID':     false,
+                       'true_color':     true,
+                       'local_cursor':   false,
+                       'shared':         true,
+                       'view_only':      false,
+                       'onUpdateState':  updateState});
+        //rfb.connect(window.location.hostname, 9393, password, "/" + path);
+        port = window.location.port;
+        if (port === "")
+          port = 80;
+        rfb.connect(window.location.hostname, port, password, path);
+      }
+    }
+    $(document).ready(ready)
+    $(document).on("page:load", ready)
 
