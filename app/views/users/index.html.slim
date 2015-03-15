@@ -10,7 +10,7 @@ main
         th Password digest
         th Account
         th Administrator
-        th Ssh keys
+        th SSH keys
     tbody
       - @users.each do |user|
         tr
@@ -18,7 +18,7 @@ main
           td = user.name
           td = user.email
           td = user.password_digest
-          td = user.account
+          td = user.account_link
           td = user.administrator
           td = user.ssh_keys
   = paginate @users

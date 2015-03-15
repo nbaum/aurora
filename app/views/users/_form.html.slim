@@ -12,13 +12,10 @@
       td = f.text_field :name
     tr
       th = f.label :email
-      td = f.text_field :email
-    tr
-      th = f.label :password_digest
-      td = f.text_field :password_digest
+      td = f.text_field :email, size: 40
     tr
       th = f.label :account
-      td = f.text_field :account
+      td = f.select :account, Account.pluck(:name, :id)
     tr
       th = f.label :administrator
       td = f.check_box :administrator

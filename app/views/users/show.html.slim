@@ -8,14 +8,11 @@ main
       th Email
       td = @user.email
     tr
-      th Password digest
-      td = @user.password_digest
-    tr
       th Account
-      td = @user.account
+      td = @user.account_link
     tr
       th Administrator
       td = @user.administrator
     tr
-      th Ssh keys
+      th SSH keys
       td = @user.ssh_keys
