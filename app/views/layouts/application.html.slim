@@ -33,12 +33,12 @@ script src="/novnc/util.js"
         /li: h2 Financials
         /li = link_to icon('book', 'Tariffs', fw: true), :tariffs
         /li = link_to icon('gbp', 'Transactions', fw: true), :transactions
-        /li: h2 Management
-        /li = link_to icon('users', 'Users', fw: true), :users
+        li: h2 Management
+        li = link_to icon('users', 'Users', fw: true), :users
         /li = link_to icon('sliders', 'Settings', fw: true), '#'
       menu.admin
         li: h2 Administration
-        /li = link_to icon('institution', 'Accounts', fw: true), :accounts
+        li = link_to icon('institution', 'Accounts', fw: true), :accounts
         li = link_to icon('desktop', 'Hosts', fw: true), :hosts
         li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools
         li = link_to icon('building-o', 'Zones', fw: true), :zones
