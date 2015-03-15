@@ -16,5 +16,5 @@ Bundler.require(*Rails.groups)
 Dotenv.load
 
 class Application < Rails::Application
-  config.autoload_paths += %w"#{config.root}/lib/"
+  config.autoload_paths << Rails.root.join("lib")
 end
