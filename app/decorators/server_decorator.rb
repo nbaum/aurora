@@ -1,8 +1,20 @@
+using Aurora::Refinements::NumberFormatting
+
 class ServerDecorator < Draper::Decorator
   include Draper::Linker
   delegate_all
 
   links :zone, :appliance, :template, :bundle, :host, :iso, :root, :base
+
+  def memory_format
+    h.content_tag(:abbr, memory.*(1_048_576).binary_si,
+                  title: memory.*(1_048_576).delimited + " bytes")
+  end
+
+  def storage_format
+    h.content_tag(:abbr, storage.*(1_000_000_000).decimal_si,
+                  title: storage.*(1_000_000_000).delimited + " bytes")
+  end
 
   def state_icon
     case state
