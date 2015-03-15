@@ -1,14 +1,28 @@
 module Aurora
-  
+
   class Corona < BasicObject
-    
+
+    def self.defapi (*names)
+      names.each do |name|
+        define_method(name) do |args = {}|
+          invoke(name, args)
+        end
+      end
+    end
+
+    # Server APIs
+    defapi :start, :stop, :pause, :unpause, :suspend, :resume
+
+    # Volume APIs
+    defapi :realize, :delete
+
     def initialize (url, args = {})
       @url = url
       @http = ::Faraday.new(url: url)
       @args = args
     end
-    
-    def method_missing (name, args = {})
+
+    def invoke (name, args)
       ::Kernel.raise ::TypeError, "API arguments aren't a hash: #{args.inspect}" unless ::Hash === args
       res = @http.post(name.to_s, @args.merge(args).to_yaml)
       if res.status == 200
@@ -20,15 +34,15 @@ module Aurora
         ::Kernel.raise "Unexpected Corona status #{res.status}"
       end
     end
-    
+
     def local_variables
       {}
     end
-    
+
     def instance_variables
       {}
     end
-    
+
   end
-  
+
 end
