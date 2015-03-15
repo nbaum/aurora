@@ -1,41 +1,8 @@
 class ServerDecorator < Draper::Decorator
+  include Draper::Linker
   delegate_all
 
-  def link_if (item, name = item && item.name)
-    item ? h.link_to(name, item) : h.content_tag(:span, "(None)", class: 'subdue')
-  end
-
-  def zone_link
-    link_if(zone)
-  end
-
-  def appliance_link
-    link_if(appliance)
-  end
-
-  def template_link
-    link_if(template)
-  end
-
-  def bundle_link
-    link_if(bundle)
-  end
-
-  def host_link
-    link_if(host)
-  end
-
-  def iso_link
-    link_if(iso)
-  end
-
-  def root_link
-    link_if(root)
-  end
-
-  def base_link
-    link_if(base)
-  end
+  links :zone, :appliance, :template, :bundle, :host, :iso, :root, :base
 
   def state_icon
     case state
