@@ -10,15 +10,15 @@ main
       td = @server.cores
     tr
       th Memory
-      td #{@server.memory} MiB
+      td = @server.memory_format
     tr
       th Storage
       td
         - if @server.root
           =' @server.root_link
-          ' (#{@server.root.size / 1_000_000_000} GB)
+          ' (#{@server.root.decorate.size_format})
         - else
-          ' #{@server.storage} GB
+          = @server.storage_format
     tr
       th Password
       td = @server.password

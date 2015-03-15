@@ -26,8 +26,8 @@ table.table
         td = server.state_icon
         td = link_to server.name, server
         td = server.cores
-        td #{server.memory} MiB
-        td #{server.storage} GB
+        td = server.memory_format
+        td = server.storage_format
         /td = server.password
         /td = server.affinity_group
         /td = server.appliance_data

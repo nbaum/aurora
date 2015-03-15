@@ -1,9 +1,7 @@
 table.table
   thead
     tr
-      th ID
       th Name
-      th Path
       th Size
       th Ephemeral
       th Optical
@@ -16,10 +14,8 @@ table.table
   tbody
     - volumes.each do |volume|
       tr
-        td = volume.id
         td = link_to volume.name, volume
-        td = volume.path
-        td = volume.size
+        td = volume.size_format
         td = volume.ephemeral
         td = volume.optical
         td = volume.server_link

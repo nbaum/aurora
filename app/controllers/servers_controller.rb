@@ -1,3 +1,5 @@
+using Aurora::Refinements::NumberFormatting
+
 Thread.abort_on_exception = true
 
 class ServersController < ApplicationController
