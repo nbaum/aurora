@@ -2,16 +2,6 @@ module Aurora
   
   class Corona < BasicObject
     
-    class Error < ::StandardError
-      def initialize (message = nil, klass, backtrace)
-        super(message)
-        @klass, @backtrace = klass, backtrace
-      end
-      def backtrace
-        @backtrace
-      end
-    end
-    
     def initialize (url, args = {})
       @url = url
       @http = ::Faraday.new(url: url)
