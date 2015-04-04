@@ -19,9 +19,12 @@ script src="/novnc/util.js"
       = link_to image_tag("logo.png") + " Aurora", :root
     menu.links
       li = link_to "New Server", :new_server
-    /menu.account
-      li = link_to "#{current_user.name} ▼", current_user
-      li.avatar = image_tag gravatar_url(current_user.email, s: 34)
+    - if current_user
+      menu.account
+        li = link_to "#{current_account.name}", current_account
+        li = link_to "#{current_user.name}", current_user
+        li = link_to "Logout", [:terminate, current_session]
+        li.avatar = image_tag gravatar_url(current_user.email, s: 34)
   main.hbox class=@main_class
     nav
       menu.site
