@@ -14,11 +14,11 @@
       th = f.label :balance
       td = f.text_field :balance
     tr
-      th = f.label :tariff
-      td = f.select :tariff, Tariff.pluck(:name, :id)
+      th = f.label :tariff_id
+      td = f.select :tariff_id, Tariff.pluck(:name, :id)
     tr
-      th = f.label :zone
-      td = f.select :zone, Zone.pluck(:name, :id)
+      th = f.label :zone_id
+      td = f.select :zone_id, Zone.pluck(:name, :id)
     tr
       th
       td = f.button @account.new_record? ? "Create" : "Update"

@@ -4,17 +4,13 @@ main
   table.table
     thead
       tr
-        th ID
         th Name
-        th Dns1
-        th Dns2
         th Type
+        th DNS
     tbody
       - @zones.each do |zone|
         tr
-          td = link_to zone.id, zone
-          td = zone.name
-          td = zone.dns1
-          td = zone.dns2
+          td = link_to zone.name, zone
           td = zone.pretend ? 'Simulated' : 'Real'
+          td = zone.dns.join(", ")
   = paginate @zones

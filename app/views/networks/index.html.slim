@@ -17,8 +17,8 @@ main
     tbody
       - @networks.each do |network|
         tr
-          td = link_to network.id, network
-          td = network.name
+          td = network.id
+          td = link_to network.name, network
           td = network.bridge
           td = network.gateway
           td = network.prefix

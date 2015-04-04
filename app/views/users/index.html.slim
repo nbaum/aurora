@@ -9,14 +9,12 @@ main
         th Email
         th Account
         th Administrator
-        th SSH keys
     tbody
       - @users.each do |user|
         tr
-          td = link_to user.id, user
-          td = user.name
+          td = user.id
+          td = link_to user.name, user
           td = user.email
           td = user.account_link
           td = user.administrator
-          td = user.ssh_keys
   = paginate @users

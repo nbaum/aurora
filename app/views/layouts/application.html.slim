@@ -1,6 +1,6 @@
 doctype html
 meta charset="utf-8"
-title = [@title.reverse, "Aurora"].join(" - ")
+title = ["Aurora", *@title].reverse.join(" - ")
 = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
 = javascript_include_tag 'application', 'data-turbolinks-track' => true
 script src="/novnc/util.js"

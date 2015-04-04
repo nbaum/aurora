@@ -21,7 +21,7 @@
       td = f.check_box :administrator
     tr
       th = f.label :ssh_keys
-      td = f.text_area :ssh_keys
+      td = f.text_area :ssh_keys, cols: 80, rows: 15
     tr
       th
       td = f.button @user.new_record? ? "Create" : "Update"

@@ -5,11 +5,6 @@ main
       th Name
       td = @zone.name
     tr
-      th Dns1
-      td = @zone.dns1
-    tr
-      th Dns2
-      td = @zone.dns2
       th Type
       td
         - if @zone.pretend
@@ -18,4 +13,7 @@ main
           - else
             ' Simulated, with a 1 in #{r} chance of failure.
         - else
-          ' Real
+          ' Real 
+    tr
+      th DNS
+      td = @zone.dns.join(", ")

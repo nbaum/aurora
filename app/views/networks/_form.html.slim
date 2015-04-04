@@ -26,14 +26,14 @@
       th = f.label :last
       td = f.text_field :last
     tr
-      th = f.label :account
-      td = f.text_field :account
+      th = f.label :account_id
+      td = f.select :account_id, Account.pluck(:name, :id).or_none
     tr
-      th = f.label :bundle
-      td = f.text_field :bundle
+      th = f.label :bundle_id
+      td = f.select :bundle_id, Bundle.pluck(:name, :id).or_none
     tr
-      th = f.label :zone
-      td = f.text_field :zone
+      th = f.label :zone_id
+      td = f.select :zone_id, Zone.pluck(:name, :id)
     tr
       th
       td = f.button @network.new_record? ? "Create" : "Update"

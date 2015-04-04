@@ -4,7 +4,6 @@ main
   table.table
     thead
       tr
-        th ID
         th Name
         th Balance
         th Tariff
@@ -12,8 +11,7 @@ main
     tbody
       - @accounts.each do |account|
         tr
-          td = link_to account.id, account
-          td = account.name
+          td = link_to account.name, account
           td = account.balance
           td = account.tariff_link
           td = account.zone_link
