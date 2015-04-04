@@ -19,7 +19,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users do
+    member do
+      get :password
+    end
+  end
+
   resources :transactions
   resources :tariffs
   resources :addresses
