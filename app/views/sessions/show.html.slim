@@ -1,0 +1,13 @@
+= render("header")
+main
+  table.properties
+    tr
+      th User
+      td = @session.user_link
+    tr
+      th Started
+      td = @session.started_at
+    tr
+      th Ended
+      td = @session.ended_at
+

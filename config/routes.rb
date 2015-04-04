@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
-  
+
+  resources :sessions do
+    member do
+      get :terminate
+      post :terminate
+    end
+  end
+
   resources :appliances
   resources :zones
   resources :hosts
   resources :accounts
-  
+
   resources :storage_pools do
     member do
       get :volumes

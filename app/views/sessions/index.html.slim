@@ -1,0 +1,18 @@
+= render("header")
+main
+  = paginate @sessions
+  table.table
+    thead
+      tr
+        th
+        th User
+        th Started
+        th Ended
+    tbody
+      - @sessions.each do |session|
+        tr
+          td = link_to session.id, session
+          td = session.user_link
+          td = session.started_at
+          td = session.ended_at
+  = paginate @sessions

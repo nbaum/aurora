@@ -1,0 +1,5 @@
+= render("header")
+- @title << "Edit"
+main
+  p = button_to [:terminate, @session] do
+    = icon("sign-out", "Terminate")

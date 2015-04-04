@@ -1,0 +1,22 @@
+= render("header")
+main
+  = form_for @session do |f|
+    - if @session.errors.any?
+      .errors
+        i.fa.fa-exclamation-triangle.fa-fw
+        h2 = "#{pluralize(@session.errors.count, "error")} prohibited this session from being saved:"
+        ul
+          - @session.errors.full_messages.each do |message|
+            li = message
+    .hidden
+      = hidden_field_tag :path, params[:path]
+    table.properties
+      tr
+        th = f.label :email
+        td = f.text_field :email
+      tr
+        th = f.label :password
+        td = f.password_field :password
+      tr
+        th
+        td = f.button "Login"
