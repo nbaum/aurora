@@ -52,3 +52,5 @@ gem 'awesome_print'
 gem 'puma'
 
 gem 'tubesock'
+
+gem 'exception_handler'

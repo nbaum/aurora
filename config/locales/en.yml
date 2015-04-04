@@ -24,3 +24,8 @@ en:
     label:
       server:
         password: "VNC Password"
+  exception:
+    show:
+      internal_server_error:
+        aurora/corona/error:
+          title: "Backend Error"

@@ -78,6 +78,7 @@ GEM
       activesupport (>= 3.0)
       request_store (~> 1.0)
     erubis (2.7.0)
+    exception_handler (0.3.45)
     execjs (2.2.1)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
@@ -202,6 +203,7 @@ DEPENDENCIES
   compass-rails
   dotenv
   draper
+  exception_handler
   faraday
   font-awesome-rails
   jbuilder (~> 2.0)

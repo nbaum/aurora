@@ -1,0 +1,17 @@
+- if @status.to_s == "404"
+  header
+    h1 Page Not Found
+  ul
+    li If you typed in the address, check your spelling.
+    li If you followed a link, it’s probably broken.
+    li If you’re not sure what you’re looking for, start at #{link_to "the home page", "/", exact: true}.
+- else
+  div.error
+    = image_tag "exception_handler/alert.png", width: "150", alt: "Error!", title: "Sorry, A Server Error Occurred", class: "alert"
+    .message
+      strong = details[:name]
+      span = details[:message]
+    /.contact
+      - ExceptionHandler.config.social.each do |item, address|
+        = link_to image_tag("exception_handler/contact/#{item}.png", title: item.to_s.titleize), address
+
