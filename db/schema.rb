@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210170440) do
+ActiveRecord::Schema.define(version: 20150318172810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,12 @@ ActiveRecord::Schema.define(version: 20150210170440) do
   add_index "servers_volumes", ["server_id"], name: "index_servers_volumes_on_server_id", using: :btree
   add_index "servers_volumes", ["volume_id"], name: "index_servers_volumes_on_volume_id", using: :btree
 
+  create_table "sessions", force: true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "snippets", force: true do |t|
     t.string   "name"
     t.text     "html"
@@ -256,6 +262,8 @@ ActiveRecord::Schema.define(version: 20150210170440) do
     t.string   "dns2"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "pretend",     default: false
+    t.integer  "reliability", default: 0
   end
 
 end
