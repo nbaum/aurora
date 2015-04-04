@@ -35,7 +35,6 @@ class Server < ActiveRecord::Base
   after_initialize if: :new_record? do
     self.name ||= Chaucer.server_name
     self.affinity_group ||= 0
-    self.zone ||= account && account.zone
     self.state ||= 'stopped'
     self.password ||= SecureRandom.base64(6)
   end
@@ -226,16 +225,20 @@ class Server < ActiveRecord::Base
 
   private
 
+  def effective_zone
+    zone ? zone : account ? account.zone : nil
+  end
+
   def allocate_address
     if !address
-      a = zone.networks.first.addresses.unassigned.first
+      a = effective_zone.networks.first.addresses.unassigned.first
       a.update! server: self
     end
   end
 
   def realize_storage
     if !root and self.storage > 0
-      volume = Volume.create!(server: self, account: account, size: storage * 1_000_000_000, zone: zone, name: "root")
+      volume = Volume.create!(server: self, account: account, size: storage * 1_000_000_000, zone: effective_zone, name: "root")
       attachments.create!(volume: volume, attachment: 'hda')
       volume.realize
     end
@@ -243,7 +246,7 @@ class Server < ActiveRecord::Base
   end
 
   def assign_host
-    self.host = zone.pick_host(self)
+    self.host = effective_zone.pick_host(self)
   end
 
   def guest_data

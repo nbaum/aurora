@@ -60,7 +60,7 @@
       td = f.select :account_id, [["(None)", 0], *Account.pluck(:name, :id)]
     tr
       th = f.label :zone_id
-      td = f.select :zone_id, [["(None)", 0], *Zone.pluck(:name, :id)]
+      td = f.select :zone_id, [["(Account Default)", 0], *Zone.pluck(:name, :id)]
     tr
       th = f.label :appliance_id
       td = f.select :appliance_id, [["(None)", 0], *Appliance.pluck(:name, :id)]
