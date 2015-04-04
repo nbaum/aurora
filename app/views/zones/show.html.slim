@@ -10,3 +10,12 @@ main
     tr
       th Dns2
       td = @zone.dns2
+      th Type
+      td
+        - if @zone.pretend
+          - if (r = @zone.reliability) == 0
+            ' Simulated
+          - else
+            ' Simulated, with a 1 in #{r} chance of failure.
+        - else
+          ' Real

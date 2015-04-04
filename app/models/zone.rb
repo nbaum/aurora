@@ -15,8 +15,20 @@ class Zone < ActiveRecord::Base
     hosts.sample
   end
 
+  class PretendApi < BasicObject
+    
+    def realize (args)
+      true
+    end
+    
+  end
+
   def api (url, args = {})
-    Aurora::Corona.new(url, args)
+    if pretend
+      Aurora::Corona::Fake.new(reliability, url, args)
+    else
+      Aurora::Corona.new(url, args)
+    end
   end
 
 end

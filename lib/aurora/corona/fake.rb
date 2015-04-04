@@ -1,5 +1,11 @@
 class Aurora::Corona::Fake < BasicObject
 
+  def initialize (reliability, url, args)
+    @reliability = reliability
+    @url = url
+    @args = args
+  end
+
   def realize (base: nil, size: nil)
     maybe_fail
   end
@@ -34,8 +40,12 @@ class Aurora::Corona::Fake < BasicObject
 
   private
 
-  def maybe_fail
-    ::Kernel.rand(2) > 0 ? true : ::Kernel.raise(::Aurora::Corona::Error, "Simulated failure")
+  def maybe_fail (value = true, &block)
+    if ::Kernel.rand(@reliability) > 0
+      block ? block.() : value
+    else
+      ::Kernel.raise ::Aurora::Corona::Error.new("Simulated failure", nil, ::Kernel.caller)
+    end
   end
 
 end

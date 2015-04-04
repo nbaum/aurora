@@ -45,7 +45,7 @@ class ZonesController < ApplicationController
   end
 
   def zone_params
-    params.require(:zone).permit(:name, :dns1, :dns2)
+    params.require(:zone).permit(:name, :dns1, :dns2, :pretend, :reliability)
   end
 
 end

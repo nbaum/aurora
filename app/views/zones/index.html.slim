@@ -8,6 +8,7 @@ main
         th Name
         th Dns1
         th Dns2
+        th Type
     tbody
       - @zones.each do |zone|
         tr
@@ -15,4 +16,5 @@ main
           td = zone.name
           td = zone.dns1
           td = zone.dns2
+          td = zone.pretend ? 'Simulated' : 'Real'
   = paginate @zones

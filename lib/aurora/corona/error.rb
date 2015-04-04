@@ -1,6 +1,6 @@
 class Aurora::Corona::Error < StandardError
 
-  def initialize (message = nil, klass, backtrace)
+  def initialize (message = nil, klass = nil, backtrace = [])
     super(message)
     @klass, @backtrace = klass, backtrace
   end

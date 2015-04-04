@@ -11,6 +11,14 @@
       th = f.label :name
       td = f.text_field :name
     tr
+      th
+      td
+        label
+          =' f.check_box :pretend
+          ' Fake zone. Simulate API requests with a 1 in 
+          =' f.number_field :reliability, min: 0, max: 1000
+          ' chance of failing. (0 means never fail.)
+    tr
       th = f.label :dns1
       td = f.text_field :dns1
     tr
