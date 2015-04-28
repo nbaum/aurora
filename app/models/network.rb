@@ -6,8 +6,10 @@ class Network < ActiveRecord::Base
   has_many :addresses
 
   before_save do
-    (first..last).each do |addr|
-      addresses.where(ip: addr).first_or_create!
+    if first && last
+      (first..last).each do |addr|
+        addresses.where(ip: addr).first_or_create!
+      end
     end
   end
 

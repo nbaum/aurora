@@ -4,7 +4,7 @@ class ServerDecorator < Draper::Decorator
   include Draper::Linker
   delegate_all
 
-  links :zone, :appliance, :template, :bundle, :host, :iso, :root, :base
+  links :zone, :appliance, :template, :bundle, :host, :iso, :root, :account
 
   def memory_format
     h.content_tag(:abbr, memory.*(1_048_576).binary_si,

@@ -11,14 +11,11 @@ table.table
       /th Affinity group
       /th Appliance data
       th Template
-      /th Host
-      /th Account
+      th Host
+      th Account
       th Zone
       th Appliance
       th Bundle
-      /th Published at
-      /th Base
-      /th Current
   tbody
     - servers.each do |server|
       tr
@@ -32,11 +29,8 @@ table.table
         /td = server.affinity_group
         /td = server.appliance_data
         td = server.template_link
-        /td = server.host
-        /td = server.account_link
+        td = server.host_link
+        td = server.account_link
         td = server.zone_link
         td = server.appliance_link
         td = server.bundle_link
-        /td = server.published_at
-        /td = server.base
-        /td = server.current

@@ -48,7 +48,7 @@ class Server < ActiveRecord::Base
   end
 
   before_create do
-    self.state = 'suspended' if template and (template.state == 'running' or template.state == 'paused') 
+    self.state = 'suspended' if template and (template.state == 'running' or template.state == 'paused')
   end
 
   after_create do

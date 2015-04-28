@@ -12,9 +12,12 @@ main
       = hidden_field_tag :path, params[:path]
     table.properties
       tr
+        th = f.label :user_id
+        td = f.select :user_id, User.all.pluck(:name, :id)
+      /tr
         th = f.label :email
         td = f.text_field :email
-      tr
+      /tr
         th = f.label :password
         td = f.password_field :password
       tr

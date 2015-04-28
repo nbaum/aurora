@@ -14,8 +14,8 @@
       th = f.label :email
       td = f.text_field :email, size: 40
     tr
-      th = f.label :account
-      td = f.select :account, Account.pluck(:name, :id)
+      th = f.label :account_id
+      td = f.select :account_id, Account.pluck(:name, :id)
     tr
       th = f.label :administrator
       td = f.check_box :administrator
