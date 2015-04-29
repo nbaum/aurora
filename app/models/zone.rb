@@ -12,15 +12,15 @@ class Zone < ActiveRecord::Base
   end
 
   def pick_host (server)
-    hosts.sample
+    hosts.compute.sample
   end
 
   class PretendApi < BasicObject
-    
+
     def realize (args)
       true
     end
-    
+
   end
 
   def api (url, args = {})
