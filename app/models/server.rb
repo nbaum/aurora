@@ -204,7 +204,13 @@ class Server < ActiveRecord::Base
       memory: memory,
       cores: cores,
       display: id,
-      mac: generate_mac,
+      ports: [
+        {
+          mac: generate_mac(0),
+          net: address.network.bridge,
+          if: "vm#{id}i0"
+        },
+      ],
       password: vnc_password,
       guest_data: guest_data,
       type: machine_type,
@@ -259,10 +265,10 @@ class Server < ActiveRecord::Base
     }
   end
 
-  def generate_mac
+  def generate_mac (index)
     return nil unless id
-    h = id #<< 2 | 0x2
-    h <<= 4
+    fail "Can't have more than 16 interfaces" if index > 15
+    h = id << 4 | index
     h |= 0x020000000000
     [h << 16].pack("Q>").unpack("H2" * 6).join(":")
   end
