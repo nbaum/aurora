@@ -80,7 +80,7 @@ main
           = @server.address.network.gateway
         - else
           .subdue() (None assigned)
-    tr
-      th DNS
-      td = @server.zone.dns.join(", ")
-
+    - if @server.zone
+      tr
+        th DNS
+        td = @server.zone.dns.join(", ")
