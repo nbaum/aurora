@@ -27,7 +27,7 @@ class Server < ActiveRecord::Base
 
   has_many :volumes, :dependent => :destroy
   has_many :attachments, class_name: 'ServerVolume', :dependent => :destroy
-  has_many :addresses
+  has_many :addresses, :dependent => :nullify
 
   validates :name, presence: true
   validates :password, presence: true, allow_nil: true, length: { is: 8 }
