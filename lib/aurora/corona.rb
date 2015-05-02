@@ -14,7 +14,7 @@ module Aurora
     defapi :start, :stop, :pause, :unpause, :suspend, :resume
 
     # Volume APIs
-    defapi :realize, :delete
+    defapi :realize, :delete, :list_volumes
 
     def initialize (url, args = {})
       @url = url
