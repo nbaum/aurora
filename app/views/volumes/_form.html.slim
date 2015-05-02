@@ -11,9 +11,6 @@
       th = f.label :name
       td = f.text_field :name, size: 32
     tr
-      th = f.label :path
-      td = f.text_field :path, size: 128
-    tr
       th = f.label :size
       td = f.number_field :size
     tr
@@ -27,22 +24,22 @@
       td
         label
           =' f.check_box :optical
-          ' Attach as a virtual optical drive than a virtual disk drive.
+          ' Attach as a virtual optical drive rather than a virtual disk drive.
     tr
-      th = f.label :server
-      td = @volume.server_link
+      th = f.label :server_id
+      td = f.select :server_id, [["(None)", 0], *Server.pluck(:name, :id)]
     tr
-      th = f.label :base
-      td = @volume.base_link
+      th = f.label :base_id
+      td = f.select :base_id, [["(None)", 0], *Volume.pluck(:name, :id)]
     tr
-      th = f.label :account
-      td = @volume.account_link
+      th = f.label :account_id
+      td = f.select :account_id, [["(None)", 0], *Account.pluck(:name, :id)]
     tr
       th = f.label :bundle_id
-      td = f.text_field :bundle_id
+      td = f.select :bundle_id, [["(None)", 0], *Bundle.pluck(:name, :id)]
     tr
       th = f.label :storage_pool_id
-      td = f.text_field :storage_pool_id
+      td = f.select :storage_pool_id, [*StoragePool.pluck(:name, :id)]
     tr
       th = f.label :published_at
       td = f.datetime_select :published_at
