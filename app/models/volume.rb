@@ -14,7 +14,7 @@ class Volume < ActiveRecord::Base
     self.ephemeral = false
     self.optical = false
     uuid = SecureRandom.uuid
-    self.path = [*uuid.chars[0, 4], uuid].join("/")
+    self.path ||= [*uuid.chars[0, 4], uuid].join("/")
   end
 
   after_destroy do
