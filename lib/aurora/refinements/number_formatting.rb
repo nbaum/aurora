@@ -22,7 +22,8 @@ module Aurora
             next if self / mul == 0
             return ("%.2f" % [self / mul.to_f]).gsub(/\.0+$/, '') + prefix + suffix
           end
-        end 
+          return "0" + suffix
+        end
 
         def decimal_si (suffix = "B")
           prefixes = [
@@ -40,11 +41,12 @@ module Aurora
             next if self / mul == 0
             return ("%.2f" % [self / mul.to_f]).gsub(/\.0+$/, '') + prefix + suffix
           end
-        end 
+          return "0" + suffix
+        end
 
         def delimited
           to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
-        end 
+        end
 
       end
 
