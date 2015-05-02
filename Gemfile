@@ -43,7 +43,6 @@ gem 'capistrano'
 gem 'capistrano-rvm'
 gem 'capistrano-bundler'
 gem 'capistrano-rails'
-gem 'capistrano-passenger'
 
 gem 'dotenv'
 
