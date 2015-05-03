@@ -4,5 +4,3 @@ main
   = render("form")
   p = button_to @network, method: :delete do
     = icon("trash-o", "Delete")
-  p = button_to [:upgrade, @network] do
-    = icon("arrow-up", "Upgrade to subnets")
