@@ -1,0 +1,18 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Kind
+      td = @subnet.kind
+    tr
+      th Gateway
+      td = @subnet.gateway
+    tr
+      th Prefix
+      td = @subnet.prefix
+    tr
+      th First
+      td = @subnet.first
+    tr
+      th Last
+      td = @subnet.last

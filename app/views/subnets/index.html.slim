@@ -1,0 +1,18 @@
+= render("header")
+main
+  = paginate @subnets
+  table.table
+    thead
+      tr
+        th Kind
+        th Subnet
+        th Prefix Length
+        th Gateway
+    tbody
+      - @subnets.each do |subnet|
+        tr
+          td = subnet.kind
+          td = link_to subnet.name, [@network, subnet]
+          td = subnet.prefix
+          td = subnet.gateway
+  = paginate @subnets

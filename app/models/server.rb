@@ -76,11 +76,11 @@ class Server < ActiveRecord::Base
   end
 
   def resume (tag = id)
+    raise Error.new("Server isn't suspended") if resume && state != 'suspended'
     start(true, tag)
   end
 
   def start (resume = false, tag = id)
-    raise Error.new("Server isn't suspended") unless !resume or state == 'suspended'
     raise Error.new("Server isn't stopped") unless state == 'stopped' or state == 'suspended'
     transaction do |tx|
       assign_host unless host
@@ -207,17 +207,17 @@ class Server < ActiveRecord::Base
       ports: [
         {
           mac: generate_mac(0),
-          net: address.network.bridge,
+          net: ipv4_address.subnet.network.bridge,
           if: "vm#{id}i0"
         },
       ],
       password: vnc_password,
-      guest_data: guest_data,
       type: machine_type,
       boot_order: boot_order,
       name: name,
       cd: iso && iso.config,
-      hd: root && root.config
+      hd: root && root.config,
+      guest_data: guest_data,
     }
   end
 
@@ -225,8 +225,12 @@ class Server < ActiveRecord::Base
     host.api(instance: id)
   end
 
-  def address
-    addresses.first
+  def ipv4_address
+    addresses.joins(:subnet).find_by(subnets: { kind: 'IPv4' })
+  end
+
+  def ipv6_address
+    addresses.joins(:subnet).find_by(subnets: { kind: 'IPv6' })
   end
 
   private
@@ -236,9 +240,11 @@ class Server < ActiveRecord::Base
   end
 
   def allocate_address
-    if !address
-      a = effective_zone.networks.first.addresses.unassigned.first
-      a.update! server: self
+    if !ipv4_address
+      effective_zone.networks.first.allocate_address('IPv4', server: self)
+    end
+    if !ipv6_address
+      effective_zone.networks.first.allocate_address('IPv6', server: self)
     end
   end
 
@@ -257,10 +263,18 @@ class Server < ActiveRecord::Base
 
   def guest_data
     {
-      address: address.ip.to_s,
-      prefix: address.network.prefix,
-      netmask: address.network.netmask,
-      gateway: address.network.gateway,
+      ipv4: ipv4_address && {
+        address: ipv4_address.ip.to_s,
+        prefix:  ipv4_address.network.prefix,
+        netmask: ipv4_address.network.netmask,
+        gateway: ipv4_address.network.gateway,
+      },
+      ipv6: ipv6_address && {
+        address: ipv6_address.ip.to_s,
+        prefix:  ipv6_address.network.prefix,
+        netmask: ipv6_address.network.netmask,
+        gateway: ipv6_address.network.gateway,
+      },
       hostname: name.downcase.tr('^a-z0-9-', '')
     }
   end

@@ -1,16 +1,19 @@
 - @title << "Addresses"
 - if @address.nil? or @address.new_record?
   header
+    h2 #{link_to @network.name, @network} > #{link_to @subnet.name, [@network, @subnet]}
     h1 = @title.last
   menu
-    li = link_to "List", [:addresses], exact: true
-    li = link_to "New", [:new, :address]
+    li = link_to "← Subnet", [@network, @subnet], exact: true, class: "bare"
+    li = link_to "List", [@network, @subnet, :addresses], exact: true
+    li = link_to "New", [:new, @network, @subnet, :address]
   - @title << "New" if !@address.nil?
 - else
   - @title << "Address"
   header
-    h1 = @title.last
+    h2 #{link_to @network.name, @network} > #{link_to @subnet.name, [@network, @subnet]}
+    h1 = @address.ip
   menu
-    li = link_to "← Address List", :addresses, exact: true, class: "bare"
-    li = link_to "View", @address, exact: true
-    li = link_to "Edit", [:edit, @address]
+    li = link_to "← Address List", [@network, @subnet, :addresses], exact: true, class: "bare"
+    li = link_to "View", [@network, @subnet, @address], exact: true
+    li = link_to "Edit", [:edit, @network, @subnet, @address]

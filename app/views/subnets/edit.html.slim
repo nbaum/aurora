@@ -2,5 +2,5 @@
 - @title << "Edit"
 main
   = render("form")
-  p = button_to [@network, @subnet, @address], method: :delete do
+  p = button_to [@network, @subnet], method: :delete do
     = icon("trash-o", "Delete")

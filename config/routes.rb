@@ -27,14 +27,16 @@ Rails.application.routes.draw do
 
   resources :transactions
   resources :tariffs
-  resources :addresses
-  
+
   resources :networks do
     member do
-      get :addresses
+      post :upgrade
+    end
+    resources :subnets do
+      resources :addresses
     end
   end
-  
+
   resources :servers_volumes
 
   resources :volumes do

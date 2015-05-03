@@ -1,0 +1,31 @@
+= form_for [@network, @subnet] do |f|
+  - if @subnet.errors.any?
+    .errors
+      i.fa.fa-exclamation-triangle.fa-fw
+      h2 = "#{pluralize(@subnet.errors.count, "error")} prohibited this subnet from being saved:"
+      ul
+        - @subnet.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :kind
+      td = f.select :kind, Subnet::KINDS
+    tr
+      th = f.label :gateway
+      td = f.text_field :gateway
+    tr
+      th = f.label :prefix
+      td = f.text_field :prefix
+    tr
+      th = f.label :first
+      td = f.text_field :first
+    tr
+      th = f.label :last
+      td = f.text_field :last
+    tr
+      th = f.label :network_id
+      td = f.select :network_id, Network.pluck(:name, :id)
+    tr
+      th
+      td = f.button @subnet.new_record? ? "Create" : "Update"

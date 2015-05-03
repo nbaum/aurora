@@ -65,22 +65,41 @@ main
       th Current
       td = @server.current
   h2 Network Settings
+  h3 IPv4
   table.properties
     tr
       th Address
       td
-        - if @server.address
-          = @server.address.ip
+        - if @server.ipv4_address
+          = @server.ipv4_address.ip
         - else
           .subdue() (None assigned)
     tr
       th Gateway
       td
-        - if @server.address
-          = @server.address.network.gateway
+        - if @server.ipv4_address
+          = @server.ipv4_address.network.gateway
         - else
           .subdue() (None assigned)
-    - if @server.zone
+  h3 IPv6
+  table.properties
+    tr
+      th Address
+      td
+        - if @server.ipv6_address
+          = @server.ipv6_address.ip
+        - else
+          .subdue() (None assigned)
+    tr
+      th Gateway
+      td
+        - if @server.ipv6_address
+          = @server.ipv6_address.network.gateway
+        - else
+          .subdue() (None assigned)
+  - if @server.zone
+    h3 DNS
+    table.properties
       tr
-        th DNS
+        th Servers
         td = @server.zone.dns.join(", ")

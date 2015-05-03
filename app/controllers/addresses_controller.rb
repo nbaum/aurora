@@ -1,5 +1,8 @@
 class AddressesController < ApplicationController
 
+  before_action :set_network
+  before_action :set_subnet
+
   before_action :set_addresses
   before_action :set_address, except: [:new]
 
@@ -30,13 +33,23 @@ class AddressesController < ApplicationController
 
   def destroy
     @address.destroy
-    redirect_to addresses_url, notice: 'Address was successfully destroyed.'
+    redirect_to [@network, @subnet, :addresses], notice: 'Address was successfully destroyed.'
   end
 
   private
 
+  def set_network
+    return if params[:network_id].nil?
+    @network = Network.find(params[:network_id]).decorate
+  end
+
+  def set_subnet
+    return if params[:subnet_id].nil?
+    @subnet = @network.subnets.find(params[:subnet_id]).decorate
+  end
+
   def set_addresses
-    @addresses = Address.all
+    @addresses = @subnet.addresses.all
   end
 
   def set_address

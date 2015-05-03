@@ -14,18 +14,6 @@
       th = f.label :bridge
       td = f.text_field :bridge
     tr
-      th = f.label :gateway
-      td = f.text_field :gateway
-    tr
-      th = f.label :prefix
-      td = f.number_field :prefix
-    tr
-      th = f.label :first
-      td = f.text_field :first
-    tr
-      th = f.label :last
-      td = f.text_field :last
-    tr
       th = f.label :account_id
       td = f.select :account_id, Account.pluck(:name, :id).or_none
     tr

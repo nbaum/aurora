@@ -1,4 +1,4 @@
-= form_for @address do |f|
+= form_for [@network, @subnet, @address] do |f|
   - if @address.errors.any?
     .errors
       h2 = "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
@@ -11,14 +11,11 @@
       th = f.label :ip
       td = f.text_field :ip
     tr
-      th = f.label :account
-      td = f.text_field :account
+      th = f.label :account_id
+      td = f.select :account_id, Account.pluck(:name, :id).or_none
     tr
-      th = f.label :server
-      td = f.text_field :server
-    tr
-      th = f.label :network
-      td = f.text_field :network
+      th = f.label :server_id
+      td = f.select :server_id, Server.pluck(:name, :id).or_none
     tr
       th
       td = f.button @address.new_record? ? "Create" : "Update"

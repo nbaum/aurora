@@ -4,17 +4,13 @@ main
   table.table
     thead
       tr
-        th ID
-        th Ip
+        th Address
         th Account
         th Server
-        th Network
     tbody
       - @addresses.each do |address|
         tr
-          td = link_to address.id, address
-          td = address.ip
-          td = address.account
-          td = address.server
-          td = address.network
+          td = link_to address.ip, [@network, @subnet, address]
+          td = address.account_link
+          td = address.server_link
   = paginate @addresses

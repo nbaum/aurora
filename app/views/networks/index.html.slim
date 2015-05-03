@@ -7,10 +7,6 @@ main
         th ID
         th Name
         th Bridge
-        th Gateway
-        th Prefix
-        th First
-        th Last
         th Account
         th Bundle
         th Zone
@@ -20,11 +16,7 @@ main
           td = network.id
           td = link_to network.name, network
           td = network.bridge
-          td = network.gateway
-          td = network.prefix
-          td = network.first
-          td = network.last
           td = network.account_link
-          td = network.bundle
+          td = network.bundle_link
           td = network.zone_link
   = paginate @networks

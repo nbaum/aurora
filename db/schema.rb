@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150318172810) do
+ActiveRecord::Schema.define(version: 20150503145758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,11 +35,13 @@ ActiveRecord::Schema.define(version: 20150318172810) do
     t.integer  "network_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "subnet_id"
   end
 
   add_index "addresses", ["account_id"], name: "index_addresses_on_account_id", using: :btree
   add_index "addresses", ["network_id"], name: "index_addresses_on_network_id", using: :btree
   add_index "addresses", ["server_id"], name: "index_addresses_on_server_id", using: :btree
+  add_index "addresses", ["subnet_id"], name: "index_addresses_on_subnet_id", using: :btree
 
   create_table "addresses_networks", force: true do |t|
     t.string   "attachment"
@@ -199,6 +201,19 @@ ActiveRecord::Schema.define(version: 20150318172810) do
 
   add_index "storage_pools", ["account_id"], name: "index_storage_pools_on_account_id", using: :btree
   add_index "storage_pools", ["host_id"], name: "index_storage_pools_on_host_id", using: :btree
+
+  create_table "subnets", force: true do |t|
+    t.string   "kind"
+    t.string   "prefix"
+    t.inet     "gateway"
+    t.inet     "first"
+    t.inet     "last"
+    t.integer  "network_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subnets", ["network_id"], name: "index_subnets_on_network_id", using: :btree
 
   create_table "tariffs", force: true do |t|
     t.boolean  "default"
