@@ -17,6 +17,7 @@ gem 'compass-rails'
 gem 'coffee-rails', '~> 4.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'carrierwave'
 
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
