@@ -35,8 +35,12 @@ class Volume < ActiveRecord::Base
     @zone = zone
   end
 
-  def config
+  def full_path ()
     "#{pool.path}/#{path}"
+  end
+
+  def config
+    full_path
   end
 
   def clone (**attrs)

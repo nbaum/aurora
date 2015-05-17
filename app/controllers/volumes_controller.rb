@@ -42,6 +42,11 @@ class VolumesController < ApplicationController
     redirect_to @volume, notice: 'Volume was successfully wiped.'
   end
 
+  def upload!
+    vu = VolumeUploader.new @volume
+    vu.store! params[:volume][:file]
+  end
+
   private
 
   def set_volumes

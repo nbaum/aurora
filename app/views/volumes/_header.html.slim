@@ -22,4 +22,5 @@
     li = link_to "← Volume List", :volumes, exact: true, class: "bare"
     li = link_to "View", @volume, exact: true
     li = link_to "Edit", [:edit, @volume]
+    li = link_to "Upload", [:upload, @volume]
     li = link_to "Attachments", [:attachments, @volume]

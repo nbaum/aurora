@@ -41,8 +41,9 @@ Rails.application.routes.draw do
 
   resources :volumes do
     member do
-      get :attachments
+      get :attachments, :upload
       post :wipe
+      post :upload, action: :upload!
     end
   end
 

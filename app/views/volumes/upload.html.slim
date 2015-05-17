@@ -1,0 +1,17 @@
+= render("header")
+- @title << "Edit"
+main
+  = form_for [:upload, @volume], method: "POST" do |f|
+    - if @volume.errors.any?
+      .errors
+        h2 = "#{pluralize(@volume.errors.count, "error")} prohibited this volume from being saved:"
+        ul
+          - @volume.errors.full_messages.each do |message|
+            li = message
+    table.properties
+      tr
+        th = f.label :file
+        td = f.file_field :file, size: 32
+      tr
+        th
+        td = f.button "Upload"
