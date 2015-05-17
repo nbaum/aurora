@@ -11,7 +11,7 @@ module Aurora
     end
 
     # Server APIs
-    defapi :start, :stop, :pause, :unpause, :suspend, :resume
+    defapi :start, :stop, :pause, :unpause, :suspend, :resume, :reset
 
     # Volume APIs
     defapi :realize, :delete, :list_volumes
