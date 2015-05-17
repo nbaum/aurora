@@ -44,7 +44,9 @@ class VolumesController < ApplicationController
 
   def upload!
     vu = VolumeUploader.new @volume
+    @volume.update! size: params[:volume][:file].size.inspect
     vu.store! params[:volume][:file]
+    redirect_to :back, notice: 'Volume data uploaded.'
   end
 
   private
