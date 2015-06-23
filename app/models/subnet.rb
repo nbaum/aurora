@@ -32,6 +32,14 @@ class Subnet < ActiveRecord::Base
     end
   end
 
+  def ipv4?
+    kind == 'IPv4'
+  end
+
+  def ipv6?
+    kind == 'IPv6'
+  end
+
   def name
     format("%s - %s", first, last)
   end
@@ -44,6 +52,14 @@ class Subnet < ActiveRecord::Base
       addresses.create! to.merge(ip: first, network: network)
     elsif addresses.order("ip DESC").first.ip < last
       addresses.create! to.merge(ip: addresses.order("ip DESC").first.ip.succ, network: network)
+    end
+  end
+
+  def netmask
+    if ipv4?
+      [(0xFFFFFFFF & ((1 << prefix.to_i) - 1))].pack("L").unpack("C4").join(".")
+    else
+      nil
     end
   end
 

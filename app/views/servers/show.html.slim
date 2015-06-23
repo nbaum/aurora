@@ -78,7 +78,7 @@ main
       th Gateway
       td
         - if @server.ipv4_address
-          = @server.ipv4_address.network.gateway
+          = @server.ipv4_address.subnet.gateway
         - else
           .subdue() (None assigned)
   h3 IPv6
@@ -94,7 +94,7 @@ main
       th Gateway
       td
         - if @server.ipv6_address
-          = @server.ipv6_address.network.gateway
+          = @server.ipv6_address.subnet.gateway
         - else
           .subdue() (None assigned)
   - if @server.zone

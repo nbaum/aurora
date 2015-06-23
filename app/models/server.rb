@@ -265,15 +265,15 @@ class Server < ActiveRecord::Base
     {
       ipv4: ipv4_address && {
         address: ipv4_address.ip.to_s,
-        prefix:  ipv4_address.network.prefix,
-        netmask: ipv4_address.network.netmask,
-        gateway: ipv4_address.network.gateway,
+        prefix:  ipv4_address.subnet.prefix.to_i,
+        netmask: ipv4_address.subnet.netmask,
+        gateway: ipv4_address.subnet.gateway.to_s,
       },
       ipv6: ipv6_address && {
         address: ipv6_address.ip.to_s,
-        prefix:  ipv6_address.network.prefix,
-        netmask: ipv6_address.network.netmask,
-        gateway: ipv6_address.network.gateway,
+        prefix:  ipv6_address.subnet.prefix.to_i,
+        netmask: ipv6_address.subnet.netmask,
+        gateway: ipv6_address.subnet.gateway.to_s,
       },
       hostname: name.downcase.tr('^a-z0-9-', '')
     }

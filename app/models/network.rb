@@ -23,10 +23,6 @@ class Network < ActiveRecord::Base
     end
   end
 
-  def netmask
-    [(0xFFFFFFFF & ((1 << prefix) - 1))].pack("L").unpack("C4").join(".")
-  end
-
   def allocate_address (kind, to)
     subnets.where(kind: kind).each do |subnet|
       if a = subnet.allocate_address(to)
