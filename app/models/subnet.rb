@@ -27,7 +27,7 @@ class Subnet < ActiveRecord::Base
   def valid_ipv6?
     %i(gateway first last).each do |name|
       unless self[name].ipv6?
-        errors.add(name, "isn't a valid IPv4 address")
+        errors.add(name, "isn't a valid IPv6 address")
       end
     end
   end
