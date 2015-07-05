@@ -1,44 +1,4 @@
 
-html, body {
-  height: 100%;
-}
-
-body > .vbox {
-  height: 100%;
-}
-
-.vbox {
-  display: flex;
-  flex-direction: column;
-}
-
-.hbox {
-  display: flex;
-}
-
-.grow {
-  flex-grow: 1;
-}
-
-$sidebar-width: 11em;
-
-.flash {
-  padding: 0.5em;
-  position: relative;
-  z-index: 1;
-  box-shadow: rgba(#000, 0.1) 0 1px 2px;
-  &.notice {
-    background: #dfd;
-    border-bottom: 2px solid #dfd - #333;
-    color: #030;
-  }
-  &.alert {
-    background: #fdd;
-    border-bottom: 2px solid #fdd - #333;
-    color: #300;
-  }
-}
-
 body > * > header {
   box-shadow: rgba(#000, 0.1) 0 1px 2px;
   position: relative;
@@ -149,4 +109,3 @@ main {
     }
   }
 }
-

@@ -1,4 +1,5 @@
-= render("header")
+- if current_user
+  = render("header")
 main
   = form_for @session do |f|
     - if @session.errors.any?
@@ -11,9 +12,10 @@ main
     .hidden
       = hidden_field_tag :path, params[:path]
     table.properties
-      /tr
-        th = f.label :user_id
-        td = f.select :user_id, User.all.pluck(:name, :id)
+      - if request.local?
+        tr
+          th = f.label :user_id
+          td = f.select :user_id, User.all.pluck(:name, :id)
       tr
         th = f.label :email
         td = f.text_field :email

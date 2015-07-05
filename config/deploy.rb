@@ -1,5 +1,7 @@
+lock '3.3.5'
+
 set :application, 'aurora'
-set :repo_url, 'aurora@84.45.122.187:repo'
+set :repo_url, 'aurora@46.30.8.59:repo'
 set :use_sudo, nil
 
 set :deploy_to, '/home/aurora'

@@ -8,13 +8,23 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :current_session
 
+  layout :select_layout
+
+  def select_layout
+    if current_user
+      "application"
+    else
+      "bare"
+    end
+  end
+
   def check_authentication
     return if current_user
     redirect_to new_session_path(path: request.path)
   end
 
   def current_account
-    current_user.account
+    current_user.account || Account.first
   end
 
   def current_user

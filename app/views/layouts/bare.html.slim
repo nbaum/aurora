@@ -1,0 +1,20 @@
+doctype html
+meta charset="utf-8"
+title = ["Aurora", *@title].reverse.join(" - ")
+= stylesheet_link_tag 'bare', media: 'all', 'data-turbolinks-track' => true
+= csrf_meta_tags
+- if msg = flash[:alert]
+  .flash.alert
+    i.fa.fa-fw.fa-exclamation-triangle
+    = msg
+- if msg = flash[:notice]
+  .flash.notice
+    i.fa.fa-fw.fa-info
+    = msg
+.vbox
+  .grow
+  article
+    header
+      h1 = link_to image_tag("logo.png") + " Aurora", :root
+    = yield
+  .grow-2
