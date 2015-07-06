@@ -40,11 +40,7 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    if request.local?
-      params.require(:session).permit(:email, :password, :user_id)
-    else
-      params.require(:session).permit(:email, :password)
-    end
+    params.require(:session).permit(:email, :password)
   end
 
 end
