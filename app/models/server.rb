@@ -273,7 +273,7 @@ class Server < ActiveRecord::Base
   end
 
   def assign_host
-    self.host = effective_zone.pick_host(self)
+    self.host = effective_zone.pick_compute_host
   end
 
   def guest_data

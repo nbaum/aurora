@@ -11,7 +11,7 @@ class Zone < ActiveRecord::Base
     [dns1, dns2]
   end
 
-  def pick_host (server)
+  def pick_compute_host
     hosts.compute.sample
   end
 
