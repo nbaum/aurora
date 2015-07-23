@@ -7,7 +7,7 @@ main
       table.properties
         tr
           th = f.label :host_id, "Move to"
-          td = f.select :host_id, Host.where.not(id: @server.host.id).pluck(:name, :id)
+          td = f.select :host_id, @server.host.zone.hosts.compute.where.not(id: @server.host.id).pluck(:name, :id)
         tr
           th
           td = f.button "Move"
