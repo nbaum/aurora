@@ -8,7 +8,7 @@
   - @title << "New" if !@server.nil?
 - else
   - @title << @server.name
-  header style="align-items: center"
+  header
     h1 = @title.last
     aside = @server.state.capitalize
     aside

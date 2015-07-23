@@ -35,6 +35,7 @@ article {
   }
   > header {
     @extend .hbox;
+    align-items: center;
     margin: 1ex 1ex 1ex 0;
     h1 {
       @extend .grow;
