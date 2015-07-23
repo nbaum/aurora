@@ -8,72 +8,62 @@
   - @title << "New" if !@server.nil?
 - else
   - @title << @server.name
-  header
-    .hbox
-      div
-        h1 = @title.last
-        menu
-          - if @server.state == "stopped" or @server.state == "suspended"
-            li = button_to [:start, @server] do
-              = icon("play", "Start")
-          - if @server.state == "suspended"
-            li = button_to [:resume, @server] do
-              = icon("play", "Resume")
-          - if @server.state == "running" or @server.state == "running"
-            li = button_to [:reset, @server] do
-              = icon("refresh", "Reset")
-          - if @server.state == "running"
-            li = button_to [:pause, @server] do
-              = icon("pause", "Pause")
-          - if @server.state == "paused"
-            li = button_to [:unpause, @server] do
-              = icon("play", "Unpause")
-          - if @server.state == "running"
-            li = button_to [:suspend, @server] do
-              = icon("compress", "Suspend")
-          - if @server.state == "running" or @server.state == "paused"
-            li = button_to [:stop, @server] do
-              = icon("stop", "Stop")
-          li = button_to [:clone, @server] do
-            = icon("copy", "Clone")
-          - if @server.state == "stopped" or @server.state == "suspended"
-            li = button_to @server, method: 'delete' do
-              = icon("trash", "Delete")
-      aside
-        table.properties
-          tr
-            th State
-            td = @server.state
-          tr
-            th IPv4 Address
-            td
-              - if @server.ipv4_address
-                = @server.ipv4_address.ip
-              - else
-                .subdue() (None assigned)
-          tr
-            th IPv6 Address
-            td
-              - if @server.ipv6_address
-                = @server.ipv6_address.ip
-              - else
-                .subdue() (None assigned)
-      aside
-        table.properties
-          tr
-            th Spec
-            td
-              =' @server.cores
-              ' vCPU,
-              =' @server.memory
-              ' MiB,
-              =' @server.storage
-              ' GB
+  header style="align-items: center"
+    h1 = @title.last
+    aside = @server.state.capitalize
+    aside
+      menu
+        - if @server.state == "stopped" or @server.state == "suspended"
+          li = button_to [:start, @server] do
+            = icon("play", "Start")
+        - if @server.state == "suspended"
+          li = button_to [:resume, @server] do
+            = icon("play", "Resume")
+        - if @server.state == "running" or @server.state == "running"
+          li = button_to [:reset, @server] do
+            = icon("refresh", "Reset")
+        - if @server.state == "running"
+          li = button_to [:pause, @server] do
+            = icon("pause", "Pause")
+        - if @server.state == "paused"
+          li = button_to [:unpause, @server] do
+            = icon("play", "Unpause")
+        - if @server.state == "running"
+          li = button_to [:suspend, @server] do
+            = icon("compress", "Suspend")
+        - if @server.state == "running" or @server.state == "paused"
+          li = button_to [:stop, @server] do
+            = icon("stop", "Stop")
+        li = button_to [:clone, @server] do
+          = icon("copy", "Clone")
+        - if @server.state == "stopped" or @server.state == "suspended"
+          li = button_to @server, method: 'delete' do
+            = icon("trash", "Delete")
+    aside
+      =' @server.cores
+      ' vCPU,
+      =' @server.memory
+      ' MiB,
+      =' @server.storage
+      ' GB
+    aside
+      p
+        strong' IPv4 Address:
+        - if @server.ipv4_address
+          = @server.ipv4_address.ip
+        - else
+          .subdue() (None assigned)
+      p
+        strong' IPv6 Address:
+        - if @server.ipv6_address
+          = @server.ipv6_address.ip
+        - else
+          .subdue() (None assigned)
   menu
     li = link_to "← Server List", :servers, exact: true, class: "bare"
     li = link_to "View", @server, exact: true
     li = link_to "Edit", [:edit, @server]
     li = link_to "Storage", [:storage, @server]
-    /li = link_to "Network", [:network, @server]
     li = link_to "Console", [:console, @server]
+    li = link_to "Admin", [:admin, @server]
     li = link_to "Debug", [:debug, @server]

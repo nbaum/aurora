@@ -1,0 +1,13 @@
+= render("header")
+main
+  - if @server.host
+    h2 Move server to another host
+    p This server is currently on #{link_to @server.host.name, @server.host}.
+    = form_for [:migrate, @server], method: 'POST' do |f|
+      table.properties
+        tr
+          th = f.label :host_id, "Move to"
+          td = f.select :host_id, Host.where.not(id: @server.host.id).pluck(:name, :id)
+        tr
+          th
+          td = f.button "Move"

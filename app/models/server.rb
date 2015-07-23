@@ -76,11 +76,24 @@ class Server < ActiveRecord::Base
   end
 
   def resume (tag = id)
-    raise Error.new("Server isn't suspended") if resume && state != 'suspended'
-    start(true, tag)
+    raise Error.new("Server isn't suspended") if tag && state != 'suspended'
+    start(resume: tag)
   end
 
-  def start (resume = false, tag = id)
+  def migration_port
+    20000 + id
+  end
+
+  def migrate (new_host)
+    raise Error.new("Server isn't running or paused") if state != 'running' && state != 'paused'
+    old_api = api
+    self.state = 'stopped'
+    self.host = new_host
+    start(migrate: true)
+    old_api.migrate_to(host: new_host.address.to_s, port: migration_port)
+  end
+
+  def start (resume: false, migrate: false)
     raise Error.new("Server isn't stopped") unless state == 'stopped' or state == 'suspended'
     transaction do |tx|
       assign_host unless host
@@ -90,6 +103,8 @@ class Server < ActiveRecord::Base
       save!
       if resume
         api.resume(tag: tag.to_s, config: config)
+      elsif migrate
+        api.migrate_from(host: host.address.to_s, port: migration_port, config: config)
       else
         api.start(config: config)
       end
@@ -233,11 +248,11 @@ class Server < ActiveRecord::Base
     addresses.joins(:subnet).find_by(subnets: { kind: 'IPv6' })
   end
 
-  private
-
   def effective_zone
     zone ? zone : account ? account.zone : nil
   end
+
+  private
 
   def allocate_address
     if !ipv4_address

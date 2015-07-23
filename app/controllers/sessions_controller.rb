@@ -40,7 +40,11 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:email, :password)
+    if ENV["GAPING_SECURITY_HOLE"]
+      params.require(:session).permit(:email, :password, :user_id)
+    else
+      params.require(:session).permit(:email, :password)
+    end
   end
 
 end

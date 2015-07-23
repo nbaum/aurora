@@ -12,6 +12,7 @@ module Aurora
 
     # Server APIs
     defapi :start, :stop, :pause, :unpause, :suspend, :resume, :reset
+    defapi :migrate_to, :migrate_from
 
     # Volume APIs
     defapi :realize, :delete, :list_volumes

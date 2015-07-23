@@ -49,9 +49,10 @@ Rails.application.routes.draw do
 
   resources :servers do
     member do
-      get :storage, :network, :console, :debug
+      get :storage, :network, :console, :debug, :admin
       get "console/socket" => 'servers#socket'
       post :start, :pause, :unpause, :suspend, :stop, :reset, :clone, :resume
+      post :migrate
     end
   end
 

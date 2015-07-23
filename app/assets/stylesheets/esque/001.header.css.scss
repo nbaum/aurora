@@ -1,0 +1,29 @@
+#site-header {
+  display: flex;
+  h1 {
+    flex-grow: 1;
+    padding: 1em;
+  }
+  menu {
+    overflow: hide;
+    display: inline;
+    &.links {
+      padding-left: 1em;
+    }
+    li {
+      padding: 1em;
+      display: inline-block;
+      &.search {
+        padding: 0 1em;
+      }
+      &.avatar {
+        padding: 0 1em;
+        img {
+          display: inline-block;
+          vertical-align: middle;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}

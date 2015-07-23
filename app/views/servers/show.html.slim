@@ -1,6 +1,5 @@
 = render("header")
 main
-  h2 Properties
   table.properties
     tr
       th Name
@@ -40,15 +39,15 @@ main
     tr
       th Template
       td = @server.template_link
-    /tr
-      th Host
-      td = @server.host_link
     tr
       th Account
       td = @server.account_link
     tr
       th Zone
       td = @server.zone_link
+    tr
+      th Host
+      td = @server.host_link
     tr
       th Appliance
       td = @server.appliance_link

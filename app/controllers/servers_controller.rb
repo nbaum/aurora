@@ -27,7 +27,7 @@ class ServersController < ApplicationController
 
   def update
     if @server.update(server_params)
-      redirect_to @server, notice: 'Server was successfully updated.'
+      redirect_to :back, notice: 'Server was successfully updated.'
     else
       render :edit
     end
@@ -40,44 +40,47 @@ class ServersController < ApplicationController
 
   def start
     @server.start
-    redirect_to @server, notice: 'Server started'
+    redirect_to :back, notice: 'Server started'
   end
 
   def pause
     @server.pause
-    redirect_to @server, notice: 'Server paused'
+    redirect_to :back, notice: 'Server paused'
   end
 
   def unpause
     @server.unpause
-    redirect_to @server, notice: 'Server resumed'
+    redirect_to :back, notice: 'Server resumed'
   end
 
   def reset
     @server.reset
-    redirect_to @server, notice: 'Server reset'
+    redirect_to :back, notice: 'Server reset'
   end
 
   def stop
     @server.stop
-    redirect_to @server, notice: 'Server stopped'
+    redirect_to :back, notice: 'Server stopped'
   end
 
   def suspend
     @server.suspend
-    redirect_to @server, notice: 'Server suspended'
+    redirect_to :back, notice: 'Server suspended'
   end
 
   def resume
     @server.resume
-    redirect_to @server, notice: 'Server resumed'
+    redirect_to :back, notice: 'Server resumed'
   end
 
   def clone
     new_server = @server.clone
-    if new_server.save
-      redirect_to new_server, notice: 'Server copied'
-    end
+    redirect_to new_server, notice: 'Server copied' if new_server.save
+  end
+
+  def migrate
+    @server.migrate(Host.find(params[:server][:host_id]))
+    redirect_to :back, notice: 'Server migrated'
   end
 
   # TODO: Figure out what to do about errors.

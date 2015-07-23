@@ -58,23 +58,20 @@ input[type='button'],
 input[type='color'],
 ::-webkit-file-upload-button,
 button,
-summary
+summary,
+a[href].button
 {
-  color: #fff;
-  background: #58a linear-gradient(#58a + #111, #58a - #111);
-  border-radius: 1em;
-  padding: 0.4em 0.8em;
-  box-shadow: rgba(#000, 0.3) 1px 1px 1px;
   display: inline-block;
-  &:hover, &:active {
-    background: #58a+#111 linear-gradient(#58a + #222, #58a - #000);
+  color: #000;
+  border: 1px solid #aaa;
+  border-radius: 1px;
+  padding: 0.5ex 1ex;
+  background: #fff linear-gradient(#fafafa, #f0f0f0);
+  &:hover {
+    box-shadow: rgba(#000, 0.2) 1px 1px 2px;
   }
-  &:active:hover, &.active:hover {
-    color: #eee;
-    background: #58a-#111 linear-gradient(#58a - #111, #58a - #222);
-    box-shadow: rgba(#000, 0.2) 0 0 10px 1px inset,
-                rgba(#fff, 0.4) 1px 1px,
-                rgba(#000, 0.1) -1px -1px;
+  &:active {
+    border-color: #000;
   }
 }
 
@@ -91,4 +88,3 @@ select
     background: linear-gradient(#d5d5d5+#111, #c5c5c5+#111);
   }
 }
-

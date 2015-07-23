@@ -14,28 +14,24 @@ script src="/novnc/util.js"
     .flash.notice
       i.fa.fa-fw.fa-info
       = msg
-  header
-    h1
-      = link_to image_tag("logo.png") + " Aurora", :root
-    menu.links
-      li = link_to "New Server", :new_server
+  header#site-header
+    h1 Aurora
     - if current_user
       menu.account
         li = link_to "#{current_account.name}", current_account
         li = link_to "#{current_user.name}", current_user
         li = link_to "Logout", [:terminate, current_session]
-        li.avatar = image_tag gravatar_url(current_user.email, s: 34)
-  main.hbox class=@main_class
-    nav
+  main.grow.hbox class=@main_class
+    nav#site-nav
       menu.site
         li: h2 Resources
         li = link_to icon('cubes', 'Bundles', fw: true), :bundles
         li = link_to icon('cube', 'Servers', fw: true), :servers
         li = link_to icon('database', 'Storage', fw: true), :volumes
         li = link_to icon('sitemap', 'Networks', fw: true), :networks
-        /li: h2 Financials
-        /li = link_to icon('book', 'Tariffs', fw: true), :tariffs
-        /li = link_to icon('gbp', 'Transactions', fw: true), :transactions
+        li: h2 Financials
+        li = link_to icon('book', 'Tariffs', fw: true), :tariffs
+        li = link_to icon('gbp', 'Transactions', fw: true), :transactions
         li: h2 Management
         li = link_to icon('users', 'Users', fw: true), :users
         li = link_to icon('newspaper-o', 'Sessions', fw: true), :sessions
@@ -47,4 +43,4 @@ script src="/novnc/util.js"
         li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools
         li = link_to icon('building-o', 'Zones', fw: true), :zones
         /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
-    article = yield
+    article.grow = yield

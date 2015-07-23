@@ -12,6 +12,10 @@ main
     .hidden
       = hidden_field_tag :path, params[:path]
     table.properties
+      - if ENV["GAPING_SECURITY_HOLE"]
+        tr
+          th = f.label :user_id
+          td = f.select :user_id, User.all.pluck(:name, :id)
       tr
         th = f.label :email
         td = f.text_field :email

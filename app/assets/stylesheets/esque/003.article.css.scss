@@ -1,0 +1,57 @@
+article {
+  @extend .vbox;
+  > menu {
+    padding-top: 0.5ex;
+    margin-bottom: -0.5em;
+    overflow: hidden;
+    z-index: 1;
+    li {
+      display: inline-block;
+      position: relative;
+      > a[href] {
+        padding-left: 0.8em;
+        margin-right: 1em;
+      }
+      > a[href]:not(.bare) {
+        padding: 0.3em 0.8em;
+        box-shadow: rgba(#000, 0.1) 0 0 0.5ex;
+        display: inline-block;
+        //background: #e8e8e8;
+        border: 1px solid #ddd;
+        margin-bottom: -1px;
+        color: #333;
+        border-bottom: 1px solid #b0b0b0;
+        &:hover {
+          background: #bbb linear-gradient(#bfbfbf + #111, #b0b0b0 + #111);
+        }
+        &.active {
+          border: 1px solid #fff;
+          border-bottom: 1px solid #f0f0f0;
+          background: #fff;
+          color: #000;
+        }
+      }
+    }
+  }
+  > header {
+    @extend .hbox;
+    margin: 1ex 1ex 1ex 0;
+    h1 {
+      @extend .grow;
+      font-size: 1.5em;
+    }
+    > * {
+      margin-right: 0.5rem;
+    }
+    menu li {
+      display: inline-block;
+    }
+  }
+  > main {
+    @extend .grow;
+    margin: 1ex 1ex 1ex 0;
+    padding: 1em;
+    background: #fff;
+    box-shadow: rgba(#000, 0.1) 0 0 0.5ex;
+  }
+}
