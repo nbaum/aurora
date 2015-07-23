@@ -91,6 +91,7 @@ class Server < ActiveRecord::Base
     self.host = new_host
     start(migrate: true)
     old_api.migrate_to(host: new_host.address.to_s, port: migration_port)
+    old_api.stop
   end
 
   def start (resume: false, migrate: false)
