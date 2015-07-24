@@ -7,7 +7,7 @@
     li = link_to "New", [:new, :user]
   - @title << "New" if !@user.nil?
 - else
-  - @title << "User"
+  - @title << @user.name
   header
     h1 = @title.last
   menu
