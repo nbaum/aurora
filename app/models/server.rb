@@ -81,6 +81,10 @@ class Server < ActiveRecord::Base
     20000 + id
   end
 
+  def evict ()
+    migrate(pick_host(exclude: host))
+  end
+
   def migrate (new_host)
     raise Error.new("Server isn't running or paused") if state != 'running' && state != 'paused'
     old_api = api
