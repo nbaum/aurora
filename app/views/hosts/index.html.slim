@@ -4,6 +4,7 @@ main
   table.table
     thead
       tr
+        th Status
         th Name
         th Cores
         th Memory
@@ -15,6 +16,7 @@ main
     tbody
       - @hosts.each do |host|
         tr
+          td = host.enabled? ? "ok" : "OFF"
           td = link_to host.name, host
           td = host.cores
           td = host.memory
