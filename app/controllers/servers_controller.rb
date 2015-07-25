@@ -119,6 +119,14 @@ class ServersController < ApplicationController
     redirect_to :back
   end
 
+  def evict
+    current_user.job("Evict server", @server) do |j, server|
+      server.evict
+      j.finish "Server moved to #{server.host.name}"
+    end.wait
+    redirect_to :back
+  end
+
   # TODO: Figure out what to do about errors.
   def socket
     hijack do |ws|

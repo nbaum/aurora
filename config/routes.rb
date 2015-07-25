@@ -52,7 +52,7 @@ Rails.application.routes.draw do
       get :storage, :network, :console, :debug, :admin
       get "console/socket" => 'servers#socket'
       post :start, :pause, :unpause, :suspend, :stop, :reset, :clone, :resume
-      post :migrate
+      post :migrate, :evict
     end
   end
 
