@@ -9,7 +9,13 @@ Rails.application.routes.draw do
 
   resources :appliances
   resources :zones
-  resources :hosts
+
+  resources :hosts do
+    member do
+      get :servers
+    end
+  end
+
   resources :accounts
 
   resources :storage_pools do

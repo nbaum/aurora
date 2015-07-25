@@ -1,0 +1,15 @@
+= render("header")
+main
+  table
+    tr
+      th Server
+      th State
+      th Spec
+      th Account
+    - @host.servers.decorate.each do |server|
+      tr
+        td = link_to server.name, server
+        td = server.state
+        td = server.spec
+        td = link_to server.account.name, server.account
+        td = button_to "Evict", [:evict, server]
