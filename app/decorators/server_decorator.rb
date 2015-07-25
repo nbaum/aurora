@@ -29,4 +29,8 @@ class ServerDecorator < Draper::Decorator
     end
   end
 
+  def spec
+    "#{cores} vCPU, #{memory} MiB, #{storage} GB"
+  end
+
 end

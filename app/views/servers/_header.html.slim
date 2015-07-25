@@ -39,13 +39,7 @@
         - if @server.state == "stopped" or @server.state == "suspended"
           li = button_to @server, method: 'delete' do
             = icon("trash", "Delete")
-    aside
-      =' @server.cores
-      ' vCPU,
-      =' @server.memory
-      ' MiB,
-      =' @server.storage
-      ' GB
+    aside = @server.spec
     aside
       p
         strong' IPv4 Address:
