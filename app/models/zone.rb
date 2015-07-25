@@ -11,8 +11,10 @@ class Zone < ActiveRecord::Base
     [dns1, dns2]
   end
 
-  def pick_compute_host
-    hosts.compute.sample
+  def pick_compute_host (exclude: nil)
+    candidates = hosts.compute
+    candidates = candidates.where.not(id: exclude.id) if exclude
+    candidates.sample
   end
 
   class PretendApi < BasicObject

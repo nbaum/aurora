@@ -94,7 +94,7 @@ class Server < ActiveRecord::Base
   def start (resume: false, migrate: false)
     raise Error.new("Server isn't stopped") unless state == 'stopped' or state == 'suspended'
     transaction do |tx|
-      assign_host unless host
+      self.host = pick_host unless self.host
       realize_storage
       allocate_address
       self.state = 'running'
@@ -270,8 +270,8 @@ class Server < ActiveRecord::Base
     root && root.realize
   end
 
-  def assign_host
-    self.host = effective_zone.pick_compute_host
+  def pick_host (exclude: nil)
+    effective_zone.pick_compute_host(exclude: exclude)
   end
 
   def guest_data
