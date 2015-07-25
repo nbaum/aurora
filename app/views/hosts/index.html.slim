@@ -19,15 +19,18 @@ main
         tr
           td = host.enabled? ? "ok" : "OFF"
           td = link_to host.name, host
-          td = host.servers.count
-          td
-            = host.servers.sum(:cores)
-            | /
-            = host.cores
-          td
-            = host.servers.sum(:memory)
-            | /
-            = host.memory
+          - if host.has_compute
+            td = host.servers.count
+            td
+              = host.servers.sum(:cores)
+              | /
+              = host.cores
+            td
+              = host.servers.sum(:memory)
+              | /
+              = host.memory
+          - else
+            td colspan=3
           td = host.url
           td = host.address
           td = host.has_compute
