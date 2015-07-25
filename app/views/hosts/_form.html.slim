@@ -29,11 +29,17 @@
       th = f.label :address
       td = f.text_field :address
     tr
-      th = f.label :compute?
-      td = f.check_box :has_compute
+      th
+      td
+        label
+          =' f.check_box :has_compute
+          ' Run servers on this host
     tr
-      th = f.label :storage?
-      td = f.check_box :has_storage
+      th
+      td
+        label
+          =' f.check_box :has_storage
+          ' Store volumes on this host
     tr
       th = f.label :zone_id
       td = f.select :zone_id, Zone.pluck(:name, :id)
