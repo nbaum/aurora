@@ -29,7 +29,7 @@ class Job < Hash
     self
   end
 
-  def wait (s = 0.2)
+  def wait (s = 0.5)
     if self.thread.join(s)
       self
     else
