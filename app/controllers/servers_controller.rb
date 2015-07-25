@@ -34,53 +34,89 @@ class ServersController < ApplicationController
   end
 
   def destroy
-    @server.destroy
-    redirect_to servers_url, notice: 'Server was successfully destroyed.'
+    current_user.job "Destroy server", @server do |_, server|
+      server.lock
+      server.destroy
+    end.wait
+    redirect_to :servers
   end
 
   def start
-    @server.start
-    redirect_to :back, notice: 'Server started'
+    current_user.job "Start server", @server do |_, server|
+      server.lock
+      server.start
+    end.wait
+    redirect_to :back
   end
 
   def pause
-    @server.pause
-    redirect_to :back, notice: 'Server paused'
+    current_user.job "Pause server", @server do |_, server|
+      server.lock
+      server.pause
+    end.wait
+    redirect_to :back
   end
 
   def unpause
-    @server.unpause
-    redirect_to :back, notice: 'Server resumed'
+    current_user.job "Unpause server", @server do |_, server|
+      server.lock
+      server.unpause
+    end.wait
+    redirect_to :back
   end
 
   def reset
-    @server.reset
-    redirect_to :back, notice: 'Server reset'
+    current_user.job "Reset server", @server do |_, server|
+      server.lock
+      server.reset
+    end.wait
+    redirect_to :back
   end
 
   def stop
-    @server.stop
-    redirect_to :back, notice: 'Server stopped'
+    current_user.job "Stop server", @server do |_, server|
+      server.lock
+      server.stop
+    end.wait
+    redirect_to :back
   end
 
   def suspend
-    @server.suspend
-    redirect_to :back, notice: 'Server suspended'
+    current_user.job "Suspend server", @server do |_, server|
+      server.lock
+      server.suspend
+    end.wait
+    redirect_to :back
   end
 
   def resume
-    @server.resume
-    redirect_to :back, notice: 'Server resumed'
+    current_user.job "Resume server", @server do |_, server|
+      server.lock
+      server.resume
+    end.wait
+    redirect_to :back
   end
 
   def clone
-    new_server = @server.clone
-    redirect_to new_server, notice: 'Server copied' if new_server.save
+    j = current_user.job "Clone server", @server do |j, server|
+      server.lock
+      new_server = @server.clone
+      new_server.save!
+      j[:new_server] = new_server
+    end.wait
+    if j && j[:new_server]
+      redirect_to j[:new_server]
+    else
+      redirect_to :back
+    end
   end
 
   def migrate
-    @server.migrate(Host.find(params[:server][:host_id]))
-    redirect_to :back, notice: 'Server migrated'
+    current_user.job("Migrate server", @server, Host.find(params[:server][:host_id])) do |_, server, host|
+      server.lock
+      server.migrate(host)
+    end.wait
+    redirect_to :back
   end
 
   # TODO: Figure out what to do about errors.

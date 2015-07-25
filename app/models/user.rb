@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
-  belongs_to :account
   has_secure_password validations: false
+
+  belongs_to :account
 
   validates :password, confirmation: true, length: 6..72, allow_nil: true
   validates :account_id, presence: true
@@ -15,6 +16,17 @@ class User < ActiveRecord::Base
 
   def current_password
     nil
+  end
+
+  def jobs
+    @@jobs ||= {}
+    @@jobs[self.id] ||= []
+  end
+
+  def job (title, *args, &block)
+    job = Job.spawn(title, *args, &block)
+    jobs.unshift job
+    job
   end
 
 end

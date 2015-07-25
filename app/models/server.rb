@@ -1,6 +1,7 @@
 require 'chaucer'
 
 class Server < ActiveRecord::Base
+  include Lockable
 
   Error = Class.new(StandardError)
 
@@ -61,10 +62,6 @@ class Server < ActiveRecord::Base
     end
   end
 
-  before_save do
-    #realize_storage
-  end
-
   def suspend (tag = id)
     raise Error.new("Server isn't running") unless state == 'running' or state == 'paused'
     transaction do |tx|
@@ -103,7 +100,7 @@ class Server < ActiveRecord::Base
       self.state = 'running'
       save!
       if resume
-        api.resume(tag: tag.to_s, config: config)
+        api.resume(tag: resume.to_s, config: config)
       elsif migrate
         api.migrate_from(host: host.address.to_s, port: migration_port, config: config)
       else
