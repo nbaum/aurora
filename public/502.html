@@ -38,7 +38,7 @@
       Sorry, but Aurora is unavailable at the moment.
     <p>
       This situation is usually temporary.
-    <p>
+    <p id='lie'>
       When it's back up, this page will reload.
   </div>
   <div style='flex-grow: 1.618'>
@@ -61,5 +61,11 @@
       }
     })
   }
-  $(document).ready(check)
+  $(document).ready(function() {
+    if (!window.location.pathname.match(/^\/502(\.html)?$/)) {
+      check()
+    } else {
+      $("#lie").text("You're viewing this directly, so I won't reload.")
+    }
+  })
 </script>
