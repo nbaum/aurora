@@ -1,4 +1,4 @@
-lock '3.3.5'
+lock '3.4.0'
 
 set :application, 'aurora'
 set :repo_url, 'ssh://git@fabric.orbitalinformatics.co.uk/diffusion/A/aurora.git'
@@ -14,7 +14,8 @@ set :keep_releases, 5
 namespace :deploy do
 
   task :restart do
-    on roles :root do
+    on roles :app do
+      host.user = "root"
       execute :cp, "~aurora/current/aurora.service", "/etc/systemd/system"
       execute :systemctl, "daemon-reload"
       execute :systemctl, "restart aurora"
