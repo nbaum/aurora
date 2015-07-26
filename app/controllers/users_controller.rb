@@ -33,6 +33,10 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: 'User was successfully destroyed.'
   end
 
+  def jobs
+    render partial: "users/jobs", locals: { user: @user }
+  end
+
   private
 
   def set_users
@@ -41,6 +45,7 @@ class UsersController < ApplicationController
 
   def set_user
     return if params[:id].nil?
+    return @user = current_user.decorate if params[:id] == "me"
     @user = @users.find(params[:id]).decorate
   end
 

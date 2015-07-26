@@ -44,17 +44,10 @@ script src="/novnc/util.js"
         li = link_to icon('building-o', 'Zones', fw: true), :zones
         /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
     article.grow = yield
-  footer#site-footer
-    table
-      thead
-        tr
-          th Job
-          th Status
-          th Duration
-      - current_user.jobs[0..5].each do |job|
-        tr
-          td = job.title
-          td = job.message
-          td
-            = ((job.finished_at || Time.now) - job.started_at).*(1000).to_i
-            ' ms
+  footer#site-footer = render("users/jobs", user: current_user)
+coffee:
+  refreshJobs = ->
+    $.get "/users/me/jobs", (data) ->
+      $("#site-footer").html(data)
+      window.setTimeout(refreshJobs, 1000)
+  $(refreshJobs)
