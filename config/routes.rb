@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :jobs
+
   resources :sessions do
     member do
       get :terminate
@@ -13,6 +15,7 @@ Rails.application.routes.draw do
   resources :hosts do
     member do
       get :servers
+      post :evict_all
     end
   end
 

@@ -33,6 +33,16 @@ class HostsController < ApplicationController
     redirect_to hosts_url, notice: 'Host was successfully destroyed.'
   end
 
+  def evict_all
+    @host.servers.each do |server|
+      current_user.job("Evict server", server) do |j, server|
+        server.evict
+        j.finish "Server moved to #{server.host.name}"
+      end
+    end
+    redirect_to :back
+  end
+
   private
 
   def set_hosts
