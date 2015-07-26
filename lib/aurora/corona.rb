@@ -19,7 +19,7 @@ module Aurora
 
     def initialize (url, args = {})
       @url = url
-      @http = ::Faraday.new(url: url, request: { timeout: nil })
+      @http = ::Faraday.new(url: url, request: { timeout: 3e7 })
       @args = args
     end
 
