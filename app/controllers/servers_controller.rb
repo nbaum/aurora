@@ -120,7 +120,7 @@ class ServersController < ApplicationController
   end
 
   def evict
-    current_user.job("Evict server", @server) do |j, server|
+    current_user.job("Evict server #{@server.name}", @server) do |j, server|
       server.evict
       j.finish "Server moved to #{server.host.name}"
     end.wait
