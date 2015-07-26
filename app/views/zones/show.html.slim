@@ -5,15 +5,5 @@ main
       th Name
       td = @zone.name
     tr
-      th Type
-      td
-        - if @zone.pretend
-          - if (r = @zone.reliability) == 0
-            ' Simulated
-          - else
-            ' Simulated, with a 1 in #{r} chance of failure.
-        - else
-          ' Real 
-    tr
       th DNS
       td = @zone.dns.join(", ")

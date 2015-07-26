@@ -17,20 +17,8 @@ class Zone < ActiveRecord::Base
     candidates.sample
   end
 
-  class PretendApi < BasicObject
-
-    def realize (args)
-      true
-    end
-
-  end
-
   def api (url, args = {})
-    if pretend
-      Aurora::Corona::Fake.new(reliability, url, args)
-    else
-      Aurora::Corona.new(url, args)
-    end
+    Aurora::Corona.new(url, args)
   end
 
 end
