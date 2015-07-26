@@ -42,10 +42,7 @@ class ServersController < ApplicationController
   end
 
   def start
-    current_user.job "Start server", @server do |_, server|
-      server.lock
-      server.start
-    end.wait
+    current_user.job(:start_server, server: @server).wait
     redirect_to :back
   end
 
@@ -74,10 +71,7 @@ class ServersController < ApplicationController
   end
 
   def stop
-    current_user.job "Stop server", @server do |_, server|
-      server.lock
-      server.stop
-    end.wait
+    current_user.job(:stop_server, server: @server).wait
     redirect_to :back
   end
 

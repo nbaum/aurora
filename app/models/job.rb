@@ -1,52 +1,71 @@
-class Job < Hash
-  attr_accessor :thread
-  attr_accessor :status
-  attr_accessor :message
-  attr_accessor :started_at
-  attr_accessor :finished_at
-  attr_accessor :title
+class Job < ActiveRecord::Base
+  belongs_to :owner, class_name: 'User'
+  belongs_to :server
 
-  def self.spawn (title, *args, &block)
-    new(title).spawn(*args, &block)
+  def self.queue
+    @queue ||= Queue.new
   end
 
-  def initialize (title)
-    @title = title
-  end
-
-  def spawn (*args, &block)
-    self.thread = Thread.new do
-      begin
-        self.started_at = Time.now
-        block.(self, *args)
-        finish "Done" unless status
-      rescue => e
-        fail e.message
-      ensure
-        ActiveRecord::Base.clear_active_connections!
+  def self.ensure_workers_are_running!
+    @workers ||= begin
+      5.times.map do
+        Thread.new do
+          while true
+            job = queue.pop
+            job.update_attributes started_at: Time.now, status: "running"
+            begin
+              job.run
+              job.status = "finished"
+            rescue => e
+              job.state["error"] = [e.class.name, e.message, e.backtrace]
+              job.status = "failed"
+            ensure
+              job.finished_at = Time.now
+              job.save!
+            end
+          end
+        end
       end
     end
-    self
   end
 
-  def wait (s = 0.5)
-    if self.thread.join(s)
-      self
+  def title
+    self.class.name.split("Jobs::")[1]
+  end
+
+  def message
+    if status == "failed"
+      state["error"]
     else
       nil
     end
   end
 
-  def fail (message)
-    self.status = :failed
-    self.message = message
-    self.finished_at = Time.now
+  def wait
+    sleep 0.5
+    reload
+    return self if state != "running"
   end
 
-  def finish (message)
-    self.status = :finished
-    self.message = message
-    self.finished_at = Time.now
+  def schedule
+    self.class.queue << self
+    self.class.ensure_workers_are_running!
+  end
+
+  def pending?
+    status == "pending"
+  end
+
+  def running?
+    status == "running"
+  end
+
+  def finished?
+    status == "finished"
+  end
+
+  def failed?
+    status == "failed"
   end
 
 end

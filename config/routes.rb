@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :jobs
+  resources :jobs do
+    member do
+      post :restart
+      post :cancel
+    end
+  end
 
   resources :sessions do
     member do

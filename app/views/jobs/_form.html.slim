@@ -1,0 +1,31 @@
+= form_for @job do |f|
+  - if @job.errors.any?
+    .errors
+      i.fa.fa-exclamation-triangle.fa-fw
+      h2 = "#{pluralize(@job.errors.count, "error")} prohibited this job from being saved:"
+      ul
+        - @job.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :type
+      td = f.text_field :type
+    tr
+      th = f.label :pending
+      td = f.check_box :pending
+    tr
+      th = f.label :data
+      td = f.text_field :data
+    tr
+      th = f.label :state
+      td = f.text_field :state
+    tr
+      th = f.label :owner
+      td = f.text_field :owner
+    tr
+      th = f.label :server
+      td = f.text_field :server
+    tr
+      th
+      td = f.button @job.new_record? ? "Create" : "Update"

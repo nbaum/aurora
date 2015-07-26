@@ -1,0 +1,24 @@
+= render("header")
+main
+  = paginate @jobs
+  table.table
+    thead
+      tr
+        th ID
+        th Type
+        th Pending
+        th Data
+        th State
+        th Owner
+        th Server
+    tbody
+      - @jobs.each do |job|
+        tr
+          td = link_to job.id, job
+          td = job.type
+          td = job.pending
+          td = job.data
+          td = job.state
+          td = job.owner
+          td = job.server
+  = paginate @jobs

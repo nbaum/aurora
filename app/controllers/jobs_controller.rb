@@ -30,7 +30,12 @@ class JobsController < ApplicationController
 
   def destroy
     @job.destroy
-    redirect_to jobs_url, notice: 'Job was successfully destroyed.'
+    redirect_to :back
+  end
+
+  def restart
+    @job.schedule
+    redirect_to :back
   end
 
   private
@@ -45,7 +50,7 @@ class JobsController < ApplicationController
   end
 
   def job_params
-    params.require(:job).permit(:type, :status, :progress, :data)
+    params.require(:job).permit(:type, :pending, :data, :state, :owner_id, :server_id)
   end
 
 end

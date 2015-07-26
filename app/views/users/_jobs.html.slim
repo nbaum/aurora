@@ -1,15 +1,33 @@
-table
-  thead
-    tr
-      th Job
-      th Status
-      th Duration
-  - user.jobs[0..5].each do |job|
-    tr
-      td = job.title
-      td
-        - if job.status
-          = job.status.capitalize
-          ' :
-        = job.message
-      td = "%is" % ((job.finished_at || Time.now) - job.started_at).to_i
+div style="max-height: 20em"
+  - if user.jobs.count > 0
+    table style="width: 100%"
+      thead
+        tr
+          th
+          th Job
+          th Duration
+          th width="100%" Status
+      - user.jobs.order("created_at DESC").limit(5).each do |job|
+        tr
+          td.hbox
+            - if job.pending?
+              div = button_to "Remove", job_path(job), method: "delete"
+            - if job.running? or job.failed?
+              div = button_to "Restart", restart_job_path(job)
+              | &nbsp
+              div = button_to "Remove", job_path(job), method: "delete"
+            - if job.finished?
+              div = button_to "Restart", restart_job_path(job)
+              | &nbsp
+              div = button_to "Remove", job_path(job), method: "delete"
+          td = job.title
+          td
+            - if job.started_at
+              = "%is" % ((job.finished_at || Time.now) - job.started_at).to_i
+            - else
+              ' Pending
+          td
+            - if job.status
+              = job.status.capitalize
+              ' :
+            = job.message

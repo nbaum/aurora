@@ -1,0 +1,21 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Type
+      td = @job.type
+    tr
+      th Pending
+      td = @job.pending
+    tr
+      th Data
+      td = @job.data
+    tr
+      th State
+      td = @job.state
+    tr
+      th Owner
+      td = @job.owner
+    tr
+      th Server
+      td = @job.server

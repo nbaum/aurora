@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
 
   belongs_to :account
 
+  has_many :jobs, foreign_key: 'owner_id'
+
   validates :password, confirmation: true, length: 6..72, allow_nil: true
   validates :account_id, presence: true
   validates :email, format: /@.*\./, uniqueness: { case_sensitive: false }
@@ -18,14 +20,11 @@ class User < ActiveRecord::Base
     nil
   end
 
-  def jobs
-    @@jobs ||= {}
-    @@jobs[self.id] ||= []
-  end
-
-  def job (title, *args, &block)
-    job = Job.spawn(title, *args, &block)
-    jobs.unshift job
+  def job (type, **args)
+    keys = {}
+    keys[:server] = args.delete(:server)
+    job = Job.create!(status: "pending", owner: self, type: "jobs/#{type}".camelize, args: args, **keys)
+    job.schedule
     job
   end
 
