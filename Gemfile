@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.3'
+gem 'rails', '4.1.12'
 gem 'draper'
-gem 'responders', '~> 2.0'
 
 gem 'pg'
 gem 'postgres_ext'
