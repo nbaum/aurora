@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     @session = @sessions.new(session_params)
     if @session.save
       session[:sid] = @session.id
-      redirect_to params[:path] || :root, notice: 'Session started.'
+      redirect_to params[:path] || :root, notice: 'Welcome to Aurora.'
     else
       render :new
     end
@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
 
   def terminate
     @session.update! updated_at: Time.now
-    redirect_to :root, notice: 'Session terminated.'
+    redirect_to :root
   end
 
   private

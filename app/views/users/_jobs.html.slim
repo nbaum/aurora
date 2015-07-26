@@ -6,28 +6,22 @@ div style="max-height: 20em"
           th
           th Job
           th Duration
-          th width="100%" Status
+          th Status
+          th width="100%" Message
       - user.jobs.order("created_at DESC").limit(5).each do |job|
         tr
           td.hbox
-            - if job.pending?
+            - if job.finished? or job.failed?
+              div = button_to job.failed? ? "Retry" : "Redo", restart_job_path(job)
+              | &nbsp;
               div = button_to "Remove", job_path(job), method: "delete"
-            - if job.running? or job.failed?
-              div = button_to "Restart", restart_job_path(job)
-              | &nbsp
-              div = button_to "Remove", job_path(job), method: "delete"
-            - if job.finished?
-              div = button_to "Restart", restart_job_path(job)
-              | &nbsp
-              div = button_to "Remove", job_path(job), method: "delete"
+            - if job.pending? or job.running?
+              div = button_to "Cancel", cancel_job_path(job)
           td = job.title
           td
             - if job.started_at
               = "%is" % ((job.finished_at || Time.now) - job.started_at).to_i
             - else
               ' Pending
-          td
-            - if job.status
-              = job.status.capitalize
-              ' :
-            = job.message
+          td = job.status.capitalize
+          td = job.message

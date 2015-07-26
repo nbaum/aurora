@@ -12,12 +12,17 @@ class Job < ActiveRecord::Base
         Thread.new do
           while true
             job = queue.pop
-            job.update_attributes started_at: Time.now, status: "running"
+            job.update_attributes started_at: Time.now, status: "running", finished_at: nil
             begin
               job.run
               job.status = "finished"
             rescue => e
-              job.state["error"] = [e.class.name, e.message, e.backtrace]
+              job.state["error"] = {
+                "backtrace" => e.backtrace,
+                "message" => e.message,
+                "type" => e.class.name
+              }
+              job.state_will_change!
               job.status = "failed"
             ensure
               job.finished_at = Time.now
@@ -34,8 +39,8 @@ class Job < ActiveRecord::Base
   end
 
   def message
-    if status == "failed"
-      state["error"]
+    if status == "failed" && state["error"]
+      state["error"]["message"]
     else
       nil
     end

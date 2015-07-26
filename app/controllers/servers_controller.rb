@@ -34,90 +34,61 @@ class ServersController < ApplicationController
   end
 
   def destroy
-    current_user.job "Destroy server", @server do |_, server|
-      server.lock
-      server.destroy
-    end.wait
+    current_user.job :destroy_server, server: @server
     redirect_to :servers
   end
 
   def start
-    current_user.job(:start_server, server: @server).wait
+    current_user.job :start_server, server: @server
     redirect_to :back
   end
 
   def pause
-    current_user.job "Pause server", @server do |_, server|
-      server.lock
-      server.pause
-    end.wait
+    current_user.job :pause_server, server: @server
     redirect_to :back
   end
 
   def unpause
-    current_user.job "Unpause server", @server do |_, server|
-      server.lock
-      server.unpause
-    end.wait
+    current_user.job :unpause_server, server: @server
     redirect_to :back
   end
 
   def reset
-    current_user.job "Reset server", @server do |_, server|
-      server.lock
-      server.reset
-    end.wait
+    current_user.job :reset_server, server: @server
     redirect_to :back
   end
 
   def stop
-    current_user.job(:stop_server, server: @server).wait
+    current_user.job :stop_server, server: @server
     redirect_to :back
   end
 
   def suspend
-    current_user.job "Suspend server", @server do |_, server|
-      server.lock
-      server.suspend
-    end.wait
+    current_user.job :suspend_server, server: @server
     redirect_to :back
   end
 
   def resume
-    current_user.job "Resume server", @server do |_, server|
-      server.lock
-      server.resume
-    end.wait
+    current_user.job :resume_server, server: @server
     redirect_to :back
   end
 
   def clone
-    j = current_user.job "Clone server", @server do |j, server|
-      server.lock
-      new_server = @server.clone
-      new_server.save!
-      j[:new_server] = new_server
-    end.wait
-    if j && j[:new_server]
-      redirect_to j[:new_server]
+    j = current_user.job :clone_server, server: @server
+    if sid = j.state["new_server_id"]
+      redirect_to server_path(sid)
     else
       redirect_to :back
     end
   end
 
   def migrate
-    current_user.job("Migrate server", @server, Host.find(params[:server][:host_id])) do |_, server, host|
-      server.lock
-      server.migrate(host)
-    end.wait
+    current_user.job :migrate_server, server: @server, host_id: params[:server][:host_id]
     redirect_to :back
   end
 
   def evict
-    current_user.job("Evict server #{@server.name}", @server) do |j, server|
-      server.evict
-      j.finish "Server moved to #{server.host.name}"
-    end.wait
+    current_user.job :migrate_server, server: @server
     redirect_to :back
   end
 
@@ -161,7 +132,7 @@ class ServersController < ApplicationController
                                    :appliance_id, :bundle_id,
                                    :published_at, :base_id, :current_id,
                                    :iso_id, :machine_type, :boot_order,
-                                   :pinned)
+                                   :pinned, :new_host)
   end
 
 end

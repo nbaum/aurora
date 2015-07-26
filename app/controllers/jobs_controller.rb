@@ -38,6 +38,11 @@ class JobsController < ApplicationController
     redirect_to :back
   end
 
+  def cancel
+    @job.cancel
+    redirect_to :back
+  end
+
   private
 
   def set_jobs

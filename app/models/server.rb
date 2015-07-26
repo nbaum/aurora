@@ -85,19 +85,38 @@ class Server < ActiveRecord::Base
     migrate(pick_host(exclude: host))
   end
 
+  attr_accessor :new_host
+
+  def host
+    new_host || super
+  end
+
   def migrate (new_host)
     raise Error.new("Server isn't running or paused") if state != 'running' && state != 'paused'
     raise Error.new("Server is pinned") if pinned?
-    old_api = api
-    self.state = 'stopped'
-    self.host = new_host
-    start(migrate: true)
-    old_api.migrate_to(host: new_host.address.to_s, port: migration_port)
-    old_api.stop
+    raise Error.new("Already on that host") if host == new_host
+    begin
+      self.new_host = new_host
+      start(migrate: true)
+    ensure
+      self.new_host = nil
+    end
+    api.migrate_to(host: new_host.address.to_s, port: migration_port)
+    sleep 0.5 until api.migrate_wait
+    api.stop
+    update_attributes! host: new_host
+  end
+
+  def migrate_status
+    api.migrate_status
+  end
+
+  def migrate_cancel
+    api.migrate_cancel
   end
 
   def start (resume: false, migrate: false)
-    raise Error.new("Server isn't stopped") unless state == 'stopped' or state == 'suspended'
+    raise Error.new("Server isn't stopped") unless state == 'stopped' or state == 'suspended' or migrate
     transaction do |tx|
       self.host = pick_host unless self.host
       realize_storage
@@ -239,7 +258,7 @@ class Server < ActiveRecord::Base
     }
   end
 
-  def api
+  def api (host = self.host)
     host.api(instance: id)
   end
 
