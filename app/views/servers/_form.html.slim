@@ -77,6 +77,11 @@
       th = f.label :current
       td = f.text_field :current
     tr
+      th Pinned
+      td: label
+        =' f.check_box :pinned
+        | Server may not be migrated or evicted
+    tr
       th
       td
         - if @server.new_record?

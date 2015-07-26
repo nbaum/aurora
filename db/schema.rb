@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20150725223735) do
     t.datetime "updated_at"
     t.string   "machine_type"
     t.string   "boot_order"
+    t.boolean  "pinned",         default: false
   end
 
   add_index "servers", ["account_id"], name: "index_servers_on_account_id", using: :btree

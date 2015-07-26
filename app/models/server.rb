@@ -87,6 +87,7 @@ class Server < ActiveRecord::Base
 
   def migrate (new_host)
     raise Error.new("Server isn't running or paused") if state != 'running' && state != 'paused'
+    raise Error.new("Server is pinned") if pinned?
     old_api = api
     self.state = 'stopped'
     self.host = new_host
