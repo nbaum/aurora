@@ -151,7 +151,11 @@ class ServersController < ApplicationController
 
   def set_server
     return if params[:id].nil?
-    @server = @servers.find(params[:id])
+    if current_user.administrator?
+      @server = Server.find(params[:id])
+    else
+      @server = @servers.find(params[:id])
+    end
     @server = @server.decorate unless request.method == 'POST'
   end
 
