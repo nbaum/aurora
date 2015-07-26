@@ -27,7 +27,7 @@ body > .vbox {
 $sidebar-width: 11em;
 
 .flash {
-  padding: 0.5em;
+  div { padding: 0.5em; }
   position: relative;
   z-index: 1;
   box-shadow: rgba(#000, 0.1) 0 1px 2px;

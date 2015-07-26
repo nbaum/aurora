@@ -8,12 +8,22 @@ script src="/novnc/util.js"
 .vbox
   - if msg = flash[:alert]
     .flash.alert
-      i.fa.fa-fw.fa-exclamation-triangle
-      = msg
+      div
+        i.fa.fa-fw.fa-exclamation-triangle
+        = msg
   - if msg = flash[:notice]
     .flash.notice
-      i.fa.fa-fw.fa-info
-      = msg
+      div
+        i.fa.fa-fw.fa-info
+        = msg
+  coffee:
+    $ ->
+      hideFlashes = ->
+        $(".flash").each ->
+          $("div", this).slideUp()
+          $(this).on "mouseover", =>
+            $("div", this).slideDown()
+      window.setTimeout hideFlashes, 1000
   header#site-header
     h1 Aurora
     - if current_user
