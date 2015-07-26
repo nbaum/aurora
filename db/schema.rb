@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725223735) do
+ActiveRecord::Schema.define(version: 20150726021951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 20150725223735) do
   create_table "hosts", force: true do |t|
     t.string   "name"
     t.integer  "cores"
-    t.integer  "memory"
+    t.integer  "memory",      limit: 8
     t.string   "url"
     t.inet     "address"
     t.boolean  "has_compute"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20150725223735) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "has_storage"
-    t.boolean  "enabled",     default: true
+    t.boolean  "enabled",               default: true
   end
 
   add_index "hosts", ["zone_id"], name: "index_hosts_on_zone_id", using: :btree
