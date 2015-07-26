@@ -1,0 +1,15 @@
+table
+  thead
+    tr
+      th Job
+      th Status
+      th Duration
+  - user.jobs[0..5].each do |job|
+    tr
+      td = job.title
+      td
+        - if job.status
+          = job.status.capitalize
+          ' :
+        = job.message
+      td = "%is" % ((job.finished_at || Time.now) - job.started_at).to_i
