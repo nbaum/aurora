@@ -21,7 +21,8 @@ module Jobs
 
     def run
       if args["host_id"]
-        server.migrate(Host.find(args["host_id"]))
+        host = Host.find(args["host_id"])
+        server.migrate(host)
       else
         server.evict()
       end

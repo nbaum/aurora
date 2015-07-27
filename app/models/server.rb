@@ -49,32 +49,17 @@ class Server < ActiveRecord::Base
   end
 
   before_create do
-    self.state = 'suspended' if template and (template.state == 'running' or template.state == 'paused')
+    self.state = 'suspended' if template and template.started?
   end
 
   after_create do
     if template
-      template.api.suspend(tag: id.to_s) if suspended = (template.state == 'running' or template.state == 'paused')
+      template.api.suspend(tag: id.to_s) if suspended = template.started?
       volumes.each do |vol|
         vol.realize if vol.base
       end
       template.api.unpause if suspended
     end
-  end
-
-  def suspend (tag = id)
-    raise Error.new("Server isn't running") unless state == 'running' or state == 'paused'
-    transaction do |tx|
-      self.state = 'suspended'
-      save!
-      api.suspend(tag: tag.to_s)
-      api.stop
-    end
-  end
-
-  def resume (tag = id)
-    raise Error.new("Server isn't suspended") if tag && state != 'suspended'
-    start(resume: tag)
   end
 
   def migration_port
@@ -92,17 +77,22 @@ class Server < ActiveRecord::Base
   end
 
   def migrate (new_host)
-    raise Error.new("Server isn't running or paused") if state != 'running' && state != 'paused'
+    return if host == new_host
+    raise Error.new("Server isn't started") unless started?
     raise Error.new("Server is pinned") if pinned?
-    raise Error.new("Already on that host") if host == new_host
+    already_migrating = false
     begin
       self.new_host = new_host
-      start(migrate: true)
+      if api.status == :stopped
+        start(migrate: true)
+      else
+        already_migrating = true
+      end
     ensure
       self.new_host = nil
     end
-    api.migrate_to(host: new_host.address.to_s, port: migration_port)
-    sleep 0.5 until api.migrate_wait
+    api.migrate_to(host: new_host.address.to_s, port: migration_port) unless already_migrating
+    sleep 0.5 while api.migrate_wait
     api.stop
     update_attributes! host: new_host
   end
@@ -115,13 +105,30 @@ class Server < ActiveRecord::Base
     api.migrate_cancel
   end
 
+  def started?
+    %w[running paused].member?(state)
+  end
+
+  def stopped?
+    %w[stopped suspended].member?(state)
+  end
+
+  def paused?
+    state == 'paused'
+  end
+
+  def suspended?
+    state == 'suspended'
+  end
+
   def start (resume: false, migrate: false)
-    raise Error.new("Server isn't stopped") unless state == 'stopped' or state == 'suspended' or migrate
+    return if started? and !migrate
+    raise Error.new("Server isn't stopped") unless stopped? or migrate
     transaction do |tx|
-      self.host = pick_host unless self.host
+      self.host ||= pick_host
+      self.state = 'running'
       realize_storage
       allocate_address
-      self.state = 'running'
       save!
       if resume
         api.resume(tag: resume.to_s, config: config)
@@ -134,6 +141,7 @@ class Server < ActiveRecord::Base
   end
 
   def pause
+    return if paused?
     raise Error.new("Server isn't running") unless state == 'running'
     transaction do |tx|
       self.state = 'paused'
@@ -143,6 +151,7 @@ class Server < ActiveRecord::Base
   end
 
   def unpause
+    return if running?
     raise Error.new("Server isn't paused") unless state == 'paused'
     transaction do |tx|
       self.state = 'running'
@@ -152,7 +161,8 @@ class Server < ActiveRecord::Base
   end
 
   def stop
-    raise Error.new("Server isn't running or paused") unless state == 'running' or state == 'paused'
+    return if stopped?
+    raise Error.new("Server isn't started") unless state == 'running' or state == 'paused'
     transaction do |tx|
       self.state = 'stopped'
       api_ = api
@@ -162,8 +172,24 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def suspend (tag = id)
+    return if suspended?
+    raise Error.new("Server isn't running") unless state == 'running' or state == 'paused' or state == 'suspended'
+    transaction do |tx|
+      self.state = 'suspended'
+      save!
+      api.suspend(tag: tag.to_s)
+      api.stop
+    end
+  end
+
+  def resume (tag = id)
+    raise Error.new("Server isn't suspended") unless suspended?
+    start(resume: tag)
+  end
+
   def reset
-    raise Error.new("Server isn't running or paused") unless state == 'running' or state == 'paused'
+    raise Error.new("Server isn't started") unless started?
     transaction do |tx|
       api.reset
     end
@@ -190,7 +216,7 @@ class Server < ActiveRecord::Base
   end
 
   def vnc_address
-    raise "Server isn't running or paused" unless state == 'running' or state == 'paused'
+    raise "Server isn't started" unless started?
     [host.address.to_s, id + 5900]
   end
 

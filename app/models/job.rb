@@ -2,6 +2,11 @@ class Job < ActiveRecord::Base
   belongs_to :owner, class_name: 'User'
   belongs_to :server
 
+  scope :pending, -> { where(status: "pending") }
+  scope :running, -> { where(status: "running") }
+  scope :failed, -> { where(status: "failed") }
+  scope :completed, -> { where(status: "completed") }
+
   def self.queue
     @queue ||= Queue.new
   end
@@ -11,26 +16,30 @@ class Job < ActiveRecord::Base
       5.times.map do
         Thread.new do
           while true
-            job = queue.pop
-            job.update_attributes started_at: Time.now, status: "running", finished_at: nil
-            begin
-              job.run
-              job.status = "finished"
-            rescue => e
-              job.state["error"] = {
-                "backtrace" => e.backtrace,
-                "message" => e.message,
-                "type" => e.class.name
-              }
-              job.state_will_change!
-              job.status = "failed"
-            ensure
-              job.finished_at = Time.now
-              job.save!
-            end
+            job, action = queue.pop
+            job.invoke action
           end
         end
       end
+    end
+  end
+
+  def invoke (action)
+    self.update_attributes started_at: Time.now, status: "running", finished_at: nil
+    begin
+      self.send(action)
+      self.status = "finished"
+    rescue => e
+      self.state["error"] = {
+        "backtrace" => e.backtrace,
+        "message" => e.message,
+        "type" => e.class.name
+      }
+      self.state_will_change!
+      self.status = "failed"
+    ensure
+      self.finished_at = Time.now
+      self.save!
     end
   end
 
@@ -42,7 +51,7 @@ class Job < ActiveRecord::Base
     if status == "failed" && state["error"]
       state["error"]["message"]
     else
-      nil
+      state["message"]
     end
   end
 
@@ -52,8 +61,8 @@ class Job < ActiveRecord::Base
     return self if state != "running"
   end
 
-  def schedule
-    self.class.queue << self
+  def schedule (action = :run)
+    self.class.queue << [self, action]
     self.class.ensure_workers_are_running!
   end
 
@@ -71,6 +80,10 @@ class Job < ActiveRecord::Base
 
   def failed?
     status == "failed"
+  end
+
+  def resume
+    run
   end
 
 end
