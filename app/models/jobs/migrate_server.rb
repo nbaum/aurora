@@ -19,6 +19,10 @@ module Jobs
       server.migrate_cancel
     end
 
+    def resume
+      run
+    end
+
     def run
       if args["host_id"]
         host = Host.find(args["host_id"])
