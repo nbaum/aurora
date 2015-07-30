@@ -83,7 +83,7 @@ class Job < ActiveRecord::Base
   end
 
   def resume
-    run
+    raise "Can't resume job"
   end
 
 end
