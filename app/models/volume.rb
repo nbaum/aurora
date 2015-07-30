@@ -40,7 +40,11 @@ class Volume < ActiveRecord::Base
   end
 
   def config
-    full_path
+    {
+      path: full_path,
+      ephemeral: ephemeral,
+      optical: optical
+    }
   end
 
   def clone (**attrs)
