@@ -266,6 +266,8 @@ class Server < ActiveRecord::Base
 
   def config
     {
+      host: host && host.id,
+      state: state,
       memory: memory,
       cores: cores,
       display: id,

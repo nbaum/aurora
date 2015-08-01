@@ -1,4 +1,4 @@
 = render("header")
 - @title << "Debug"
 main
-  == ap @server.config
+  pre = JSON.pretty_generate @server.config
