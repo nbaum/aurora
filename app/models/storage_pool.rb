@@ -1,11 +1,15 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class StoragePool < ActiveRecord::Base
+
   belongs_to :account
   belongs_to :host
 
   has_many :volumes
 
   def refresh
-    host.api.list_volumes(pool: self.path).each do |data|
+    host.api.list_volumes(pool: path).each do |data|
       v = volumes.where(path: data[:name]).first_or_initialize(path: data[:name], name: data[:name], ephemeral: false)
       v.optical = !!(data[:name] =~ /\.iso$/)
       v.ephemeral = !v.ephemeral

@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class TransactionsController < ApplicationController
 
   before_action :set_transactions
@@ -14,7 +17,7 @@ class TransactionsController < ApplicationController
   def create
     @transaction = @transactions.new(transaction_params)
     if @transaction.save
-      redirect_to @transaction, notice: 'Transaction was successfully created.'
+      redirect_to @transaction, notice: "Transaction was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class TransactionsController < ApplicationController
 
   def update
     if @transaction.update(transaction_params)
-      redirect_to @transaction, notice: 'Transaction was successfully updated.'
+      redirect_to @transaction, notice: "Transaction was successfully updated."
     else
       render :edit
     end
@@ -30,7 +33,7 @@ class TransactionsController < ApplicationController
 
   def destroy
     @transaction.destroy
-    redirect_to transactions_url, notice: 'Transaction was successfully destroyed.'
+    redirect_to transactions_url, notice: "Transaction was successfully destroyed."
   end
 
   private

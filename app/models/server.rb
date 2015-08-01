@@ -1,6 +1,10 @@
-require 'chaucer'
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
+require "chaucer"
 
 class Server < ActiveRecord::Base
+
   include Lockable
 
   Error = Class.new(StandardError)
@@ -13,30 +17,20 @@ class Server < ActiveRecord::Base
     "mac" => "Apple Macintosh",
   }
 
-  STATES = [
-    "stopped",
-    "starting",
-    "running",
-    "pausing",
-    "paused",
-    "stopping",
-    "suspending",
-    "suspended",
-    "resuming",
-  ]
+  STATES = %w[stopped starting running pausing paused stopping suspending suspended resuming]
 
-  belongs_to :template, class_name: 'Server'
+  belongs_to :template, class_name: "Server"
   belongs_to :host
   belongs_to :account
   belongs_to :zone
   belongs_to :appliance
   belongs_to :bundle
-  belongs_to :base, class_name: 'Server'
-  belongs_to :current, class_name: 'Server'
+  belongs_to :base, class_name: "Server"
+  belongs_to :current, class_name: "Server"
 
-  has_many :volumes, :dependent => :destroy
-  has_many :attachments, class_name: 'ServerVolume', :dependent => :destroy
-  has_many :addresses, :dependent => :nullify
+  has_many :volumes, dependent: :destroy
+  has_many :attachments, class_name: "ServerVolume", dependent: :destroy
+  has_many :addresses, dependent: :nullify
 
   validates :name, presence: true
   validates :password, presence: true, allow_nil: true, length: { is: 8 }
@@ -44,7 +38,7 @@ class Server < ActiveRecord::Base
   after_initialize if: :new_record? do
     self.name ||= Chaucer.server_name
     self.affinity_group ||= 0
-    self.state ||= 'stopped'
+    self.state ||= "stopped"
     self.password ||= SecureRandom.base64(6)
   end
 
@@ -52,12 +46,12 @@ class Server < ActiveRecord::Base
     self.cores ||= 1
     self.memory ||= 1024
     self.storage ||= 20
-    self.machine_type ||= 'pc'
-    self.boot_order ||= 'cdn'
+    self.machine_type ||= "pc"
+    self.boot_order ||= "cdn"
   end
 
   before_create do
-    self.state = 'suspended' if template and template.started?
+    self.state = "suspended" if template && template.started?
   end
 
   after_create do
@@ -71,10 +65,10 @@ class Server < ActiveRecord::Base
   end
 
   def migration_port
-    20000 + id
+    20_000 + id
   end
 
-  def evict ()
+  def evict
     migrate(pick_host(exclude: host))
   end
 
@@ -86,8 +80,8 @@ class Server < ActiveRecord::Base
 
   def migrate (new_host)
     return if host == new_host
-    raise Error.new("Server isn't started") unless started?
-    raise Error.new("Server is pinned") if pinned?
+    fail Error.new("Server isn't started") unless started?
+    fail Error.new("Server is pinned") if pinned?
     already_migrating = false
     begin
       self.new_host = new_host
@@ -122,19 +116,19 @@ class Server < ActiveRecord::Base
   end
 
   def paused?
-    state == 'paused'
+    state == "paused"
   end
 
   def suspended?
-    state == 'suspended'
+    state == "suspended"
   end
 
   def start (resume: false, migrate: false)
-    return if started? and !migrate
-    raise Error.new("Server isn't stopped") unless stopped? or migrate
-    transaction do |tx|
+    return if started? && !migrate
+    fail Error.new("Server isn't stopped") unless stopped? || migrate
+    transaction do |_tx|
       self.host ||= pick_host
-      self.state = 'running'
+      self.state = "running"
       realize_storage
       allocate_address
       save!
@@ -150,9 +144,9 @@ class Server < ActiveRecord::Base
 
   def pause
     return if paused?
-    raise Error.new("Server isn't running") unless state == 'running'
-    transaction do |tx|
-      self.state = 'paused'
+    fail Error.new("Server isn't running") unless state == "running"
+    transaction do |_tx|
+      self.state = "paused"
       save!
       api.pause
     end
@@ -160,9 +154,9 @@ class Server < ActiveRecord::Base
 
   def unpause
     return if running?
-    raise Error.new("Server isn't paused") unless state == 'paused'
-    transaction do |tx|
-      self.state = 'running'
+    fail Error.new("Server isn't paused") unless state == "paused"
+    transaction do |_tx|
+      self.state = "running"
       save!
       api.unpause
     end
@@ -170,9 +164,9 @@ class Server < ActiveRecord::Base
 
   def stop
     return if stopped?
-    raise Error.new("Server isn't started") unless state == 'running' or state == 'paused'
-    transaction do |tx|
-      self.state = 'stopped'
+    fail Error.new("Server isn't started") unless state == "running" || state == "paused"
+    transaction do |_tx|
+      self.state = "stopped"
       api_ = api
       self.host = nil
       save!
@@ -182,9 +176,9 @@ class Server < ActiveRecord::Base
 
   def suspend (tag = id)
     return if suspended?
-    raise Error.new("Server isn't running") unless state == 'running' or state == 'paused' or state == 'suspended'
-    transaction do |tx|
-      self.state = 'suspended'
+    fail Error.new("Server isn't running") unless state == "running" || state == "paused" || state == "suspended"
+    transaction do |_tx|
+      self.state = "suspended"
       save!
       api.suspend(tag: tag.to_s)
       api.stop
@@ -192,21 +186,21 @@ class Server < ActiveRecord::Base
   end
 
   def resume (tag = id)
-    raise Error.new("Server isn't suspended") unless suspended?
+    fail Error.new("Server isn't suspended") unless suspended?
     start(resume: tag)
   end
 
   def reset
-    raise Error.new("Server isn't started") unless started?
-    transaction do |tx|
+    fail Error.new("Server isn't started") unless started?
+    transaction do |_tx|
       api.reset
     end
   end
 
   def clone (**attrs)
-    transaction do |tx|
+    transaction do |_tx|
       s = Server.new(name: name.succ, template: self)
-      %i"cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order".each do |field|
+      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order].each do |field|
         s[field] = attrs[field] || self[field]
       end
       map = {}
@@ -224,7 +218,7 @@ class Server < ActiveRecord::Base
   end
 
   def vnc_address
-    raise "Server isn't started" unless started?
+    fail "Server isn't started" unless started?
     [host.address.to_s, id + 5900]
   end
 
@@ -237,7 +231,7 @@ class Server < ActiveRecord::Base
   end
 
   def iso_attachment
-    attachments.joins(:volume).where(volumes: {optical: true}).first
+    attachments.joins(:volume).where(volumes: { optical: true }).first
   end
 
   def iso
@@ -250,16 +244,16 @@ class Server < ActiveRecord::Base
 
   def iso_id= (id)
     if id.to_i == 0
-      attachments.joins(:volume).where(volumes: {optical: true}).delete_all
+      attachments.joins(:volume).where(volumes: { optical: true }).delete_all
     elsif i = iso_attachment
       i.update! volume_id: id
     else
-      attachments.new(volume: Volume.find(id), attachment: 'cdrom')
+      attachments.new(volume: Volume.find(id), attachment: "cdrom")
     end
   end
 
   def root_attachment
-    attachments.joins(:volume).where(volumes: {optical: false}).first
+    attachments.joins(:volume).where(volumes: { optical: false }).first
   end
 
   def root
@@ -279,7 +273,7 @@ class Server < ActiveRecord::Base
         {
           mac: generate_mac(0),
           net: ipv4_address.subnet.network.bridge,
-          if: "vm#{id}i0"
+          if: "vm#{id}i0",
         },
       ],
       password: vnc_password,
@@ -297,11 +291,11 @@ class Server < ActiveRecord::Base
   end
 
   def ipv4_address
-    addresses.joins(:subnet).find_by(subnets: { kind: 'IPv4' })
+    addresses.joins(:subnet).find_by(subnets: { kind: "IPv4" })
   end
 
   def ipv6_address
-    addresses.joins(:subnet).find_by(subnets: { kind: 'IPv6' })
+    addresses.joins(:subnet).find_by(subnets: { kind: "IPv6" })
   end
 
   def effective_zone
@@ -311,18 +305,18 @@ class Server < ActiveRecord::Base
   private
 
   def allocate_address
-    if !ipv4_address
-      effective_zone.networks.first.allocate_address('IPv4', server: self)
+    unless ipv4_address
+      effective_zone.networks.first.allocate_address("IPv4", server: self)
     end
-    if !ipv6_address
-      effective_zone.networks.first.allocate_address('IPv6', server: self)
+    unless ipv6_address
+      effective_zone.networks.first.allocate_address("IPv6", server: self)
     end
   end
 
   def realize_storage
-    if !root and self.storage > 0
+    if !root && self.storage > 0
       volume = Volume.create!(server: self, account: account, size: storage * 1_000_000_000, zone: effective_zone, name: "root")
-      attachments.create!(volume: volume, attachment: 'hda')
+      attachments.create!(volume: volume, attachment: "hda")
       volume.realize
     end
     root && root.realize
@@ -346,7 +340,7 @@ class Server < ActiveRecord::Base
         netmask: ipv6_address.subnet.netmask,
         gateway: ipv6_address.subnet.gateway.to_s,
       },
-      hostname: name.downcase.tr('^a-z0-9-', '')
+      hostname: name.downcase.tr("^a-z0-9-", ""),
     }
   end
 

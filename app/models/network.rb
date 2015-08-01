@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class Network < ActiveRecord::Base
+
   belongs_to :account
   belongs_to :bundle
   belongs_to :zone
@@ -16,7 +20,7 @@ class Network < ActiveRecord::Base
 
   after_save do
     if subnets.empty?
-      s = subnets.create! kind: 'ipv4', prefix: prefix, first: first.to_s, last: last.to_s
+      s = subnets.create! kind: "ipv4", prefix: prefix, first: first.to_s, last: last.to_s
       addresses.each do |addr|
         addr.update_attributes! subnet: s, network: nil
       end

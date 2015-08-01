@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class CreateVolumes < ActiveRecord::Migration
+
   def change
     create_table :volumes do |t|
       t.string :name
@@ -15,4 +19,5 @@ class CreateVolumes < ActiveRecord::Migration
       t.timestamps
     end
   end
+
 end

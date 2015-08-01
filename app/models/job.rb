@@ -1,5 +1,9 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class Job < ActiveRecord::Base
-  belongs_to :owner, class_name: 'User'
+
+  belongs_to :owner, class_name: "User"
   belongs_to :server
 
   scope :pending, -> { where(status: "pending") }
@@ -15,7 +19,7 @@ class Job < ActiveRecord::Base
     @workers ||= begin
       5.times.map do
         Thread.new do
-          while true
+          loop do
             job, action = queue.pop
             job.invoke action
           end
@@ -25,15 +29,15 @@ class Job < ActiveRecord::Base
   end
 
   def invoke (action)
-    self.update_attributes started_at: Time.now, status: "running", finished_at: nil
+    update_attributes started_at: Time.now, status: "running", finished_at: nil
     begin
-      self.send(action)
+      send(action)
       self.status = "finished"
     rescue => e
-      self.state["error"] = {
+      state["error"] = {
         "backtrace" => e.backtrace,
         "message" => e.message,
-        "type" => e.class.name
+        "type" => e.class.name,
       }
       self.state_will_change!
       self.status = "failed"
@@ -83,7 +87,7 @@ class Job < ActiveRecord::Base
   end
 
   def resume
-    raise "Can't resume job"
+    fail "Can't resume job"
   end
 
 end

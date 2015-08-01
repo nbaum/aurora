@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class Session < ActiveRecord::Base
+
   belongs_to :user
 
   attr_accessor :email, :password
@@ -6,7 +10,7 @@ class Session < ActiveRecord::Base
   validate :its_an_old_code_but_it_checks_out, if: :new_record?
 
   def its_an_old_code_but_it_checks_out
-    return if self.user
+    return if user
     if u = User.authenticate(email, password)
       self.user = u
     else

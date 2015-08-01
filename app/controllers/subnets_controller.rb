@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class SubnetsController < ApplicationController
 
   before_action :set_network
@@ -15,7 +18,7 @@ class SubnetsController < ApplicationController
   def create
     @subnet = @subnets.new(subnet_params)
     if @subnet.save
-      redirect_to [@network, @subnet], notice: 'Subnet was successfully created.'
+      redirect_to [@network, @subnet], notice: "Subnet was successfully created."
     else
       render :new
     end
@@ -23,7 +26,7 @@ class SubnetsController < ApplicationController
 
   def update
     if @subnet.update(subnet_params)
-      redirect_to [@network, @subnet], notice: 'Subnet was successfully updated.'
+      redirect_to [@network, @subnet], notice: "Subnet was successfully updated."
     else
       render :edit
     end
@@ -31,7 +34,7 @@ class SubnetsController < ApplicationController
 
   def destroy
     @subnet.destroy
-    redirect_to [@network, :subnets], notice: 'Subnet was successfully destroyed.'
+    redirect_to [@network, :subnets], notice: "Subnet was successfully destroyed."
   end
 
   private

@@ -1,8 +1,12 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class Bundle < ActiveRecord::Base
+
   belongs_to :account
-  has_many :servers, :dependent => :destroy
-  has_many :volumes, :dependent => :destroy
-  has_many :networks, :dependent => :destroy
+  has_many :servers, dependent: :destroy
+  has_many :volumes, dependent: :destroy
+  has_many :networks, dependent: :destroy
 
   def start
     each_server(&:start)

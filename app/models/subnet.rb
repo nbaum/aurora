@@ -1,43 +1,43 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class Subnet < ActiveRecord::Base
+
   belongs_to :network
 
   has_many :addresses, dependent: :destroy
 
-  KINDS = %w(IPv4 IPv6)
+  KINDS = %w[IPv4 IPv6]
 
   validates :kind, inclusion: KINDS
   validates :prefix, numericality: { greater_than_or_equal_to: 0,
                                      less_than_or_equal_to: 32 },
-                     if: -> s { s.kind == 'IPv4' }
+                     if: -> s { s.kind == "IPv4" }
   validates :prefix, numericality: { greater_than_or_equal_to: 0,
                                      less_than_or_equal_to: 128 },
-                     if: -> s { s.kind == 'IPv6' }
+                     if: -> s { s.kind == "IPv6" }
 
-  validate :valid_ipv4?, if: -> s { s.kind == 'IPv4' }
-  validate :valid_ipv6?, if: -> s { s.kind == 'IPv6' }
+  validate :valid_ipv4?, if: -> s { s.kind == "IPv4" }
+  validate :valid_ipv6?, if: -> s { s.kind == "IPv6" }
 
   def valid_ipv4?
-    %i(gateway first last).each do |name|
-      unless self[name].ipv4?
-        errors.add(name, "isn't a valid IPv4 address")
-      end
+    %i[gateway first last].each do |name|
+      errors.add(name, "isn't a valid IPv4 address") unless self[name].ipv4?
     end
   end
 
   def valid_ipv6?
-    %i(gateway first last).each do |name|
-      unless self[name].ipv6?
-        errors.add(name, "isn't a valid IPv6 address")
-      end
+    %i[gateway first last].each do |name|
+      errors.add(name, "isn't a valid IPv6 address") unless self[name].ipv6?
     end
   end
 
   def ipv4?
-    kind == 'IPv4'
+    kind == "IPv4"
   end
 
   def ipv6?
-    kind == 'IPv6'
+    kind == "IPv6"
   end
 
   def name
@@ -58,8 +58,6 @@ class Subnet < ActiveRecord::Base
   def netmask
     if ipv4?
       [(0xFFFFFFFF & ((1 << prefix.to_i) - 1))].pack("L").unpack("C4").join(".")
-    else
-      nil
     end
   end
 

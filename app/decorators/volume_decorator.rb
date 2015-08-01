@@ -1,6 +1,10 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 using Aurora::Refinements::NumberFormatting
 
 class VolumeDecorator < Draper::Decorator
+
   include Draper::Linker
   delegate_all
 

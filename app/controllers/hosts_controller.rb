@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class HostsController < ApplicationController
 
   before_action :set_hosts
@@ -14,7 +17,7 @@ class HostsController < ApplicationController
   def create
     @host = @hosts.new(host_params)
     if @host.save
-      redirect_to @host, notice: 'Host was successfully created.'
+      redirect_to @host, notice: "Host was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class HostsController < ApplicationController
 
   def update
     if @host.update(host_params)
-      redirect_to @host, notice: 'Host was successfully updated.'
+      redirect_to @host, notice: "Host was successfully updated."
     else
       render :edit
     end
@@ -30,12 +33,12 @@ class HostsController < ApplicationController
 
   def destroy
     @host.destroy
-    redirect_to hosts_url, notice: 'Host was successfully destroyed.'
+    redirect_to hosts_url, notice: "Host was successfully destroyed."
   end
 
   def evict_all
     @host.servers.each do |server|
-      current_user.job("Evict server #{server.name}", server) do |j, server|
+      current_user.job("Evict server #{server.name}", server) do |j, _|
         server.evict
         j.finish "Server moved to #{server.host.name}"
       end

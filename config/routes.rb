@@ -1,5 +1,7 @@
-Rails.application.routes.draw do
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
 
+Rails.application.routes.draw do
   resources :jobs do
     member do
       post :restart
@@ -64,7 +66,7 @@ Rails.application.routes.draw do
   resources :servers do
     member do
       get :storage, :network, :console, :debug, :admin
-      get "console/socket" => 'servers#socket'
+      get "console/socket" => "servers#socket"
       post :start, :pause, :unpause, :suspend, :stop, :reset, :clone, :resume
       post :migrate, :evict
     end
@@ -77,8 +79,7 @@ Rails.application.routes.draw do
   end
 
   root "pages#index"
-  get 'boom' => 'pages#boom'
+  get "boom" => "pages#boom"
 
-  match 'errors/:status' => 'pages#error', via: :all
-
+  match "errors/:status" => "pages#error", via: :all
 end

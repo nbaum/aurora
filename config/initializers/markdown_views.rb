@@ -1,6 +1,10 @@
-require 'rdiscount'
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
+require "rdiscount"
 
 module MarkdownHandler
+
   def self.erb
     @erb ||= ActionView::Template.registered_template_handler(:erb)
   end
@@ -9,6 +13,7 @@ module MarkdownHandler
     compiled_source = erb.call(template)
     "RDiscount.new(begin;#{compiled_source};end).to_html"
   end
+
 end
 
 ActionView::Template.register_template_handler :md, MarkdownHandler

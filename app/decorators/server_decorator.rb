@@ -1,6 +1,10 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 using Aurora::Refinements::NumberFormatting
 
 class ServerDecorator < Draper::Decorator
+
   include Draper::Linker
   delegate_all
 
@@ -18,14 +22,14 @@ class ServerDecorator < Draper::Decorator
 
   def state_icon
     case state
-    when 'stopped'
-      h.content_tag(:i, '', class: 'fa fa-fw fa-stop', title: state)
-    when 'running'
-      h.content_tag(:i, '', class: 'fa fa-fw fa-play', title: state)
-    when 'paused'
-      h.content_tag(:i, '', class: 'fa fa-fw fa-pause', title: state)
+    when "stopped"
+      h.content_tag(:i, "", class: "fa fa-fw fa-stop", title: state)
+    when "running"
+      h.content_tag(:i, "", class: "fa fa-fw fa-play", title: state)
+    when "paused"
+      h.content_tag(:i, "", class: "fa fa-fw fa-pause", title: state)
     else
-      h.content_tag(:i, '', class: 'fa fa-fw fa-question', title: state)
+      h.content_tag(:i, "", class: "fa fa-fw fa-question", title: state)
     end
   end
 

@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class VolumesController < ApplicationController
 
   before_action :set_volumes
@@ -14,7 +17,7 @@ class VolumesController < ApplicationController
   def create
     @volume = @volumes.new(volume_params)
     if @volume.save
-      redirect_to @volume, notice: 'Volume was successfully created.'
+      redirect_to @volume, notice: "Volume was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class VolumesController < ApplicationController
 
   def update
     if @volume.update(volume_params)
-      redirect_to @volume, notice: 'Volume was successfully updated.'
+      redirect_to @volume, notice: "Volume was successfully updated."
     else
       render :edit
     end
@@ -30,23 +33,23 @@ class VolumesController < ApplicationController
 
   def destroy
     @volume.destroy
-    redirect_to volumes_url, notice: 'Volume was successfully destroyed.'
+    redirect_to volumes_url, notice: "Volume was successfully destroyed."
   end
 
   def attach
-    raise params.inspect
+    fail params.inspect
   end
 
   def wipe
     @volume.wipe
-    redirect_to @volume, notice: 'Volume was successfully wiped.'
+    redirect_to @volume, notice: "Volume was successfully wiped."
   end
 
   def upload!
     vu = VolumeUploader.new @volume
     @volume.update! size: params[:volume][:file].size.inspect
     vu.store! params[:volume][:file]
-    redirect_to :back, notice: 'Volume data uploaded.'
+    redirect_to :back, notice: "Volume data uploaded."
   end
 
   private

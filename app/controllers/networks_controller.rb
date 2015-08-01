@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class NetworksController < ApplicationController
 
   before_action :set_networks
@@ -14,7 +17,7 @@ class NetworksController < ApplicationController
   def create
     @network = @networks.new(network_params)
     if @network.save
-      redirect_to @network, notice: 'Network was successfully created.'
+      redirect_to @network, notice: "Network was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class NetworksController < ApplicationController
 
   def update
     if @network.update(network_params)
-      redirect_to @network, notice: 'Network was successfully updated.'
+      redirect_to @network, notice: "Network was successfully updated."
     else
       render :edit
     end
@@ -30,7 +33,7 @@ class NetworksController < ApplicationController
 
   def destroy
     @network.destroy
-    redirect_to networks_url, notice: 'Network was successfully destroyed.'
+    redirect_to networks_url, notice: "Network was successfully destroyed."
   end
 
   private

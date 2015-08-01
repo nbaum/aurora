@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class TariffsController < ApplicationController
 
   before_action :set_tariffs
@@ -14,7 +17,7 @@ class TariffsController < ApplicationController
   def create
     @tariff = @tariffs.new(tariff_params)
     if @tariff.save
-      redirect_to @tariff, notice: 'Tariff was successfully created.'
+      redirect_to @tariff, notice: "Tariff was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class TariffsController < ApplicationController
 
   def update
     if @tariff.update(tariff_params)
-      redirect_to @tariff, notice: 'Tariff was successfully updated.'
+      redirect_to @tariff, notice: "Tariff was successfully updated."
     else
       render :edit
     end
@@ -30,7 +33,7 @@ class TariffsController < ApplicationController
 
   def destroy
     @tariff.destroy
-    redirect_to tariffs_url, notice: 'Tariff was successfully destroyed.'
+    redirect_to tariffs_url, notice: "Tariff was successfully destroyed."
   end
 
   private

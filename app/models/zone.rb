@@ -1,9 +1,12 @@
-require 'aurora/corona'
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
+require "aurora/corona"
 
 class Zone < ActiveRecord::Base
 
   has_many :hosts
-  has_many :pools, through: :hosts, class_name: 'StoragePool'
+  has_many :pools, through: :hosts, class_name: "StoragePool"
 
   has_many :networks
 

@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class CreateUsers < ActiveRecord::Migration
+
   def change
     create_table :users do |t|
       t.string :name
@@ -11,4 +15,5 @@ class CreateUsers < ActiveRecord::Migration
       t.timestamps
     end
   end
+
 end

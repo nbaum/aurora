@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class SessionsController < ApplicationController
 
   skip_before_filter :check_authentication, only: [:new, :create]
@@ -17,7 +20,7 @@ class SessionsController < ApplicationController
     @session = @sessions.new(session_params)
     if @session.save
       session[:sid] = @session.id
-      redirect_to params[:path] || :root, notice: 'Welcome to Aurora.'
+      redirect_to params[:path] || :root, notice: "Welcome to Aurora."
     else
       render :new
     end

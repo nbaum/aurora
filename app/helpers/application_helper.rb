@@ -1,3 +1,5 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
 module ApplicationHelper
 
   def convert_options_to_data_attributes (options, html_options)
@@ -11,14 +13,14 @@ module ApplicationHelper
     path = request.path
     path += "?" + request.query_string unless request.query_string == ""
     html_options ||= {}
-    html_options['href'] ||= url
-    if path == url or (html_options[:exact] != true and path.start_with?(url))
-      if html_options['class']
-        html_options['class'] << " active"
+    html_options["href"] ||= url
+    if path == url || (html_options[:exact] != true && path.start_with?(url))
+      if html_options["class"]
+        html_options["class"] << " active"
       else
-        html_options['class'] = "active"
+        html_options["class"] = "active"
       end
-      #html_options['href'] = nil if path == url
+      # html_options['href'] = nil if path == url
     end
     html_options.delete(:exact)
     super(options, html_options)

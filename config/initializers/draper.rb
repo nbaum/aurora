@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 module Draper
 
   CollectionDecorator.delegate :current_page, :total_pages, :limit_value, :total_count
@@ -21,10 +24,9 @@ module Draper
     end
 
     def link_if (item, name = item && item.name)
-      item ? h.link_to(name, item) : h.content_tag(:span, "(None)", class: 'subdue')
+      item ? h.link_to(name, item) : h.content_tag(:span, "(None)", class: "subdue")
     end
 
   end
 
 end
-

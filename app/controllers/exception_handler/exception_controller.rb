@@ -1,7 +1,12 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 module ExceptionHandler
+
   class ExceptionController < ActionController::Base
+
     respond_to :html, :xml, :json
-  	before_action :status, :app_name
+    before_action :status, :app_name
 
     layout :layout_status
 
@@ -12,7 +17,7 @@ module ExceptionHandler
     protected
 
     def status
-      @exception  = env['action_dispatch.exception']
+      @exception  = env["action_dispatch.exception"]
       @status     = ActionDispatch::ExceptionWrapper.new(env, @exception).status_code
       @response   = ActionDispatch::ExceptionWrapper.rescue_responses[@exception.class.name]
     end
@@ -39,4 +44,5 @@ module ExceptionHandler
     end
 
   end
+
 end

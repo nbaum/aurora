@@ -1,8 +1,12 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 using Aurora::Refinements::NumberFormatting
 
 Thread.abort_on_exception = true
 
 class ServersController < ApplicationController
+
   include Tubesock::Hijack
 
   before_action :set_servers
@@ -19,7 +23,7 @@ class ServersController < ApplicationController
   def create
     @server = @servers.new(server_params)
     if @server.save
-      redirect_to @server, notice: 'Server was successfully created.'
+      redirect_to @server, notice: "Server was successfully created."
     else
       render :new
     end
@@ -27,7 +31,7 @@ class ServersController < ApplicationController
 
   def update
     if @server.update(server_params)
-      redirect_to :back, notice: 'Server was successfully updated.'
+      redirect_to :back, notice: "Server was successfully updated."
     else
       render :edit
     end
@@ -97,7 +101,7 @@ class ServersController < ApplicationController
     hijack do |ws|
       sock = TCPSocket.new(*@server.vnc_address)
       Thread.new do
-        while true
+        loop do
           IO.select([sock])
           ws.send_data Base64.strict_encode64(sock.recv(8192)) rescue break
         end
@@ -121,7 +125,7 @@ class ServersController < ApplicationController
     else
       @server = @servers.find(params[:id])
     end
-    @server = @server.decorate unless request.method == 'POST'
+    @server = @server.decorate unless request.method == "POST"
   end
 
   def server_params

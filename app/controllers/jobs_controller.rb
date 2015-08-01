@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class JobsController < ApplicationController
 
   before_action :set_jobs
@@ -14,7 +17,7 @@ class JobsController < ApplicationController
   def create
     @job = @jobs.new(job_params)
     if @job.save
-      redirect_to @job, notice: 'Job was successfully created.'
+      redirect_to @job, notice: "Job was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class JobsController < ApplicationController
 
   def update
     if @job.update(job_params)
-      redirect_to @job, notice: 'Job was successfully updated.'
+      redirect_to @job, notice: "Job was successfully updated."
     else
       render :edit
     end

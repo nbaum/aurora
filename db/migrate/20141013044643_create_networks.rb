@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class CreateNetworks < ActiveRecord::Migration
+
   def change
     create_table :networks do |t|
       t.string :name
@@ -14,4 +18,5 @@ class CreateNetworks < ActiveRecord::Migration
       t.timestamps
     end
   end
+
 end

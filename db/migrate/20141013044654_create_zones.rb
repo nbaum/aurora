@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class CreateZones < ActiveRecord::Migration
+
   def change
     create_table :zones do |t|
       t.string :name
@@ -8,4 +12,5 @@ class CreateZones < ActiveRecord::Migration
       t.timestamps
     end
   end
+
 end

@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
-require_relative '../config/boot'
-require 'rake'
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+require_relative "../config/boot"
+require "rake"
 Rake.application.run

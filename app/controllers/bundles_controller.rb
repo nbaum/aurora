@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class BundlesController < ApplicationController
 
   before_action :set_bundles
@@ -14,7 +17,7 @@ class BundlesController < ApplicationController
   def create
     @bundle = @bundles.new(bundle_params)
     if @bundle.save
-      redirect_to @bundle, notice: 'Bundle was successfully created.'
+      redirect_to @bundle, notice: "Bundle was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class BundlesController < ApplicationController
 
   def update
     if @bundle.update(bundle_params)
-      redirect_to @bundle, notice: 'Bundle was successfully updated.'
+      redirect_to @bundle, notice: "Bundle was successfully updated."
     else
       render :edit
     end
@@ -30,39 +33,37 @@ class BundlesController < ApplicationController
 
   def destroy
     @bundle.destroy
-    redirect_to bundles_url, notice: 'Bundle was successfully destroyed.'
+    redirect_to bundles_url, notice: "Bundle was successfully destroyed."
   end
 
   def start
     @bundle.start
-    redirect_to @bundle, notice: 'Bundle started'
+    redirect_to @bundle, notice: "Bundle started"
   end
 
   def pause
     @bundle.pause
-    redirect_to @bundle, notice: 'Bundle paused'
+    redirect_to @bundle, notice: "Bundle paused"
   end
 
   def unpause
     @bundle.unpause
-    redirect_to @bundle, notice: 'Bundle resumed'
+    redirect_to @bundle, notice: "Bundle resumed"
   end
 
   def reset
     @bundle.reset
-    redirect_to @bundle, notice: 'Bundle reset'
+    redirect_to @bundle, notice: "Bundle reset"
   end
 
   def stop
     @bundle.stop
-    redirect_to @bundle, notice: 'Bundle stopped'
+    redirect_to @bundle, notice: "Bundle stopped"
   end
 
   def clone
     new_server = @bundle.clone
-    if new_server.save
-      redirect_to new_server, notice: 'Bundle copied'
-    end
+    redirect_to new_server, notice: "Bundle copied" if new_server.save
   end
 
   private
@@ -74,7 +75,7 @@ class BundlesController < ApplicationController
   def set_bundle
     return if params[:id].nil?
     @bundle = @bundles.find(params[:id])
-    @bundle = @bundle.decorate unless request.method == 'POST'
+    @bundle = @bundle.decorate unless request.method == "POST"
   end
 
   def bundle_params

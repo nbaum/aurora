@@ -1,13 +1,14 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class Aurora::Corona::Error < StandardError
 
   def initialize (message = nil, klass = nil, backtrace = [])
     super(message)
-    @klass, @backtrace = klass, backtrace
+    @klass = klass
+    @backtrace = backtrace
   end
 
-  def backtrace
-    @backtrace
-  end
+  attr_reader :backtrace
 
 end
-

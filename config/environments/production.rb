@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

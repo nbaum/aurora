@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class StoragePoolsController < ApplicationController
 
   before_action :set_storage_pools
@@ -14,7 +17,7 @@ class StoragePoolsController < ApplicationController
   def create
     @storage_pool = @storage_pools.new(storage_pool_params)
     if @storage_pool.save
-      redirect_to @storage_pool, notice: 'Storage pool was successfully created.'
+      redirect_to @storage_pool, notice: "Storage pool was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class StoragePoolsController < ApplicationController
 
   def update
     if @storage_pool.update(storage_pool_params)
-      redirect_to @storage_pool, notice: 'Storage pool was successfully updated.'
+      redirect_to @storage_pool, notice: "Storage pool was successfully updated."
     else
       render :edit
     end
@@ -30,7 +33,7 @@ class StoragePoolsController < ApplicationController
 
   def destroy
     @storage_pool.destroy
-    redirect_to storage_pools_url, notice: 'Storage pool was successfully destroyed.'
+    redirect_to storage_pools_url, notice: "Storage pool was successfully destroyed."
   end
 
   def refresh

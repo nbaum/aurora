@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class CreateAddresses < ActiveRecord::Migration
+
   def change
     create_table :addresses do |t|
       t.inet :ip
@@ -9,4 +13,5 @@ class CreateAddresses < ActiveRecord::Migration
       t.timestamps
     end
   end
+
 end

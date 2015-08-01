@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class ZonesController < ApplicationController
 
   before_action :set_zones
@@ -14,7 +17,7 @@ class ZonesController < ApplicationController
   def create
     @zone = @zones.new(zone_params)
     if @zone.save
-      redirect_to @zone, notice: 'Zone was successfully created.'
+      redirect_to @zone, notice: "Zone was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class ZonesController < ApplicationController
 
   def update
     if @zone.update(zone_params)
-      redirect_to @zone, notice: 'Zone was successfully updated.'
+      redirect_to @zone, notice: "Zone was successfully updated."
     else
       render :edit
     end
@@ -30,7 +33,7 @@ class ZonesController < ApplicationController
 
   def destroy
     @zone.destroy
-    redirect_to zones_url, notice: 'Zone was successfully destroyed.'
+    redirect_to zones_url, notice: "Zone was successfully destroyed."
   end
 
   private

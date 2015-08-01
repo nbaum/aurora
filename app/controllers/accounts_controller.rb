@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class AccountsController < ApplicationController
 
   before_action :set_accounts
@@ -14,7 +17,7 @@ class AccountsController < ApplicationController
   def create
     @account = @accounts.new(account_params)
     if @account.save
-      redirect_to @account, notice: 'Account was successfully created.'
+      redirect_to @account, notice: "Account was successfully created."
     else
       render :new
     end
@@ -22,7 +25,7 @@ class AccountsController < ApplicationController
 
   def update
     if @account.update(account_params)
-      redirect_to @account, notice: 'Account was successfully updated.'
+      redirect_to @account, notice: "Account was successfully updated."
     else
       render :edit
     end
@@ -30,7 +33,7 @@ class AccountsController < ApplicationController
 
   def destroy
     @account.destroy
-    redirect_to accounts_url, notice: 'Account was successfully destroyed.'
+    redirect_to accounts_url, notice: "Account was successfully destroyed."
   end
 
   private

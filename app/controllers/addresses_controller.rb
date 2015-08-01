@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class AddressesController < ApplicationController
 
   before_action :set_network
@@ -17,7 +20,7 @@ class AddressesController < ApplicationController
   def create
     @address = @addresses.new(address_params)
     if @address.save
-      redirect_to @address, notice: 'Address was successfully created.'
+      redirect_to @address, notice: "Address was successfully created."
     else
       render :new
     end
@@ -25,7 +28,7 @@ class AddressesController < ApplicationController
 
   def update
     if @address.update(address_params)
-      redirect_to @address, notice: 'Address was successfully updated.'
+      redirect_to @address, notice: "Address was successfully updated."
     else
       render :edit
     end
@@ -33,7 +36,7 @@ class AddressesController < ApplicationController
 
   def destroy
     @address.destroy
-    redirect_to [@network, @subnet, :addresses], notice: 'Address was successfully destroyed.'
+    redirect_to [@network, @subnet, :addresses], notice: "Address was successfully destroyed."
   end
 
   private
@@ -55,7 +58,7 @@ class AddressesController < ApplicationController
   def set_address
     return if params[:id].nil?
     @address = @addresses.find(params[:id])
-    @address = @address.decorate unless request.method == 'POST'
+    @address = @address.decorate unless request.method == "POST"
   end
 
   def address_params

@@ -1,4 +1,6 @@
 # encoding: UTF-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,16 +13,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726230900) do
-
+ActiveRecord::Schema.define(version: 2015_07_26_23_09_00) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: true do |t|
-    t.string   "name"
-    t.decimal  "balance"
-    t.integer  "tariff_id"
-    t.integer  "zone_id"
+    t.string "name"
+    t.decimal "balance"
+    t.integer "tariff_id"
+    t.integer "zone_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -29,13 +30,13 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "accounts", ["zone_id"], name: "index_accounts_on_zone_id", using: :btree
 
   create_table "addresses", force: true do |t|
-    t.inet     "ip"
-    t.integer  "account_id"
-    t.integer  "server_id"
-    t.integer  "network_id"
+    t.inet "ip"
+    t.integer "account_id"
+    t.integer "server_id"
+    t.integer "network_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "subnet_id"
+    t.integer "subnet_id"
   end
 
   add_index "addresses", ["account_id"], name: "index_addresses_on_account_id", using: :btree
@@ -44,9 +45,9 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "addresses", ["subnet_id"], name: "index_addresses_on_subnet_id", using: :btree
 
   create_table "addresses_networks", force: true do |t|
-    t.string   "attachment"
-    t.integer  "server_id"
-    t.integer  "network_id"
+    t.string "attachment"
+    t.integer "server_id"
+    t.integer "network_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -55,9 +56,9 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "addresses_networks", ["server_id"], name: "index_addresses_networks_on_server_id", using: :btree
 
   create_table "appliances", force: true do |t|
-    t.string   "name"
-    t.string   "internal_class"
-    t.integer  "template_id"
+    t.string "name"
+    t.string "internal_class"
+    t.integer "template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -65,9 +66,9 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "appliances", ["template_id"], name: "index_appliances_on_template_id", using: :btree
 
   create_table "bundles", force: true do |t|
-    t.string   "name"
+    t.string "name"
     t.datetime "published_at"
-    t.integer  "account_id"
+    t.integer "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -75,9 +76,9 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "bundles", ["account_id"], name: "index_bundles_on_account_id", using: :btree
 
   create_table "campaigns", force: true do |t|
-    t.string   "name"
-    t.integer  "snippet_id"
-    t.integer  "account_id"
+    t.string "name"
+    t.integer "snippet_id"
+    t.integer "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -86,8 +87,8 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "campaigns", ["snippet_id"], name: "index_campaigns_on_snippet_id", using: :btree
 
   create_table "data_sources", force: true do |t|
-    t.string   "name"
-    t.integer  "account_id"
+    t.string "name"
+    t.integer "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,47 +96,47 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "data_sources", ["account_id"], name: "index_data_sources_on_account_id", using: :btree
 
   create_table "hosts", force: true do |t|
-    t.string   "name"
-    t.integer  "cores"
-    t.integer  "memory",      limit: 8
-    t.string   "url"
-    t.inet     "address"
-    t.boolean  "has_compute"
-    t.integer  "zone_id"
+    t.string "name"
+    t.integer "cores"
+    t.integer "memory",      limit: 8
+    t.string "url"
+    t.inet "address"
+    t.boolean "has_compute"
+    t.integer "zone_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "has_storage"
-    t.boolean  "enabled",               default: true
+    t.boolean "has_storage"
+    t.boolean "enabled",               default: true
   end
 
   add_index "hosts", ["zone_id"], name: "index_hosts_on_zone_id", using: :btree
 
   create_table "jobs", force: true do |t|
-    t.string   "type"
-    t.string   "status"
-    t.integer  "owner_id"
-    t.integer  "server_id"
+    t.string "type"
+    t.string "status"
+    t.integer "owner_id"
+    t.integer "server_id"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.json     "state",       default: {}
-    t.json     "args",        default: {}
+    t.json "state",       default: {}
+    t.json "args",        default: {}
   end
 
   add_index "jobs", ["owner_id"], name: "index_jobs_on_owner_id", using: :btree
   add_index "jobs", ["server_id"], name: "index_jobs_on_server_id", using: :btree
 
   create_table "networks", force: true do |t|
-    t.string   "name"
-    t.string   "bridge"
-    t.string   "gateway"
-    t.integer  "prefix"
-    t.inet     "first"
-    t.inet     "last"
-    t.integer  "account_id"
-    t.integer  "bundle_id"
-    t.integer  "zone_id"
+    t.string "name"
+    t.string "bridge"
+    t.string "gateway"
+    t.integer "prefix"
+    t.inet "first"
+    t.inet "last"
+    t.integer "account_id"
+    t.integer "bundle_id"
+    t.integer "zone_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -145,28 +146,28 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "networks", ["zone_id"], name: "index_networks_on_zone_id", using: :btree
 
   create_table "servers", force: true do |t|
-    t.string   "name"
-    t.integer  "cores"
-    t.integer  "memory"
-    t.integer  "storage"
-    t.string   "password"
-    t.string   "state"
-    t.integer  "affinity_group"
-    t.json     "appliance_data"
-    t.integer  "template_id"
-    t.integer  "host_id"
-    t.integer  "account_id"
-    t.integer  "zone_id"
-    t.integer  "appliance_id"
-    t.integer  "bundle_id"
+    t.string "name"
+    t.integer "cores"
+    t.integer "memory"
+    t.integer "storage"
+    t.string "password"
+    t.string "state"
+    t.integer "affinity_group"
+    t.json "appliance_data"
+    t.integer "template_id"
+    t.integer "host_id"
+    t.integer "account_id"
+    t.integer "zone_id"
+    t.integer "appliance_id"
+    t.integer "bundle_id"
     t.datetime "published_at"
-    t.integer  "base_id"
-    t.integer  "current_id"
+    t.integer "base_id"
+    t.integer "current_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "machine_type"
-    t.string   "boot_order"
-    t.boolean  "pinned",         default: false
+    t.string "machine_type"
+    t.string "boot_order"
+    t.boolean "pinned",         default: false
   end
 
   add_index "servers", ["account_id"], name: "index_servers_on_account_id", using: :btree
@@ -179,9 +180,9 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "servers", ["zone_id"], name: "index_servers_on_zone_id", using: :btree
 
   create_table "servers_volumes", force: true do |t|
-    t.string   "attachment"
-    t.integer  "server_id"
-    t.integer  "volume_id"
+    t.string "attachment"
+    t.integer "server_id"
+    t.integer "volume_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -190,17 +191,17 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "servers_volumes", ["volume_id"], name: "index_servers_volumes_on_volume_id", using: :btree
 
   create_table "sessions", force: true do |t|
-    t.integer  "user_id"
+    t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "snippets", force: true do |t|
-    t.string   "name"
-    t.text     "html"
-    t.text     "css"
-    t.text     "plain"
-    t.integer  "account_id"
+    t.string "name"
+    t.text "html"
+    t.text "css"
+    t.text "plain"
+    t.integer "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -208,25 +209,25 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "snippets", ["account_id"], name: "index_snippets_on_account_id", using: :btree
 
   create_table "storage_pools", force: true do |t|
-    t.string   "name"
-    t.integer  "size",       limit: 8
-    t.integer  "account_id"
-    t.integer  "host_id"
+    t.string "name"
+    t.integer "size",       limit: 8
+    t.integer "account_id"
+    t.integer "host_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "path"
+    t.string "path"
   end
 
   add_index "storage_pools", ["account_id"], name: "index_storage_pools_on_account_id", using: :btree
   add_index "storage_pools", ["host_id"], name: "index_storage_pools_on_host_id", using: :btree
 
   create_table "subnets", force: true do |t|
-    t.string   "kind"
-    t.string   "prefix"
-    t.inet     "gateway"
-    t.inet     "first"
-    t.inet     "last"
-    t.integer  "network_id"
+    t.string "kind"
+    t.string "prefix"
+    t.inet "gateway"
+    t.inet "first"
+    t.inet "last"
+    t.integer "network_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -234,20 +235,20 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "subnets", ["network_id"], name: "index_subnets_on_network_id", using: :btree
 
   create_table "tariffs", force: true do |t|
-    t.boolean  "default"
-    t.string   "name"
-    t.decimal  "core"
-    t.decimal  "memory"
-    t.decimal  "storage"
-    t.decimal  "address"
+    t.boolean "default"
+    t.string "name"
+    t.decimal "core"
+    t.decimal "memory"
+    t.decimal "storage"
+    t.decimal "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "transactions", force: true do |t|
-    t.decimal  "amount"
-    t.string   "description"
-    t.integer  "account_id"
+    t.decimal "amount"
+    t.string "description"
+    t.integer "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -255,12 +256,12 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "transactions", ["account_id"], name: "index_transactions_on_account_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "password_digest"
-    t.integer  "account_id"
-    t.boolean  "administrator"
-    t.text     "ssh_keys"
+    t.string "name"
+    t.string "email"
+    t.string "password_digest"
+    t.integer "account_id"
+    t.boolean "administrator"
+    t.text "ssh_keys"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -268,19 +269,19 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "users", ["account_id"], name: "index_users_on_account_id", using: :btree
 
   create_table "volumes", force: true do |t|
-    t.string   "name"
-    t.integer  "size",            limit: 8
-    t.boolean  "ephemeral"
-    t.boolean  "optical"
-    t.integer  "server_id"
-    t.integer  "base_id"
-    t.integer  "account_id"
-    t.integer  "bundle_id"
-    t.integer  "storage_pool_id"
+    t.string "name"
+    t.integer "size",            limit: 8
+    t.boolean "ephemeral"
+    t.boolean "optical"
+    t.integer "server_id"
+    t.integer "base_id"
+    t.integer "account_id"
+    t.integer "bundle_id"
+    t.integer "storage_pool_id"
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "path"
+    t.string "path"
   end
 
   add_index "volumes", ["account_id"], name: "index_volumes_on_account_id", using: :btree
@@ -290,13 +291,12 @@ ActiveRecord::Schema.define(version: 20150726230900) do
   add_index "volumes", ["storage_pool_id"], name: "index_volumes_on_storage_pool_id", using: :btree
 
   create_table "zones", force: true do |t|
-    t.string   "name"
-    t.string   "dns1"
-    t.string   "dns2"
+    t.string "name"
+    t.string "dns1"
+    t.string "dns2"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "pretend",     default: false
-    t.integer  "reliability", default: 0
+    t.boolean "pretend",     default: false
+    t.integer "reliability", default: 0
   end
-
 end

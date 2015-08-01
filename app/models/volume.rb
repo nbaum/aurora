@@ -1,12 +1,16 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class Volume < ActiveRecord::Base
+
   belongs_to :server
-  belongs_to :base, class_name: 'Volume'
+  belongs_to :base, class_name: "Volume"
   belongs_to :account
   belongs_to :bundle
-  belongs_to :pool, class_name: 'StoragePool', foreign_key: 'storage_pool_id'
+  belongs_to :pool, class_name: "StoragePool", foreign_key: "storage_pool_id"
 
   has_many :servers, through: :attachments
-  has_many :attachments, class_name: 'ServerVolume', dependent: :destroy
+  has_many :attachments, class_name: "ServerVolume", dependent: :destroy
 
   after_initialize if: :new_record? do
     self.size ||= 10
@@ -18,24 +22,22 @@ class Volume < ActiveRecord::Base
   end
 
   after_destroy do
-    api.delete()
+    api.delete
   end
 
-  def name ()
+  def name
     n = super
     n = "#{server.name}'s #{n}" if server
     n
   end
 
-  def api ()
+  def api
     pool && pool.host && pool.host.api(pool: pool.path, path: path)
   end
 
-  def zone= (zone)
-    @zone = zone
-  end
+  attr_writer :zone
 
-  def full_path ()
+  def full_path
     "#{pool.path}/#{path}"
   end
 
@@ -43,12 +45,12 @@ class Volume < ActiveRecord::Base
     {
       path: full_path,
       ephemeral: ephemeral,
-      optical: optical
+      optical: optical,
     }
   end
 
   def clone (**attrs)
-    attrs = attributes.merge(attrs).merge("id" => nil, "base_id" => self.id)
+    attrs = attributes.merge(attrs).merge("id" => nil, "base_id" => id)
     attrs.delete("path")
     v = Volume.new
     attrs.each do |key, value|

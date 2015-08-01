@@ -1,9 +1,13 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class User < ActiveRecord::Base
+
   has_secure_password validations: false
 
   belongs_to :account
 
-  has_many :jobs, foreign_key: 'owner_id'
+  has_many :jobs, foreign_key: "owner_id"
 
   validates :password, confirmation: true, length: 6..72, allow_nil: true
   validates :account_id, presence: true

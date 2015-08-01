@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class CreateServers < ActiveRecord::Migration
+
   def change
     create_table :servers do |t|
       t.string :name
@@ -22,4 +26,5 @@ class CreateServers < ActiveRecord::Migration
       t.timestamps
     end
   end
+
 end

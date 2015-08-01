@@ -1,8 +1,12 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class ApplicationController < ActionController::Base
+
   protect_from_forgery with: :exception
 
   before_filter :check_authentication
-  #before_filter :check_authorization
+  # before_filter :check_authorization
 
   helper_method :current_account
   helper_method :current_user
@@ -34,7 +38,7 @@ class ApplicationController < ActionController::Base
   def current_session
     if session[:sid]
       s = Session.find(session[:sid]) rescue nil
-      session[:sid] = nil if !s or s.ended_at
+      session[:sid] = nil if !s || s.ended_at
       s
     end
   end

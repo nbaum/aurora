@@ -1,3 +1,6 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 module Aurora
 
   module Refinements
@@ -5,7 +8,6 @@ module Aurora
     module NumberFormatting
 
       refine Numeric do
-
         def binary_si (suffix = "B")
           prefixes = [
             [1024**8, " Yi"],
@@ -20,9 +22,9 @@ module Aurora
           ]
           prefixes.each do |mul, prefix|
             next if self / mul == 0
-            return ("%.2f" % [self / mul.to_f]).gsub(/\.0+$/, '') + prefix + suffix
+            return format("%.2f", self / mul.to_f).gsub(/\.0+$/, "") + prefix + suffix
           end
-          return "0" + suffix
+          "0" + suffix
         end
 
         def decimal_si (suffix = "B")
@@ -39,15 +41,14 @@ module Aurora
           ]
           prefixes.each do |mul, prefix|
             next if self / mul == 0
-            return ("%.2f" % [self / mul.to_f]).gsub(/\.0+$/, '') + prefix + suffix
+            return format("%.2f", self / mul.to_f).gsub(/\.0+$/, "") + prefix + suffix
           end
-          return "0" + suffix
+          "0" + suffix
         end
 
         def delimited
           to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
         end
-
       end
 
     end

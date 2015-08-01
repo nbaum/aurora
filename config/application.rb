@@ -1,4 +1,7 @@
-require File.expand_path('../boot', __FILE__)
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
+require File.expand_path("../boot", __FILE__)
 
 # Pick the frameworks you want:
 require "active_model/railtie"
@@ -16,5 +19,7 @@ Bundler.require(*Rails.groups)
 Dotenv.load
 
 class Application < Rails::Application
+
   config.autoload_paths << Rails.root.join("lib")
+
 end

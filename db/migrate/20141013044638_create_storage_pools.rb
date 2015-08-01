@@ -1,4 +1,8 @@
+# encoding: utf-8
+# Copyright (c) 2015 Orbital Informatics Ltd
+
 class CreateStoragePools < ActiveRecord::Migration
+
   def change
     create_table :storage_pools do |t|
       t.string :name
@@ -9,4 +13,5 @@ class CreateStoragePools < ActiveRecord::Migration
       t.timestamps
     end
   end
+
 end
