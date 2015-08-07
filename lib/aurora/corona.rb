@@ -27,7 +27,7 @@ module Aurora
     end
 
     def invoke (name, args)
-      ::Kernel.raise ::TypeError, "API arguments aren't a hash: #{args.inspect}" unless args.is_a?(Hash)
+      ::Kernel.raise ::TypeError, "API arguments aren't a hash: #{args.inspect}" unless args.is_a?(::Hash)
       res = @http.post(name.to_s, @args.merge(args).to_yaml)
       if res.status == 200
         ::YAML.load(res.body)
