@@ -8,8 +8,6 @@ gem "draper"
 gem "pg"
 gem "postgres_ext"
 
-gem "etcd"
-
 gem "uglifier", ">= 1.3.0"
 
 gem "slim-rails"
