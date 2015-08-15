@@ -6,6 +6,11 @@ class JobsController < ApplicationController
   before_action :set_jobs
   before_action :set_job, except: [:new]
 
+  def remove_finished
+    @jobs.finished.destroy_all
+    redirect_to :back
+  end
+
   def index
     @jobs = @jobs.order(:id).page(params[:page]).decorate
   end
@@ -49,7 +54,7 @@ class JobsController < ApplicationController
   private
 
   def set_jobs
-    @jobs = Job.all
+    @jobs = current_user.jobs
   end
 
   def set_job

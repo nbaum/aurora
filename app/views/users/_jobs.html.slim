@@ -3,7 +3,7 @@ div style="max-height: 20em"
     table style="width: 100%"
       thead
         tr
-          th
+          th = button_to "Remove Finished", remove_finished_jobs_path
           th Job
           th Duration
           th Status

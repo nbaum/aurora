@@ -3,6 +3,9 @@
 
 Rails.application.routes.draw do
   resources :jobs do
+    collection do
+      post :remove_finished
+    end
     member do
       post :restart
       post :cancel
