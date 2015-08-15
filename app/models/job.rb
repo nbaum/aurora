@@ -9,7 +9,7 @@ class Job < ActiveRecord::Base
   scope :pending, -> { where(status: "pending") }
   scope :running, -> { where(status: "running") }
   scope :failed, -> { where(status: "failed") }
-  scope :completed, -> { where(status: "completed") }
+  scope :finished, -> { where(status: "finished") }
 
   def self.queue
     @queue ||= Queue.new
