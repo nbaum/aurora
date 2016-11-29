@@ -2,11 +2,23 @@
 main
   table.properties
     tr
-      th Amount
-      td = @transaction.amount
+      th Kind
+      td = @transaction.kind
+    tr
+      th Rate
+      td = @transaction.rate
+    tr
+      th Period
+      td = @transaction.period
     tr
       th Description
       td = @transaction.description
+    tr
+      th Opened
+      td = @transaction.created_at
+    tr
+      th Closed
+      td = @transaction.closed_at
     tr
       th Account
       td = @transaction.account

@@ -4,15 +4,25 @@ main
   table.table
     thead
       tr
-        th ID
-        th Amount
-        th Description
         th Account
+        th Description
+        th Kind
+        th Period
+        th Rate
+        th Opened
+        th Closed
+        th Duration
+        th Amount
     tbody
       - @transactions.each do |transaction|
         tr
-          td = link_to transaction.id, transaction
+          td = transaction.account_link
+          td = link_to transaction.description, transaction
+          td = transaction.kind
+          td = transaction.period
+          td = transaction.rate
+          td = transaction.created_at
+          td = transaction.closed_at || "Still open"
+          td = transaction.duration
           td = transaction.amount
-          td = transaction.description
-          td = transaction.account
   = paginate @transactions

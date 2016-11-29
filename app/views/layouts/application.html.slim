@@ -28,6 +28,10 @@ script src="/novnc/util.js"
     h1 Aurora
     - if current_user
       menu.account
+        li: strong = number_to_currency current_account.balance, unit: "£"
+        li
+          - current_account.rate.each do |prd, rate|
+            =' "#{number_to_currency rate, unit: "£"}/#{prd}"
         li = link_to "#{current_account.name}", current_account
         li = link_to "#{current_user.name}", current_user
         li = link_to "Logout", [:terminate, current_session]

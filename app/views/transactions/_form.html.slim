@@ -5,17 +5,25 @@
       ul
         - @transaction.errors.full_messages.each do |message|
           li = message
-
   table.properties
     tr
-      th = f.label :amount
-      td = f.text_field :amount
+      th = f.label :kind
+      td = f.select :kind, Transaction::KINDS.invert
+    tr
+      th = f.label :period
+      td = f.select :period, Transaction::PERIODS.invert
+    tr
+      th = f.label :rate
+      td = f.text_field :rate
+    tr
+      th = f.label :closed_at
+      td = f.datetime_field :closed_at, type: "datetime-local"
     tr
       th = f.label :description
       td = f.text_field :description
     tr
-      th = f.label :account
-      td = f.text_field :account
+      th = f.label :account_id
+      td = f.select :account_id, Account.pluck(:name, :id)
     tr
       th
       td = f.button @transaction.new_record? ? "Create" : "Update"

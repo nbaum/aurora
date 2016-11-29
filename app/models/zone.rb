@@ -20,7 +20,11 @@ class Zone < ActiveRecord::Base
   end
 
   def api (url, args = {})
-    Aurora::Corona.new(url, args)
+    if pretend
+      Aurora::Corona::Mock.new(url, args)
+    else
+      Aurora::Corona.new(url, args)
+    end
   end
 
 end

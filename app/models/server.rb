@@ -5,6 +5,9 @@ require "chaucer"
 class Server < ActiveRecord::Base
 
   include Lockable
+  include ActionView::Helpers::UrlHelper
+
+  delegate :url_helpers, to: "Rails.application.routes"
 
   Error = Class.new(StandardError)
 
@@ -14,9 +17,9 @@ class Server < ActiveRecord::Base
     "virtio" => "PC (VirtIO storage)",
     "vmware" => "PC (Simulated VMware storage)",
     "mac" => "Apple Macintosh",
-  }
+  }.freeze
 
-  STATES = %w[stopped starting running pausing paused stopping suspending suspended resuming]
+  STATES = %w[stopped starting running pausing paused stopping suspending suspended resuming].freeze
 
   belongs_to :template, class_name: "Server"
   belongs_to :host
@@ -61,6 +64,17 @@ class Server < ActiveRecord::Base
       end
       template.api.unpause if suspended
     end
+    account.debit("server", charge, self.name, period = "second")
+  end
+
+  def tariff
+    account.tariff
+  end
+
+  def charge
+    tariff.core * cores +
+      tariff.memory * memory +
+      tariff.storage * storage
   end
 
   def migration_port
@@ -79,8 +93,8 @@ class Server < ActiveRecord::Base
 
   def migrate (new_host)
     return if host == new_host
-    fail Error.new("Server isn't started") unless started?
-    fail Error.new("Server is pinned") if pinned?
+    raise Error, "Server isn't started" unless started?
+    raise Error, "Server is pinned" if pinned?
     already_migrating = false
     begin
       self.new_host = new_host
@@ -124,7 +138,7 @@ class Server < ActiveRecord::Base
 
   def start (resume: false, migrate: false)
     return if started? && !migrate
-    fail Error.new("Server isn't stopped") unless stopped? || migrate
+    raise Error, "Server isn't stopped" unless stopped? || migrate
     transaction do |_tx|
       self.host ||= pick_host
       self.state = "running"
@@ -143,7 +157,7 @@ class Server < ActiveRecord::Base
 
   def pause
     return if paused?
-    fail Error.new("Server isn't running") unless state == "running"
+    raise Error, "Server isn't running" unless state == "running"
     transaction do |_tx|
       self.state = "paused"
       save!
@@ -153,7 +167,7 @@ class Server < ActiveRecord::Base
 
   def unpause
     return if running?
-    fail Error.new("Server isn't paused") unless state == "paused"
+    raise Error, "Server isn't paused" unless state == "paused"
     transaction do |_tx|
       self.state = "running"
       save!
@@ -163,7 +177,7 @@ class Server < ActiveRecord::Base
 
   def stop
     return if stopped?
-    fail Error.new("Server isn't started") unless state == "running" || state == "paused"
+    raise Error, "Server isn't started" unless state == "running" || state == "paused"
     transaction do |_tx|
       self.state = "stopped"
       api_ = api
@@ -175,7 +189,7 @@ class Server < ActiveRecord::Base
 
   def suspend (tag = id)
     return if suspended?
-    fail Error.new("Server isn't running") unless state == "running" || state == "paused" || state == "suspended"
+    raise Error, "Server isn't running" unless state == "running" || state == "paused" || state == "suspended"
     transaction do |_tx|
       self.state = "suspended"
       save!
@@ -185,12 +199,12 @@ class Server < ActiveRecord::Base
   end
 
   def resume (tag = id)
-    fail Error.new("Server isn't suspended") unless suspended?
+    raise Error, "Server isn't suspended" unless suspended?
     start(resume: tag)
   end
 
   def reset
-    fail Error.new("Server isn't started") unless started?
+    raise Error, "Server isn't started" unless started?
     transaction do |_tx|
       api.reset
     end
@@ -217,7 +231,7 @@ class Server < ActiveRecord::Base
   end
 
   def vnc_address
-    fail "Server isn't started" unless started?
+    raise "Server isn't started" unless started?
     [host.address.to_s, id + 5900]
   end
 
@@ -347,7 +361,7 @@ class Server < ActiveRecord::Base
 
   def generate_mac (index)
     return nil unless id
-    fail "Can't have more than 16 interfaces" if index > 15
+    raise "Can't have more than 16 interfaces" if index > 15
     h = id << 4 | index
     h |= 0x020000000000
     [h << 16].pack("Q>").unpack("H2" * 6).join(":")

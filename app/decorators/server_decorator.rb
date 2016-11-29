@@ -9,6 +9,10 @@ class ServerDecorator < Draper::Decorator
 
   links :zone, :appliance, :template, :bundle, :host, :iso, :root, :account
 
+  def charge_format
+    "£#{charge * 60 * 60 * 24 * '30.436875'.to_d} / month".html_safe
+  end
+
   def memory_format
     h.content_tag(:abbr, memory.*(1_048_576).binary_si,
                   title: memory.*(1_048_576).delimited + " bytes")
