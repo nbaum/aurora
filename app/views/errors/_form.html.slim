@@ -1,0 +1,40 @@
+= form_for @error do |f|
+  - if @error.errors.any?
+    .errors
+      i.fa.fa-exclamation-triangle.fa-fw
+      h2 = "#{pluralize(@error.errors.count, "error")} prohibited this error from being saved:"
+      ul
+        - @error.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :usable_type
+      td = f.text_field :usable_type
+    tr
+      th = f.label :usable_id
+      td = f.number_field :usable_id
+    tr
+      th = f.label :class_name
+      td = f.text_field :class_name
+    tr
+      th = f.label :message
+      td = f.text_field :message
+    tr
+      th = f.label :trace
+      td = f.text_field :trace
+    tr
+      th = f.label :target_url
+      td = f.text_field :target_url
+    tr
+      th = f.label :referer_url
+      td = f.text_field :referer_url
+    tr
+      th = f.label :params
+      td = f.text_field :params
+    tr
+      th = f.label :user_agent
+      td = f.text_field :user_agent
+    tr
+      th
+      td = f.button @error.new_record? ? "Create" : "Update"

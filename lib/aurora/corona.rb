@@ -17,7 +17,7 @@ module Aurora
     defapi :migrate_to, :migrate_from, :migrate_status, :migrate_wait, :migrate_cancel
 
     # Volume APIs
-    defapi :realize, :delete, :list_volumes
+    defapi :realize, :delete, :list_volumes, :wipe
 
     def initialize (url, args = {})
       @url = url

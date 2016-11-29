@@ -54,4 +54,8 @@ module Chaucer
     [ADJECTIVE.sample, NOUN.sample].map(&:capitalize).join(" ")
   end
 
+  def self.volume_name
+    [NOUN.sample, NOUN.sample].map(&:capitalize).join(" ")
+  end
+
 end

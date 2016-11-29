@@ -1,4 +1,4 @@
-# Copyright (c) 2016 Nathan Baum
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_830_212_834) do
+ActiveRecord::Schema.define(version: 20161129051245) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,38 +74,32 @@ ActiveRecord::Schema.define(version: 20_150_830_212_834) do
 
   add_index "bundles", ["account_id"], name: "index_bundles_on_account_id", using: :btree
 
-  create_table "campaigns", force: true do |t|
-    t.string   "name"
-    t.integer  "snippet_id"
-    t.integer  "account_id"
+  create_table "errors", force: true do |t|
+    t.string   "usable_type"
+    t.integer  "usable_id"
+    t.text     "class_name"
+    t.text     "message"
+    t.text     "trace"
+    t.text     "target_url"
+    t.text     "referer_url"
+    t.text     "params"
+    t.text     "user_agent"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "campaigns", ["account_id"], name: "index_campaigns_on_account_id", using: :btree
-  add_index "campaigns", ["snippet_id"], name: "index_campaigns_on_snippet_id", using: :btree
-
-  create_table "data_sources", force: true do |t|
-    t.string   "name"
-    t.integer  "account_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "data_sources", ["account_id"], name: "index_data_sources_on_account_id", using: :btree
 
   create_table "hosts", force: true do |t|
     t.string   "name"
     t.integer  "cores"
-    t.integer  "memory", limit: 8
+    t.integer  "memory"
+    t.boolean  "has_storage"
     t.string   "url"
     t.inet     "address"
     t.boolean  "has_compute"
     t.integer  "zone_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "has_storage"
-    t.boolean  "enabled", default: true
+    t.boolean  "enabled",     default: true
   end
 
   add_index "hosts", ["zone_id"], name: "index_hosts_on_zone_id", using: :btree
@@ -112,14 +107,14 @@ ActiveRecord::Schema.define(version: 20_150_830_212_834) do
   create_table "jobs", force: true do |t|
     t.string   "type"
     t.string   "status"
+    t.json     "args",        default: {}
+    t.json     "state",       default: {}
     t.integer  "owner_id"
     t.integer  "server_id"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.json     "state",       default: {}
-    t.json     "args",        default: {}
   end
 
   add_index "jobs", ["owner_id"], name: "index_jobs_on_owner_id", using: :btree
@@ -165,7 +160,7 @@ ActiveRecord::Schema.define(version: 20_150_830_212_834) do
     t.datetime "updated_at"
     t.string   "machine_type"
     t.string   "boot_order"
-    t.boolean  "pinned", default: false
+    t.boolean  "pinned",         default: false
   end
 
   add_index "servers", ["account_id"], name: "index_servers_on_account_id", using: :btree
@@ -194,21 +189,9 @@ ActiveRecord::Schema.define(version: 20_150_830_212_834) do
     t.datetime "updated_at"
   end
 
-  create_table "snippets", force: true do |t|
-    t.string   "name"
-    t.text     "html"
-    t.text     "css"
-    t.text     "plain"
-    t.integer  "account_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "snippets", ["account_id"], name: "index_snippets_on_account_id", using: :btree
-
   create_table "storage_pools", force: true do |t|
     t.string   "name"
-    t.integer  "size", limit: 8
+    t.integer  "size",       limit: 8
     t.integer  "account_id"
     t.integer  "host_id"
     t.datetime "created_at"
@@ -271,7 +254,7 @@ ActiveRecord::Schema.define(version: 20_150_830_212_834) do
 
   create_table "volumes", force: true do |t|
     t.string   "name"
-    t.integer  "size", limit: 8
+    t.integer  "size",            limit: 8
     t.boolean  "ephemeral"
     t.boolean  "optical"
     t.integer  "server_id"
@@ -300,4 +283,5 @@ ActiveRecord::Schema.define(version: 20_150_830_212_834) do
     t.boolean  "pretend",     default: false
     t.integer  "reliability", default: 0
   end
+
 end

@@ -1,0 +1,6 @@
+= render("header")
+- @title << "Edit"
+main
+  = render("form")
+  p = button_to @error, method: :delete do
+    = icon("trash-o", "Delete")

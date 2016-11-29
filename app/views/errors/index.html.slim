@@ -1,0 +1,14 @@
+= render("header")
+main
+  = paginate @errors
+  table.table
+    thead
+      tr
+        th Error
+        th URL
+    tbody
+      - @errors.each do |error|
+        tr
+          td = link_to error.message, error
+          td = error.target_url
+  = paginate @errors

@@ -2,7 +2,9 @@
 
 module ExceptionHandler
 
-  class ExceptionController < ActionController::Base
+  class ExceptionController < ::ApplicationController
+
+		skip_before_filter :check_authentication
 
     respond_to :html, :xml, :json
     before_action :status, :app_name
@@ -35,7 +37,7 @@ module ExceptionHandler
     private
 
     def layout_status
-      @status.to_s != "404" ? "error" : "application"
+      @status.to_s != "404" ? "error" : "bare"
     end
 
     def app_name

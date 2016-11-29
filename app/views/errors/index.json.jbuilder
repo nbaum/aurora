@@ -1,0 +1,4 @@
+json.array!(@errors) do |error|
+  json.extract! error, :id, :usable_type, :usable_id, :class_name, :message, :trace, :target_url, :referer_url, :params, :user_agent
+  json.url error_url(error, format: :json)
+end

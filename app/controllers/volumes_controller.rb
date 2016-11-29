@@ -16,6 +16,8 @@ class VolumesController < ApplicationController
   def create
     @volume = @volumes.new(volume_params)
     if @volume.save
+      @volume.update(volume_params)
+      @volume.realize
       redirect_to @volume, notice: "Volume was successfully created."
     else
       render :new

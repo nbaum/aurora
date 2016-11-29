@@ -3,4 +3,17 @@
 set :rvm_roles, [:app]
 set :rails_env, "production"
 
-server "46.30.8.59", roles: %w[app web db], user: "aurora"
+role :app, %w[
+  aurora@46.30.14.132
+  aurora@46.30.14.133
+]
+
+role :web, %w[
+  aurora@46.30.14.132
+  aurora@46.30.14.133
+]
+
+role :db, %w[
+  aurora@46.30.14.132
+  aurora@46.30.14.133
+]

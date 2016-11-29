@@ -12,6 +12,7 @@ class Volume < ActiveRecord::Base
   has_many :attachments, class_name: "ServerVolume", dependent: :destroy
 
   after_initialize if: :new_record? do
+    self.name ||= Chaucer.volume_name
     self.size ||= 10
     self.pool = @zone && @zone.pools.first
     self.ephemeral = false
@@ -21,7 +22,7 @@ class Volume < ActiveRecord::Base
   end
 
   after_destroy do
-    api.delete
+    api.delete if pool
   end
 
   def name
@@ -59,7 +60,7 @@ class Volume < ActiveRecord::Base
   end
 
   def realize
-    api.realize(base: base && { pool: base.pool.path, path: base.path }, size: size)
+    api.realize(base: base && { pool: base.pool.path, path: base.path }, size: size * 1024 * 1024)
   end
 
   def wipe

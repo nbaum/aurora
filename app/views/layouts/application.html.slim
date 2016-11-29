@@ -31,7 +31,7 @@ script src="/novnc/util.js"
         li: strong = number_to_currency current_account.balance, unit: "£"
         li
           - current_account.rate.each do |prd, rate|
-            =' "#{number_to_currency rate, unit: "£"}/#{prd}"
+            => "#{number_to_currency rate, unit: "£"}/#{prd}"
         li = link_to "#{current_account.name}", current_account
         li = link_to "#{current_user.name}", current_user
         li = link_to "Logout", [:terminate, current_session]
@@ -58,7 +58,9 @@ script src="/novnc/util.js"
         li = link_to icon('building-o', 'Zones', fw: true), :zones
         /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
     article.grow = yield
-  footer#site-footer = render("users/jobs", user: current_user)
+  footer#site-footer
+	 	- if current_user
+			= render("users/jobs", user: current_user)
 coffee:
   refreshJobs = ->
     $.get "/users/me/jobs", (data) ->

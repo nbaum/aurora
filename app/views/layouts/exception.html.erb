@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <!--Info -->
+    <title><%= "Error - #{@exception.status} Error (#{details[:name]})" %></title>
+    <%= stylesheet_link_tag "exception_handler/error" %>
+
+  </head>
+  
+  <!--Body -->
+  <body>
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+    	<div class="connect">
+    		<%= social %>
+    	</div>
+    	<div class="app">
+    		<strong><%= link_to app, main_app.root_url, title: "Go to index" %></strong>
+    		<span> - <%= @exception.status %> Error</span>
+    	</div>
+    </footer>
+
+  </body>
+</html>

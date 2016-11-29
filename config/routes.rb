@@ -1,6 +1,7 @@
 # Copyright (c) 2016 Nathan Baum
 
 Rails.application.routes.draw do
+  resources :errors
   resources :jobs do
     collection do
       post :remove_finished

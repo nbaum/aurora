@@ -1,0 +1,30 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Usable type
+      td = @error.usable_type
+    tr
+      th Usable
+      td = @error.usable_id
+    tr
+      th Class name
+      td = @error.class_name
+    tr
+      th Message
+      td = @error.message
+    tr
+      th Trace
+      td = @error.trace
+    tr
+      th Target url
+      td = @error.target_url
+    tr
+      th Referer url
+      td = @error.referer_url
+    tr
+      th Params
+      td = @error.params
+    tr
+      th User agent
+      td = @error.user_agent

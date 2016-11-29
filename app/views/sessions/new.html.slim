@@ -16,12 +16,13 @@ main
         tr
           th = f.label :user_id
           td = f.select :user_id, User.all.pluck(:name, :id)
-      tr
-        th = f.label :email
-        td = f.text_field :email
-      tr
-        th = f.label :password
-        td = f.password_field :password
+      - else
+        tr
+          th = f.label :email
+          td = f.text_field :email
+        tr
+          th = f.label :password
+          td = f.password_field :password
       tr
         th
         td = f.button "Login"

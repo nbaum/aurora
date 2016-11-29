@@ -1,0 +1,16 @@
+- @title << "Errors"
+- if @error.nil? or @error.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "List", [:errors], exact: true
+    li = link_to "New", [:new, :error]
+  - @title << "New" if !@error.nil?
+- else
+  - @title << "Error"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Error List", :errors, exact: true, class: "bare"
+    li = link_to "View", @error, exact: true
+    li = link_to "Edit", [:edit, @error]
