@@ -1,5 +1,4 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 t = Tariff.create! name: "Free", core: 0, memory: 0, storage: 0, address: 0
 Tariff.create! name: "Default", core: 1, memory: 1, storage: 1, address: 1, default: true

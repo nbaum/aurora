@@ -1,5 +1,4 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 class Subnet < ActiveRecord::Base
 
@@ -7,18 +6,18 @@ class Subnet < ActiveRecord::Base
 
   has_many :addresses, dependent: :destroy
 
-  KINDS = %w[IPv4 IPv6]
+  KINDS = %w[IPv4 IPv6].freeze
 
   validates :kind, inclusion: KINDS
   validates :prefix, numericality: { greater_than_or_equal_to: 0,
                                      less_than_or_equal_to: 32 },
-                     if: -> s { s.kind == "IPv4" }
+                     if: -> (s) { s.kind == "IPv4" }
   validates :prefix, numericality: { greater_than_or_equal_to: 0,
                                      less_than_or_equal_to: 128 },
-                     if: -> s { s.kind == "IPv6" }
+                     if: -> (s) { s.kind == "IPv6" }
 
-  validate :valid_ipv4?, if: -> s { s.kind == "IPv4" }
-  validate :valid_ipv6?, if: -> s { s.kind == "IPv6" }
+  validate :valid_ipv4?, if: -> (s) { s.kind == "IPv4" }
+  validate :valid_ipv6?, if: -> (s) { s.kind == "IPv6" }
 
   def valid_ipv4?
     %i[gateway first last].each do |name|

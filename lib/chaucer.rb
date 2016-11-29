@@ -1,5 +1,4 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 module Chaucer
 
@@ -12,7 +11,7 @@ module Chaucer
                  thick tight tired true violent waiting warm wet wide wise yellow young awake bad bent bitter blue
                  certain cold complete cruel dark dead dear delicate different dirty dry false feeble female foolish
                  future green ill last late left loose loud low mixed narrow old opposite public rough sad safe secret
-                 short shut simple slow small soft solid special strange thin white wrong]
+                 short shut simple slow small soft solid special strange thin white wrong].freeze
 
   NOUN = %w[account act addition adjustment advertisement agreement air amount amusement animal answer apparatus
             approval argument art attack attempt attention attraction authority back balance base behavior belief birth
@@ -49,7 +48,7 @@ module Chaucer
             picture pig pin pipe plane plate plough pocket pot potato prison pump rail rat receipt ring rod roof root
             sail school scissors screw seed sheep shelf ship shirt shoe skin skirt snake sock spade sponge spoon spring
             square stamp star station stem stick stocking stomach store street sun table tail thread throat thumb ticket
-            toe tongue tooth town train tray tree trousers umbrella wall watch wheel whip whistle window wing wire worm]
+            toe tongue tooth town train tray tree trousers umbrella wall watch wheel whip whistle window wing wire worm].freeze
 
   def self.server_name
     [ADJECTIVE.sample, NOUN.sample].map(&:capitalize).join(" ")

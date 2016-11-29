@@ -1,5 +1,4 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 class VolumesController < ApplicationController
 
@@ -37,7 +36,7 @@ class VolumesController < ApplicationController
   end
 
   def attach
-    fail params.inspect
+    raise params.inspect
   end
 
   def wipe

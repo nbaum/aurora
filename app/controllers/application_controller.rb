@@ -1,5 +1,4 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 class ApplicationController < ActionController::Base
 
@@ -37,7 +36,11 @@ class ApplicationController < ActionController::Base
 
   def current_session
     if session[:sid]
-      s = Session.find(session[:sid]) rescue nil
+      s = begin
+            Session.find(session[:sid])
+          rescue
+            nil
+          end
       session[:sid] = nil if !s || s.ended_at
       s
     end

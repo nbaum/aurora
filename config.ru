@@ -1,7 +1,6 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
-require ::File.expand_path("../config/environment",  __FILE__)
+require ::File.expand_path("../config/environment", __FILE__)
 require "job"
 
 Job.running.each do |job|

@@ -1,10 +1,9 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 class PagesController < ApplicationController
 
   def boom
-    fail "!"
+    raise "!"
   end
 
   def error

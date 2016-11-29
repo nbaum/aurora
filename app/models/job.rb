@@ -1,5 +1,4 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 class Job < ActiveRecord::Base
 
@@ -17,7 +16,7 @@ class Job < ActiveRecord::Base
 
   def self.ensure_workers_are_running!
     @workers ||= begin
-      5.times.map do
+      Array.new(5) do
         Thread.new do
           loop do
             job, action = queue.pop
@@ -39,11 +38,11 @@ class Job < ActiveRecord::Base
         "message" => e.message,
         "type" => e.class.name,
       }
-      self.state_will_change!
+      state_will_change!
       self.status = "failed"
     ensure
       self.finished_at = Time.now
-      self.save!
+      save!
     end
   end
 
@@ -87,7 +86,7 @@ class Job < ActiveRecord::Base
   end
 
   def resume
-    fail "Can't resume job"
+    raise "Can't resume job"
   end
 
 end

@@ -1,5 +1,4 @@
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
+# Copyright (c) 2016 Nathan Baum
 
 using Aurora::Refinements::NumberFormatting
 
@@ -103,11 +102,19 @@ class ServersController < ApplicationController
       Thread.new do
         loop do
           IO.select([sock])
-          ws.send_data Base64.strict_encode64(sock.recv(8192)) rescue break
+          begin
+            ws.send_data Base64.strict_encode64(sock.recv(8192))
+          rescue
+            break
+          end
         end
       end
       ws.onmessage do |data|
-        sock << Base64.decode64(data) rescue nil
+        begin
+          sock << Base64.decode64(data)
+        rescue
+          nil
+        end
       end
     end
   end
@@ -120,11 +127,11 @@ class ServersController < ApplicationController
 
   def set_server
     return if params[:id].nil?
-    if current_user.administrator?
-      @server = Server.find(params[:id])
-    else
-      @server = @servers.find(params[:id])
-    end
+    @server = if current_user.administrator?
+                Server.find(params[:id])
+              else
+                @servers.find(params[:id])
+              end
     @server = @server.decorate unless request.method == "POST"
   end
 

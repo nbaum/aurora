@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
-# Copyright (c) 2015 Orbital Informatics Ltd
-APP_PATH = File.expand_path("../../config/application",  __FILE__)
+# Copyright (c) 2016 Nathan Baum
+APP_PATH = File.expand_path("../../config/application", __FILE__)
 require_relative "../config/boot"
 require "rails/commands"
