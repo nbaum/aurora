@@ -39,7 +39,7 @@
       td = f.select :boot_order, [["Disk, ISO, Network", "cdn"], ["ISO, Disk, Network", "dcn"], ["Network, ISO, Disk", "ncd"]]
     tr
       th = f.label :iso_id
-      td = f.grouped_collection_select :iso_id, Volume.where(optical: true), :pool, :full_name, :id, :name, include_blank: true
+      td = f.grouped_collection_select :iso_id, StoragePool.includes(:volumes).where(volumes: {optical: true}), :volumes, :full_name, :id, :name, include_blank: "(None)"
     /tr
       th = f.label :state
       td = f.select :state, [["unknown", nil], *Server::STATES]
