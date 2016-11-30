@@ -14,4 +14,8 @@ class Host < ActiveRecord::Base
     zone.api(url, args)
   end
 
+  def full_name
+    "#{name} on #{zone.full_name}"
+  end
+
 end

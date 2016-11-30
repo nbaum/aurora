@@ -18,4 +18,8 @@ class StoragePool < ActiveRecord::Base
     end
   end
 
+  def full_name
+    "#{name} on #{host.full_name}"
+  end
+
 end

@@ -39,7 +39,7 @@
       td = f.select :boot_order, [["Disk, ISO, Network", "cdn"], ["ISO, Disk, Network", "dcn"], ["Network, ISO, Disk", "ncd"]]
     tr
       th = f.label :iso_id
-      td = f.select :iso_id, [["(None)", nil], *Volume.where(optical: true).pluck(:name, :id)]
+      td = f.select :iso_id, [["(None)", nil], *Volume.where(optical: true).map{|v|[v.full_name, v.id]}]
     /tr
       th = f.label :state
       td = f.select :state, [["unknown", nil], *Server::STATES]

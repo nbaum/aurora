@@ -27,4 +27,8 @@ class Zone < ActiveRecord::Base
     end
   end
 
+  def full_name
+    name
+  end
+
 end

@@ -67,4 +67,8 @@ class Volume < ActiveRecord::Base
     api.wipe
   end
 
+  def full_name
+    "#{name} on #{pool.full_name}"
+  end
+
 end
