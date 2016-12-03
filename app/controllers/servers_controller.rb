@@ -14,7 +14,7 @@ class ServersController < ApplicationController
   def index
     @servers = @servers.includes(:appliance, :bundle, :zone).order(:id)
     unless params[:all]
-      @servers = @servers.where(bundle: nil)
+      @servers = @servers.where("bundle_id = 0 OR bundle_id IS NULL")
     end
     @servers = @servers.page(params[:page]).decorate
   end
