@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
 
   def job (type, **args)
     keys = {}
-    keys[:server] = args.delete(:server)
+    keys[:target] = args.delete(:server)
+    keys[:target] ||= args.delete(:bundle)
     job = Job.create!(status: "pending", owner: self, type: "jobs/#{type}".camelize, args: args, **keys)
     job.schedule
     job.wait

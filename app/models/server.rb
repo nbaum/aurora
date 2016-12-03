@@ -222,7 +222,7 @@ class Server < ActiveRecord::Base
         s.volumes << nvol
         map[vol.id] = nvol
       end
-      attachments.each do |att|
+      attachments.where(volume: true).each do |att|
         s.attachments << ServerVolume.new(attachment: att.attachment,
                                           volume: map[att.volume.id] || att.volume)
       end
@@ -318,7 +318,12 @@ class Server < ActiveRecord::Base
   end
 
   def effective_zone
-    zone ? zone : account ? account.zone : nil
+    @effective_zone ||= begin
+      volumes.each do |vol|
+        return @effective_zone = vol.zone if vol.zone
+      end
+      zone ? zone : account ? account.zone : nil
+    end
   end
 
   private

@@ -61,8 +61,8 @@ class BundlesController < ApplicationController
   end
 
   def clone
-    new_server = @bundle.clone
-    redirect_to new_server, notice: "Bundle copied" if new_server.save
+    current_user.job :clone_bundle, bundle: @bundle
+    redirect_to :bundles
   end
 
   private

@@ -3,7 +3,7 @@
 class Job < ActiveRecord::Base
 
   belongs_to :owner, class_name: "User"
-  belongs_to :server
+  belongs_to :target, polymorphic: true
 
   scope :pending, -> { where(status: "pending") }
   scope :running, -> { where(status: "running") }
@@ -25,6 +25,14 @@ class Job < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def server
+    Server === target ? target : fail("Job doesn't target a server")
+  end
+
+  def bundle
+    Bundle === target ? target : fail("Job doesn't target a bundle")
   end
 
   def invoke (action)
