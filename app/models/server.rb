@@ -277,6 +277,16 @@ class Server < ActiveRecord::Base
     root && root.id
   end
 
+  def port_configs
+    effective_zone.networks.map.with_index do |net, i|
+      {
+        mac: generate_mac(i),
+        net: addresses.joins(:subnet).joins(:network).find_by(networks: { id: net.id }, subnets: { kind: "IPv4" })&.network&.bridge,
+        if: "vm#{id}i#{i}",
+      }
+    end
+  end
+
   def config
     {
       host: host && host.id,
@@ -284,13 +294,7 @@ class Server < ActiveRecord::Base
       memory: memory,
       cores: cores,
       display: id,
-      ports: [
-        {
-          mac: generate_mac(0),
-          net: ipv4_address.subnet.network.bridge,
-          if: "vm#{id}i0",
-        },
-      ],
+      ports: port_configs,
       password: vnc_password,
       type: machine_type,
       boot_order: boot_order,
@@ -305,12 +309,12 @@ class Server < ActiveRecord::Base
     host.api(instance: id)
   end
 
-  def ipv4_address
-    addresses.joins(:subnet).find_by(subnets: { kind: "IPv4" })
+  def ipv4_address (network)
+    addresses.joins(:subnet).joins(:network).find_by(networks: { id: network.id }, subnets: { kind: "IPv4" })
   end
 
-  def ipv6_address
-    addresses.joins(:subnet).find_by(subnets: { kind: "IPv6" })
+  def ipv6_address (network)
+    addresses.joins(:subnet).joins(:network).find_by(networks: { id: network.id }, subnets: { kind: "IPv6" })
   end
 
   def effective_zone
@@ -320,17 +324,19 @@ class Server < ActiveRecord::Base
   private
 
   def allocate_address
-    unless ipv4_address
-      effective_zone.networks.first.allocate_address("IPv4", server: self)
-    end
-    unless ipv6_address
-      effective_zone.networks.first.allocate_address("IPv6", server: self)
+    effective_zone.networks.each do |network|
+      unless ipv4_address(network)
+        network.allocate_address("IPv4", server: self)
+      end
+      unless ipv6_address(network)
+        network.allocate_address("IPv6", server: self)
+      end
     end
   end
 
   def realize_storage
     if !root && self.storage > 0
-      volume = Volume.create!(server: self, account: account, size: storage * 1_000_000_000, zone: effective_zone, name: "root")
+      volume = Volume.create!(server: self, account: account, size: storage, zone: effective_zone, name: "root")
       attachments.create!(volume: volume, attachment: "hda")
       volume.realize
     end
@@ -343,18 +349,24 @@ class Server < ActiveRecord::Base
 
   def guest_data
     {
-      ipv4: ipv4_address && {
-        address: ipv4_address.ip.to_s,
-        prefix:  ipv4_address.subnet.prefix.to_i,
-        netmask: ipv4_address.subnet.netmask,
-        gateway: ipv4_address.subnet.gateway.to_s,
-      },
-      ipv6: ipv6_address && {
-        address: ipv6_address.ip.to_s,
-        prefix:  ipv6_address.subnet.prefix.to_i,
-        netmask: ipv6_address.subnet.netmask,
-        gateway: ipv6_address.subnet.gateway.to_s,
-      },
+      nets: effective_zone.networks.map do |net|
+        ipv4 = ipv4_address(net)
+        ipv6 = ipv6_address(net)
+        {
+          ipv4: ipv4 && {
+            address: ipv4.ip.to_s,
+            prefix:  ipv4.subnet.prefix.to_i,
+            netmask: ipv4.subnet.netmask,
+            gateway: ipv4.subnet.gateway.to_s,
+          },
+          ipv6: ipv6 && {
+            address: ipv6.ip.to_s,
+            prefix:  ipv6.prefix.to_i,
+            netmask: ipv6.subnet.netmask,
+            gateway: ipv6.subnet.gateway.to_s,
+          }
+        }
+      end,
       hostname: name.downcase.tr("^a-z0-9-", ""),
     }
   end

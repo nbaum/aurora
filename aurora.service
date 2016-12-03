@@ -1,8 +1,7 @@
 [Service]
-User=aurora
 ExecStart=/bin/bash -lc '/home/aurora/current/run'
 Environment=RACK_ENV=production
 
 [Install]
 WantedBy=multi-user.target
-
+l

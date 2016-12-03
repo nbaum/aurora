@@ -98,6 +98,7 @@ main {
       menu > li {
         display: inline-block;
         margin-right: 0.5em;
+        flex-grow: 1;
       }
       aside {
         background: #f7f7f7;

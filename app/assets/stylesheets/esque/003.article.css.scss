@@ -40,12 +40,16 @@ article {
     h1 {
       @extend .grow;
       font-size: 1.5em;
+      margin-right: 2em;
     }
     > * {
       margin-right: 0.5rem;
     }
     menu li {
       display: inline-block;
+    }
+    aside {
+      margin-left: 1ex;
     }
   }
   > main {

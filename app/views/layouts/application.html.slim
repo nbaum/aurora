@@ -16,14 +16,6 @@ script src="/novnc/util.js"
       div
         i.fa.fa-fw.fa-info
         = msg
-  coffee:
-    $ ->
-      hideFlashes = ->
-        $(".flash").each ->
-          $("div", this).slideUp()
-          $(this).on "mouseover", =>
-            $("div", this).slideDown()
-      window.setTimeout hideFlashes, 1000
   header#site-header
     h1 Aurora
     - if current_user

@@ -43,7 +43,7 @@
     /tr
       th = f.label :state
       td = f.select :state, [["unknown", nil], *Server::STATES]
-    tr
+    /tr
       th = f.label :affinity_group
       td = f.number_field :affinity_group, min: 0, max: 10
     /tr

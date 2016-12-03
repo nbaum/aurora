@@ -19,7 +19,7 @@ class StoragePool < ActiveRecord::Base
   end
 
   def full_name
-    "#{name} on #{host.full_name}"
+    "#{name} in #{host.zone.full_name}"
   end
 
 end

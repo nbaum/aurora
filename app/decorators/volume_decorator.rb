@@ -10,7 +10,7 @@ class VolumeDecorator < Draper::Decorator
   links :server, :base, :account, :bundle, :pool, :server
 
   def size_format
-    h.content_tag(:abbr, size.decimal_si, title: size.delimited + " bytes")
+    h.content_tag(:abbr, (size * 1_000_000_000).decimal_si, title: size.delimited + " gigabytes")
   end
 
 end

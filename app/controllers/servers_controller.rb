@@ -42,7 +42,7 @@ class ServersController < ApplicationController
   end
 
   def start
-    current_user.job :start_server, server: @server
+    @server.start
     redirect_to :back
   end
 

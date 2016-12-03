@@ -18,3 +18,13 @@
 
 $(document).on "page:change", ->
   $(".tabs").tabs()
+
+$ ->
+  hideFlashes = ->
+  $(".flash").each ->
+    $("div", this).slideUp()
+    $(this).on "click", =>
+      $(this).remove()
+    $(this).on "mouseover", =>
+      $("div", this).slideDown()
+  window.setTimeout hideFlashes, 1000

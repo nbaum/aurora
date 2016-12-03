@@ -64,38 +64,40 @@ main
       th Current
       td = @server.current
   h2 Network Settings
-  h3 IPv4
-  table.properties
-    tr
-      th Address
-      td
-        - if @server.ipv4_address
-          = @server.ipv4_address.ip
-        - else
-          .subdue() (None assigned)
-    tr
-      th Gateway
-      td
-        - if @server.ipv4_address
-          = @server.ipv4_address.subnet.gateway
-        - else
-          .subdue() (None assigned)
-  h3 IPv6
-  table.properties
-    tr
-      th Address
-      td
-        - if @server.ipv6_address
-          = @server.ipv6_address.ip
-        - else
-          .subdue() (None assigned)
-    tr
-      th Gateway
-      td
-        - if @server.ipv6_address
-          = @server.ipv6_address.subnet.gateway
-        - else
-          .subdue() (None assigned)
+  - @server.effective_zone.networks.each.with_index do |net, i|
+    h3 Port #{i} - #{net.name}
+    h4 IPv4
+    table.properties
+      tr
+        th Address
+        td
+          - if @server.ipv4_address(net)
+            = @server.ipv4_address(net).ip
+          - else
+            .subdue() (None assigned)
+      tr
+        th Gateway
+        td
+          - if @server.ipv4_address(net)
+            = @server.ipv4_address(net).subnet.gateway
+          - else
+            .subdue() (None assigned)
+    h4 IPv6
+    table.properties
+      tr
+        th Address
+        td
+          - if @server.ipv6_address(net)
+            = @server.ipv6_address(net).ip
+          - else
+            .subdue() (None assigned)
+      tr
+        th Gateway
+        td
+          - if @server.ipv6_address(net)
+            = @server.ipv6_address(net).subnet.gateway
+          - else
+            .subdue() (None assigned)
   - if @server.zone
     h3 DNS
     table.properties

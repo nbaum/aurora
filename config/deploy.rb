@@ -16,10 +16,8 @@ set :keep_releases, 5
 namespace :deploy do
   task :restart do
     on roles :app do
-      host.user = "root"
-      execute :cp, "~aurora/current/aurora.service", "/etc/systemd/system"
-      execute :systemctl, "daemon-reload"
-      execute :systemctl, "restart aurora"
+      execute :systemctl, "--user daemon-reload"
+      execute :systemctl, "--user restart aurora"
     end
   end
 end
