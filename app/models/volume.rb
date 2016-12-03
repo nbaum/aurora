@@ -60,7 +60,7 @@ class Volume < ActiveRecord::Base
   end
 
   def realize
-    api.realize(base: base && { pool: base.pool.path, path: base.path }, size: size * 1024 * 1024)
+    api.realize(base: base && { pool: base.pool.path, path: base.path }, size: size * 1024 * 1024 * 1024)
   end
 
   def wipe
