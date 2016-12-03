@@ -281,7 +281,7 @@ class Server < ActiveRecord::Base
     effective_zone.networks.order(:index).map.with_index do |net, i|
       {
         mac: generate_mac(i),
-        net: addresses.joins(:subnet).joins(:network).find_by(networks: { id: net.id }, subnets: { kind: "IPv4" })&.network&.bridge,
+        net: net.bridge,
         if: "vm#{id}i#{i}",
       }
     end
