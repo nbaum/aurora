@@ -74,14 +74,14 @@ main
             = @server.ipv4_address(net).ip
           - else
             .subdue() (None assigned)
-        th IPv4 Address
+        th IPv6 Address
         td
           - if @server.ipv6_address(net)
             = @server.ipv6_address(net).ip
           - else
             .subdue() (None assigned)
       tr
-        th IPv6 Gateway
+        th IPv4 Gateway
         td
           - if @server.ipv4_address(net)
             = @server.ipv4_address(net).subnet.gateway
