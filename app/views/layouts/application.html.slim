@@ -17,7 +17,7 @@ script src="/novnc/util.js"
         i.fa.fa-fw.fa-info
         = msg
   header#site-header
-    h1 Aurora
+    h1 = image_tag("logo.png", style: "height: 1em") + " Aurora"
     - if current_user
       menu.account
         li: strong = number_to_currency current_account.balance, unit: "£"
