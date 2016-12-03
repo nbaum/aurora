@@ -42,6 +42,7 @@ class Bundle < ActiveRecord::Base
       begin
         yield s
       rescue => e
+        raise e
       end
     end
   end

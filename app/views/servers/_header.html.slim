@@ -3,7 +3,8 @@
   header
     h1 = @title.last
   menu
-    li = link_to "List", [:servers], exact: true
+    li = link_to "Unbundled", servers_path, exact: true
+    li = link_to "All", servers_path(all: true), exact: true
     li = link_to "New", [:new, :server]
   - @title << "New" if !@server.nil?
 - else

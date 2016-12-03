@@ -12,7 +12,11 @@ class ServersController < ApplicationController
   before_action :set_server, except: [:new]
 
   def index
-    @servers = @servers.includes(:appliance, :bundle, :zone).order(:id).page(params[:page]).decorate
+    @servers = @servers.includes(:appliance, :bundle, :zone).order(:id)
+    unless params[:all]
+      @servers = @servers.where(bundle: nil)
+    end
+    @servers = @servers.page(params[:page]).decorate
   end
 
   def new

@@ -16,7 +16,7 @@ class StoragePool < ActiveRecord::Base
       v.optical = !!(data[:name] =~ /\.iso$/)
       v.ephemeral = !v.ephemeral
       v.pool = self
-      v.size = data[:size] / (1024 * 1024 * 1024)
+      v.size = data[:size] / (1024 * 1024 * 1024) unless v.optical
       v.save!
     end
     volumes.where(name: unseen).delete_all
