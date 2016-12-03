@@ -61,7 +61,7 @@
     tr
       th = f.label :zone_id
       td = f.collection_select :zone_id, Zone.all, :id, :name, include_blank: "(Account Default: #{current_account.zone.name})"
-    tr
+    /tr
       th = f.label :appliance_id
       td = f.select :appliance_id, [["(None)", 0], *Appliance.pluck(:name, :id)]
     tr
