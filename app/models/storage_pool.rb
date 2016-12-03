@@ -10,12 +10,13 @@ class StoragePool < ActiveRecord::Base
   def refresh
     unseen = volumes.pluck(:name)
     host.api.list_volumes(pool: path).each do |data|
+      p data
       unseen -= [data[:name]]
       v = volumes.where(path: data[:name]).first_or_initialize(path: data[:name], name: data[:name], ephemeral: false)
       v.optical = !!(data[:name] =~ /\.iso$/)
       v.ephemeral = !v.ephemeral
       v.pool = self
-      v.size = data[:size]
+      v.size = data[:size] / (1024 * 1024 * 1024)
       v.save!
     end
     volumes.where(name: unseen).delete_all
