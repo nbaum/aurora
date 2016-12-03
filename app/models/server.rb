@@ -278,7 +278,7 @@ class Server < ActiveRecord::Base
   end
 
   def port_configs
-    effective_zone.networks.map.with_index do |net, i|
+    effective_zone.networks.order(:index).map.with_index do |net, i|
       {
         mac: generate_mac(i),
         net: addresses.joins(:subnet).joins(:network).find_by(networks: { id: net.id }, subnets: { kind: "IPv4" })&.network&.bridge,
@@ -324,7 +324,7 @@ class Server < ActiveRecord::Base
   private
 
   def allocate_address
-    effective_zone.networks.each do |network|
+    effective_zone.networks.order(:index).each do |network|
       unless ipv4_address(network)
         network.allocate_address("IPv4", server: self)
       end
@@ -349,7 +349,7 @@ class Server < ActiveRecord::Base
 
   def guest_data
     {
-      nets: effective_zone.networks.map do |net|
+      nets: effective_zone.networks.order(:index).map do |net|
         ipv4 = ipv4_address(net)
         ipv6 = ipv6_address(net)
         {

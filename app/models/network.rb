@@ -9,6 +9,10 @@ class Network < ActiveRecord::Base
   has_many :addresses, dependent: :destroy
   has_many :subnets, dependent: :destroy
 
+  after_initialize do
+    self.index ||= 0
+  end
+
   def allocate_address (kind, to)
     subnets.where(kind: kind).each do |subnet|
       if a = subnet.allocate_address(to)

@@ -9,4 +9,4 @@ main
       - Server.all.each do |server|
         tr
           td = link_to server.name, server
-          td = !server.volumes.where(volume: @volume).empty?
+          td = !server.volumes.where(id: @volume).empty?

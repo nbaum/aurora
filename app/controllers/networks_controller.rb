@@ -47,7 +47,7 @@ class NetworksController < ApplicationController
   end
 
   def network_params
-    params.require(:network).permit(:name, :bridge, :account_id, :bundle_id, :zone_id)
+    params.require(:network).permit(:name, :bridge, :account_id, :bundle_id, :zone_id, :index)
   end
 
 end
