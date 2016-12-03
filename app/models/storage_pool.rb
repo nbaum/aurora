@@ -8,7 +8,9 @@ class StoragePool < ActiveRecord::Base
   has_many :volumes
 
   def refresh
+    unseen = volumes.pluck(:name)
     host.api.list_volumes(pool: path).each do |data|
+      unseen -= [data[:name]]
       v = volumes.where(path: data[:name]).first_or_initialize(path: data[:name], name: data[:name], ephemeral: false)
       v.optical = !!(data[:name] =~ /\.iso$/)
       v.ephemeral = !v.ephemeral
@@ -16,6 +18,7 @@ class StoragePool < ActiveRecord::Base
       v.size = data[:size]
       v.save!
     end
+    volumes.where(name: unseen).delete_all
   end
 
   def full_name

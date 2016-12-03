@@ -9,7 +9,7 @@
 - else
   - @title << @storage_pool.name
   header
-    div
+    .hbox
       h1 = @title.last
       menu
         li = button_to [:refresh, @storage_pool] do
@@ -19,4 +19,3 @@
     li = link_to "View", @storage_pool, exact: true
     li = link_to "Edit", [:edit, @storage_pool]
     li = link_to "Volumes", [:volumes, @storage_pool]
-
