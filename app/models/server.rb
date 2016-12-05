@@ -353,27 +353,20 @@ class Server < ActiveRecord::Base
   end
 
   def guest_data
-    {
-      nets: effective_zone.networks.order(:index).map do |net|
-        ipv4 = ipv4_address(net)
-        ipv6 = ipv6_address(net)
-        {
-          ipv4: ipv4 && {
-            address: ipv4.ip.to_s,
-            prefix:  ipv4.subnet.prefix.to_i,
-            netmask: ipv4.subnet.netmask,
-            gateway: ipv4.subnet.gateway.to_s,
-          },
-          ipv6: ipv6 && {
-            address: ipv6.ip.to_s,
-            prefix:  ipv6.prefix.to_i,
-            netmask: ipv6.subnet.netmask,
-            gateway: ipv6.subnet.gateway.to_s,
-          }
-        }
-      end,
-      hostname: name.downcase.tr("^a-z0-9-", ""),
-    }
+    gd = {}
+    gd["hostname"] = name.downcase.tr(" ", "-").tr("^a-z0-9-", "")
+    effective_zone.networks.order(:index).map.with_index do |net, i|
+      ipv4 = ipv4_address(net)
+      ipv6 = ipv6_address(net)
+      if ipv4
+        gd["net#{i}.address"] = ipv4.ip.to_s
+        gd["net#{i}.prefix"] = ipv4.subnet.prefix.to_s
+        gd["net#{i}.gateway"] = ipv4.subnet.gateway.to_s
+      else
+        gd["net#{i}.dhcp"] = 1
+      end
+    end
+    gd
   end
 
   def generate_mac (index)
