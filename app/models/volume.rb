@@ -35,6 +35,10 @@ class Volume < ActiveRecord::Base
     pool && pool.host && pool.host.api(pool: pool.path, path: path)
   end
 
+  def zone
+    pool && pool.zone
+  end
+
   attr_writer :zone
 
   def full_path

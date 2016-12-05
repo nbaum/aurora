@@ -10,7 +10,6 @@ class StoragePool < ActiveRecord::Base
   def refresh
     unseen = volumes.pluck(:name)
     host.api.list_volumes(pool: path).each do |data|
-      p data
       unseen -= [data[:name]]
       v = volumes.where(path: data[:name]).first_or_initialize(path: data[:name], name: data[:name], ephemeral: false)
       v.optical = !!(data[:name] =~ /\.iso$/)
@@ -24,6 +23,10 @@ class StoragePool < ActiveRecord::Base
 
   def full_name
     "#{name} in #{host.zone.full_name}"
+  end
+
+  def zone
+    host.zone
   end
 
 end
