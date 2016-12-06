@@ -73,7 +73,7 @@ main
           - if @server.ipv4_address(net)
             = @server.ipv4_address(net).ip
             ' /
-            = @server.ipv4_address(net).prefix
+            = @server.ipv4_address(net).subnet.prefix
           - else
             .subdue() (None assigned)
         /th IPv6 Address
