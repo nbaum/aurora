@@ -11,7 +11,8 @@
   - @title << @server.name
   header
     h1 = @title.last
-    aside = @server.charge_format
+    - @server.addresses.each do |addr|
+      aside = addr.address.to_s
     aside = @server.state.capitalize
     aside
       menu
