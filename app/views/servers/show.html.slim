@@ -72,10 +72,12 @@ main
         td
           - if @server.ipv4_address(net)
             = @server.ipv4_address(net).ip
+            ' /
+            = @server.ipv4_address(net).prefix
           - else
             .subdue() (None assigned)
-        th IPv6 Address
-        td
+        /th IPv6 Address
+        /td
           - if @server.ipv6_address(net)
             = @server.ipv6_address(net).ip
           - else
@@ -87,8 +89,8 @@ main
             = @server.ipv4_address(net).subnet.gateway
           - else
             .subdue() (None assigned)
-        th IPv6 Gateway
-        td
+        /th IPv6 Gateway
+        /td
           - if @server.ipv6_address(net)
             = @server.ipv6_address(net).subnet.gateway
           - else
