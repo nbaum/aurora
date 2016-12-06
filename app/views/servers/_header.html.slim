@@ -12,7 +12,7 @@
   header
     h1 = @title.last
     - @server.addresses.each do |addr|
-      aside = addr.address.to_s
+      aside = addr.ip.to_s
     aside = @server.state.capitalize
     aside
       menu
