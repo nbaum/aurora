@@ -64,37 +64,23 @@ main
       th Current
       td = @server.current
   h2 Network Settings
-  - @server.effective_zone.networks.each.with_index do |net, i|
+  - @server.effective_zone.networks.order(:index).each.with_index do |net, i|
     h3 Port #{i} - #{net.name}
     table.properties
-      tr
-        th IPv4 Address
-        td
-          - if @server.ipv4_address(net)
+      - if @server.ipv4_address(net)
+        tr
+          th IPv4 Address
+          td
             = @server.ipv4_address(net).ip
             ' /
             = @server.ipv4_address(net).subnet.prefix
-          - else
-            .subdue() (None assigned)
-        /th IPv6 Address
-        /td
-          - if @server.ipv6_address(net)
-            = @server.ipv6_address(net).ip
-          - else
-            .subdue() (None assigned)
-      tr
-        th IPv4 Gateway
-        td
-          - if @server.ipv4_address(net)
+        tr
+          th IPv4 Gateway
+          td
             = @server.ipv4_address(net).subnet.gateway
-          - else
-            .subdue() (None assigned)
-        /th IPv6 Gateway
-        /td
-          - if @server.ipv6_address(net)
-            = @server.ipv6_address(net).subnet.gateway
-          - else
-            .subdue() (None assigned)
+      - else
+        tr
+          th colspan=2 Configured via DHCP
   - if @server.zone
     h3 DNS
     table.properties
