@@ -47,7 +47,12 @@
           li = button_to [:push, @server]
             = icon("trash", "Update Template")
   menu
-    li = link_to "← Server List", :servers, exact: true, class: "bare"
+    - if @server.is_template
+      li = link_to "← Template List", servers_path(templates: true), exact: true, class: "bare"
+    - elsif @server.bundle
+      li = link_to "← Servers List", servers_path(all: true), exact: true, class: "bare"
+    - else
+      li = link_to "← Servers List", servers_path, exact: true, class: "bare"
     li = link_to "View", @server, exact: true
     li = link_to "Edit", [:edit, @server]
     li = link_to "Storage", [:storage, @server]
