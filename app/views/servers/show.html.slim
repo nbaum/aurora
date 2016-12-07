@@ -6,7 +6,7 @@ main
       td = @server.name
     tr
       th Notes
-      td == GitHub::Markup.render(".md", @server.notes)
+      td == GitHub::Markup.render(".md", @server.notes || "")
     tr
       th Cores
       td = @server.cores
