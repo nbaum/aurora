@@ -138,6 +138,7 @@ class Server < ActiveRecord::Base
 
   def start (resume: false, migrate: false)
     return if started? && !migrate
+    raise Error, "Refusing to run a template. Instead, run a clone and then push its changes back" if is_template
     raise Error, "Server isn't stopped" unless stopped? || migrate
     transaction do |_tx|
       self.host ||= pick_host
@@ -226,6 +227,29 @@ class Server < ActiveRecord::Base
         s.attachments << ServerVolume.new(attachment: att.attachment,
                                           volume: map[att.volume.id] || att.volume)
       end
+      s
+    end
+  end
+
+  def push (**attrs)
+    transaction do |_tx|
+      t = template
+      s = Server.new(t.attributes)
+      template.destroy!
+      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order].each do |field|
+        s[field] = attrs[field] || self[field]
+      end
+      map = {}
+      volumes.each do |vol|
+        nvol = vol.clone
+        s.volumes << nvol
+        map[vol.id] = nvol
+      end
+      attachments.where("volume_id IS NOT NULL").each do |att|
+        s.attachments << ServerVolume.new(attachment: att.attachment,
+                                          volume: map[att.volume.id] || att.volume)
+      end
+      s.save!
       s
     end
   end

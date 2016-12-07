@@ -20,6 +20,9 @@ gem "jquery-rails"
 gem "jquery-ui-rails"
 gem "carrierwave"
 
+gem "github-markup", require: "github/markup"
+gem "redcarpet"
+
 gem "turbolinks"
 gem "jbuilder", "~> 2.0"
 

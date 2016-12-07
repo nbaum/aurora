@@ -5,6 +5,9 @@ main
       th Name
       td = @server.name
     tr
+      th Notes
+      td == GitHub::Markup.render(".md", @server.notes)
+    tr
       th Cores
       td = @server.cores
     tr
@@ -18,19 +21,16 @@ main
           ' (#{@server.root.decorate.size_format})
         - else
           = @server.storage_format
-    tr
+    /tr
       th Password
       td = @server.password
-    tr
-      th State
-      td = @server.state
-    tr
+    /tr
       th Machine type
       td = @server.machine_type
     tr
       th ISO
       td = @server.iso_link
-    tr
+    /tr
       th Affinity group
       td = @server.affinity_group
     /tr
@@ -42,7 +42,7 @@ main
     tr
       th Account
       td = @server.account_link
-    tr
+    /tr
       th Zone
       td = @server.zone_link
     tr

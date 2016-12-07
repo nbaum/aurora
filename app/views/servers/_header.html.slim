@@ -5,6 +5,7 @@
   menu
     li = link_to "Unbundled", servers_path, exact: true
     li = link_to "All", servers_path(all: true), exact: true
+    li = link_to "Templates", servers_path(templates: true), exact: true
     li = link_to "New", [:new, :server]
   - @title << "New" if !@server.nil?
 - else
@@ -42,6 +43,9 @@
         - if @server.state == "stopped" or @server.state == "suspended"
           li = button_to @server, method: 'delete' do
             = icon("trash", "Delete")
+        - if @server.state == "stopped" and @server.template
+          li = button_to [:push, @server]
+            = icon("trash", "Update Template")
   menu
     li = link_to "← Server List", :servers, exact: true, class: "bare"
     li = link_to "View", @server, exact: true

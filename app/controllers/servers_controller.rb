@@ -13,9 +13,9 @@ class ServersController < ApplicationController
 
   def index
     @servers = @servers.includes(:appliance, :bundle, :zone).order(:id)
-    unless params[:all]
-      @servers = @servers.where("bundle_id = 0 OR bundle_id IS NULL")
-    end
+    @servers = @servers.where("bundle_id = 0 OR bundle_id IS NULL") unless params[:all]
+    @servers = @servers.where("is_template = FALSE") unless params[:templates]
+    @servers = @servers.where("is_template = TRUE") if params[:templates]
     @servers = @servers.page(params[:page]).decorate
   end
 
@@ -99,6 +99,11 @@ class ServersController < ApplicationController
     redirect_to :back
   end
 
+  def push
+    current_user.job :push_server, server: @server
+    redirect_to :back
+  end
+
   # TODO: Figure out what to do about errors.
   def socket
     hijack do |ws|
@@ -147,7 +152,7 @@ class ServersController < ApplicationController
                                    :appliance_id, :bundle_id,
                                    :published_at, :base_id, :current_id,
                                    :iso_id, :machine_type, :boot_order,
-                                   :pinned, :new_host)
+                                   :pinned, :new_host, :notes, :is_template)
   end
 
 end

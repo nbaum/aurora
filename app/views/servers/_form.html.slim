@@ -10,7 +10,10 @@
   table.properties
     tr
       th = f.label :name
-      td = f.text_field :name, size: 50
+      td = f.text_field :name, style: "width: 100%"
+    tr
+      th style="vertical-align: top" = f.label :notes
+      td = f.text_area :notes, cols: 80, rows: 4, style: "width: 100%"
     tr
       th = f.label :cores
       td = f.number_field :cores, min: 1, max: 8
@@ -28,13 +31,13 @@
         - else
           =' f.number_field :storage, min: 0, max: 1000
           ' GB
-    tr
+    /tr
       th = f.label :password
       td = f.text_field :password
-    tr
+    /tr
       th = f.label :machine_type
       td = f.select :machine_type, Server::MACHINE_TYPES.invert
-    tr
+    /tr
       th = f.label :boot_order
       td = f.select :boot_order, [["Disk, ISO, Network", "cdn"], ["ISO, Disk, Network", "dcn"], ["Network, ISO, Disk", "ncd"]]
     tr
@@ -81,6 +84,11 @@
       td: label
         =' f.check_box :pinned
         | Server may not be migrated or evicted
+    tr
+      th Template
+      td: label
+        =' f.check_box :is_template
+        | Classify as a template in the server list
     tr
       th
       td
