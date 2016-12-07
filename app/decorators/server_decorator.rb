@@ -26,13 +26,13 @@ class ServerDecorator < Draper::Decorator
   def state_icon
     case state
     when "stopped"
-      h.content_tag(:i, "", class: "fa fa-fw fa-stop", title: state)
+      h.content_tag(:span, "Stopped", class: "server-state stopped")
     when "running"
-      h.content_tag(:i, "", class: "fa fa-fw fa-play", title: state)
+      h.content_tag(:span, "Running", class: "server-state running")
     when "paused"
-      h.content_tag(:i, "", class: "fa fa-fw fa-pause", title: state)
+      h.content_tag(:span, "Paused", class: "server-state paused")
     else
-      h.content_tag(:i, "", class: "fa fa-fw fa-question", title: state)
+      h.content_tag(:span, "Unknown", class: "server-state unknown")
     end
   end
 

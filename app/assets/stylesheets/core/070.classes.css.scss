@@ -13,3 +13,34 @@
 .inline {
   display: inline;
 }
+
+.server-state {
+  text-transform: uppercase;
+  font-size: smaller;
+  padding: 0.5ex 1ex;
+  border-radius: 0.5ex;
+  font-weight: bold;
+}
+
+.server-state.stopped {
+  background: #f00;
+  color: #fff;
+}
+
+.server-state.running
+ {
+  background: #0c0;
+  color: #fff;
+}
+
+.server-state.paused
+ {
+  background: #aa0;
+  color: #fff;
+}
+
+.server-state.unknown
+ {
+  background: #666;
+  color: #fff;
+}
