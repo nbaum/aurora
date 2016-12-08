@@ -46,9 +46,6 @@
         - if @server.state == "stopped" and @server.template
           li = button_to [:push, @server]
             = icon("trash", "Update Template")
-        - if @server.state == "running"
-          li = button_to [:bootstrap, @server] do
-            = icon("pause", "Bootstrap Arch Server")
   menu
     - if @server.is_template
       li = link_to "← Template List", servers_path(templates: true), exact: true, class: "bare"

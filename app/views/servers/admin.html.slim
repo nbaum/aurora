@@ -11,3 +11,7 @@ main
         tr
           th
           td = f.button "Move"
+  - if @server.state == "running"
+    h2 Inject Bootstrap Sequence
+    p Inject a command to prepare an Arch server for installation over SSH. The server must have booted off the Arch ISO and be at the bash prompt.
+    p = button_to "Bootstrap Arch Server", [:bootstrap, @server]
