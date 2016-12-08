@@ -104,6 +104,40 @@ class ServersController < ApplicationController
     redirect_to :back
   end
 
+  BOOTSTRAP_INPUT = "systemctl start sshd && mkdir -p .ssh && wget -O .ssh/authorized_keys p12a.org.uk/key && ip -c -4 addr show scope global up\n"
+
+  SCANCODE_LOWER_MAP = "\e1234567890-=\b\tqwertyuiop[]\n\001asdfghjkl;'#\002\\zxcvbnm,./\003\004\005 "
+  SCANCODE_UPPER_MAP = "\e!\"£$%^&*()_+\b\tQWERTYUIOP{}\n\001ASDFGHJKL:@~\002|ZXCVBNM<>?\003"
+
+  def rune_to_sendkey (rune)
+    if i = SCANCODE_LOWER_MAP.index(rune)
+      [ i + 1 ]
+    elsif i = SCANCODE_UPPER_MAP.index(rune)
+      [ "shift", i + 1 ]
+    else
+      fail "No sendkey conversion for `#{rune}'"
+    end
+  end
+
+  def string_to_sendkeys (string)
+    string.chars.map do |c|
+      rune_to_sendkey(c).map do |d|
+        if String === d
+          { type: "qcode", data: d }
+        else
+          { type: "number", data: d }
+        end
+      end
+    end
+  end
+
+  def bootstrap
+    string_to_sendkeys(BOOTSTRAP_INPUT).each do |keys|
+      @server.api.qmp(execute: "send-key", arguments: {keys: keys})
+    end
+    redirect_to :back
+  end
+
   # TODO: Figure out what to do about errors.
   def socket
     hijack do |ws|
