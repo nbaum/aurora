@@ -4,7 +4,7 @@ json.data do
     json.id server.id
     json.attributes do
       json.(server, :name, :tags, :state)
-      json.address server.addresses.first&.ip
+      json.address server.addresses.first&.ip&.to_s
     end
     json.links do
       json.self server_url(server)
