@@ -27,7 +27,7 @@
       td
         - if @server.root
           =' @server.root_link
-          ' (#{@server.root.size / 1_000_000_000} GB)
+          ' (#{@server.root.size} GB)
         - else
           =' f.number_field :storage, min: 0, max: 1000
           ' GB
