@@ -15,3 +15,7 @@ main
     h2 Inject Bootstrap Sequence
     p Inject a command to prepare an Arch server for installation over SSH. The server must have booted off the Arch ISO and be at the bash prompt.
     p = button_to "Bootstrap Arch Server", [:bootstrap, @server]
+  - if @server.state == "stopped" and @server.template
+    h2 Reverse Clone
+    p Clone this server into its template, #{link_to @server.template.name, @server.template}.
+    p = button_to "Reverse Clone", [:push, @server]

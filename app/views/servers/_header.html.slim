@@ -38,14 +38,11 @@
         - if @server.state == "running" or @server.state == "paused"
           li = button_to [:stop, @server] do
             = icon("stop", "Stop")
-        li = button_to [:clone, @server] do
-          = icon("copy", "Clone")
         - if @server.state == "stopped" or @server.state == "suspended"
+          li = button_to [:clone, @server] do
+            = icon("copy", "Clone")
           li = button_to @server, method: 'delete' do
             = icon("trash", "Delete")
-        - if @server.state == "stopped" and @server.template
-          li = button_to [:push, @server]
-            = icon("trash", "Update Template")
   menu
     - if @server.is_template
       li = link_to "← Template List", servers_path(templates: true), exact: true, class: "bare"

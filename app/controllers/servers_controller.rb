@@ -82,13 +82,7 @@ class ServersController < ApplicationController
   end
 
   def clone
-    s = @server.start_clone
-    j = current_user.job :clone_server, server: @server
-    if sid = j.state["new_server_id"]
-      redirect_to server_path(sid)
-    else
-      redirect_to :back
-    end
+    redirect_to @server.clone
   end
 
   def migrate

@@ -225,9 +225,9 @@ class Server < ActiveRecord::Base
         map[vol.id] = nvol
       end
       attachments.where("volume_id IS NOT NULL").each do |att|
-        s.attachments << ServerVolume.new(attachment: att.attachment,
-                                          volume: map[att.volume.id] || att.volume)
+        s.attachments << ServerVolume.new(attachment: att.attachment, volume: map[att.volume.id] || att.volume)
       end
+      s.save!
       s
     end
   end
