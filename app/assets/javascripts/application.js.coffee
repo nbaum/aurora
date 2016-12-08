@@ -20,11 +20,14 @@ $(document).on "page:change", ->
   $(".tabs").tabs()
 
 $ ->
+  $("input[role='tags']").tagEditor
+    onChange: (field, editor, tags) ->
+      $(field).val(tags.join(","))
   hideFlashes = ->
-  $(".flash").each ->
-    $("div", this).slideUp()
-    $(this).on "click", =>
-      $(this).remove()
-    $(this).on "mouseover", =>
-      $("div", this).slideDown()
+    $(".flash").each ->
+      $("div", this).slideUp()
+      $(this).on "click", =>
+        $(this).remove()
+      $(this).on "mouseover", =>
+        $("div", this).slideDown()
   window.setTimeout hideFlashes, 1000

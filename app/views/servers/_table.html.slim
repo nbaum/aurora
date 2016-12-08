@@ -7,17 +7,10 @@
         /th ID
         th Status
         th Name
-        th Cores
-        th RAM
-        th Storage
-        /th Password
-        /th Affinity group
-        /th Appliance data
-        th Template
+        th Address
+        th Tags
+        th Spec
         th Host
-        th Account
-        th Zone
-        th Appliance
         th Bundle
     tbody
       - servers.each do |server|
@@ -25,15 +18,8 @@
           /td = server.id, server
           td = server.state_icon
           td = link_to server.name, server
-          td = server.cores
-          td = server.memory_format
-          td = server.storage_format
-          /td = server.password
-          /td = server.affinity_group
-          /td = server.appliance_data
-          td = server.template_link
+          td = server.addresses.first&.ip || "-"
+          td = server.tags.join(", ")
+          td == [server.cores, server.memory_format, server.storage_format].join("/")
           td = server.host_link
-          td = server.account_link
-          td = server.zone_link
-          td = server.appliance_link
           td = server.bundle_link

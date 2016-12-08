@@ -81,6 +81,7 @@ class ServersController < ApplicationController
   end
 
   def clone
+    s = @server.start_clone
     j = current_user.job :clone_server, server: @server
     if sid = j.state["new_server_id"]
       redirect_to server_path(sid)
@@ -179,14 +180,16 @@ class ServersController < ApplicationController
   end
 
   def server_params
-    params.require(:server).permit(:name, :cores, :memory, :storage,
+    p = params.require(:server).permit(:name, :cores, :memory, :storage,
                                    :password, :state, :affinity_group,
                                    :appliance_data, :template_id,
                                    :host_id, :account_id, :zone_id,
                                    :appliance_id, :bundle_id,
                                    :published_at, :base_id, :current_id,
                                    :iso_id, :machine_type, :boot_order,
-                                   :pinned, :new_host, :notes, :is_template)
+                                   :pinned, :new_host, :notes, :is_template, :tags)
+    p[:tags] = p[:tags].split(",") if p[:tags]
+    p
   end
 
 end

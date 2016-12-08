@@ -1,0 +1,28 @@
+
+.tag-editor-hidden-src {
+  display: none;
+}
+
+.tag-editor {
+  @extend input[type='text'];
+  padding: 0.2em 0.4em;
+  div, li {
+    display: inline-block;
+  }
+  input {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
+  .tag-editor-spacer {
+    display: none;
+  }
+  .tag-editor-tag:not(.active) {
+    background: rgba(#000, 0.1);
+    border: 1px solid #ccc;
+    padding: 0.2ex 0.4ex;
+    margin-right: 0.2em;
+    border-radius: 0.5ex;
+  }
+}

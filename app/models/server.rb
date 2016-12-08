@@ -50,6 +50,7 @@ class Server < ActiveRecord::Base
     self.storage ||= 20
     self.machine_type ||= "pc"
     self.boot_order ||= "cdn"
+    self.tags = [] if self.tags == {}
   end
 
   before_create do
