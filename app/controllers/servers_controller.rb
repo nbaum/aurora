@@ -16,6 +16,7 @@ class ServersController < ApplicationController
     @servers = @servers.where("bundle_id = 0 OR bundle_id IS NULL") unless params[:all]
     @servers = @servers.where("is_template = FALSE") unless params[:templates]
     @servers = @servers.where("is_template = TRUE") if params[:templates]
+    @servers = @servers.where("tags @> ARRAY[?]::VARCHAR[]", params[:tags].split(",")) if params[:tags]
     @servers = @servers.page(params[:page]).decorate
   end
 
