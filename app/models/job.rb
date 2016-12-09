@@ -10,23 +10,6 @@ class Job < ActiveRecord::Base
   scope :failed, -> { where(status: "failed") }
   scope :finished, -> { where(status: "finished") }
 
-  def self.queue
-    @queue ||= Queue.new
-  end
-
-  def self.ensure_workers_are_running!
-    @workers ||= begin
-      Array.new(5) do
-        Thread.new do
-          loop do
-            job, action = queue.pop
-            job.invoke action
-          end
-        end
-      end
-    end
-  end
-
   def server
     Server === target ? target : fail("Job doesn't target a server")
   end

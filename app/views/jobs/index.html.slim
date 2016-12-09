@@ -6,19 +6,11 @@ main
       tr
         th ID
         th Type
-        th Pending
-        th Data
-        th State
-        th Owner
-        th Server
+        th Status
     tbody
       - @jobs.each do |job|
         tr
           td = link_to job.id, job
           td = job.type
-          td = job.pending
-          td = job.data
-          td = job.state
-          td = job.owner
-          td = job.server
+          td = job.status
   = paginate @jobs

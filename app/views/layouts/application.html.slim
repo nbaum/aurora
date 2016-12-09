@@ -41,6 +41,7 @@ script src="/novnc/util.js"
         li: h2 Management
         li = link_to icon('users', 'Users', fw: true), :users
         li = link_to icon('newspaper-o', 'Sessions', fw: true), :sessions
+        li = link_to icon('newspaper-o', 'Jobs', fw: true), :jobs
         /li = link_to icon('sliders', 'Settings', fw: true), '#'
       menu.admin
         li: h2 Administration
@@ -50,9 +51,6 @@ script src="/novnc/util.js"
         li = link_to icon('building-o', 'Zones', fw: true), :zones
         /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
     article.grow = yield
-  footer#site-footer
-	 	- if current_user
-			= render("users/jobs", user: current_user)
 coffee:
   refreshJobs = ->
     $.get "/users/me/jobs", (data) ->
