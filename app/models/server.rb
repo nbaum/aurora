@@ -129,6 +129,10 @@ class Server < ActiveRecord::Base
     %w[stopped suspended].member?(state)
   end
 
+  def running?
+    state == "running"
+  end
+
   def paused?
     state == "paused"
   end
