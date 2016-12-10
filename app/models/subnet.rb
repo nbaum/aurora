@@ -60,4 +60,10 @@ class Subnet < ActiveRecord::Base
     end
   end
 
+  def free_address_count
+    if ipv4?
+      2 ** (32 - prefix.to_i) - addresses.count
+    end
+  end
+
 end

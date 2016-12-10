@@ -21,4 +21,8 @@ class Network < ActiveRecord::Base
     end
   end
 
+  def free_address_count
+    subnets.map(&:free_address_count).sum
+  end
+
 end

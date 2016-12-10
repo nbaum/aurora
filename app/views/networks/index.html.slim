@@ -10,6 +10,7 @@ main
         th Account
         th Bundle
         th Zone
+        th Unassigned Addresses
     tbody
       - @networks.each do |network|
         tr
@@ -19,4 +20,5 @@ main
           td = network.account_link
           td = network.bundle_link
           td = network.zone_link
+          td = network.free_address_count
   = paginate @networks
