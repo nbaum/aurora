@@ -29,4 +29,8 @@ class StoragePool < ActiveRecord::Base
     host.zone
   end
 
+  def space_used
+    host.api.space_used(pool: path) >> 30
+  end
+
 end

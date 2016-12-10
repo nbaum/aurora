@@ -4,7 +4,10 @@ Rails.application.routes.draw do
 
   root "pages#index"
 
+  get "status" => 'pages#status'
+
   resources :errors
+
   resources :jobs do
     collection do
       post :remove_finished

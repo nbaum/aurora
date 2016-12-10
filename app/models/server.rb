@@ -37,6 +37,8 @@ class Server < ActiveRecord::Base
   validates :name, presence: true
   validates :password, presence: true, allow_nil: true, length: { is: 8 }
 
+  scope :up, -> { where("state = 'running' OR state = 'paused'") }
+
   after_initialize if: :new_record? do
     self.name ||= Chaucer.server_name
     self.affinity_group ||= 0

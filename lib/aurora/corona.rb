@@ -18,7 +18,7 @@ module Aurora
     defapi :qmp
 
     # Volume APIs
-    defapi :realize, :delete, :list_volumes, :wipe
+    defapi :realize, :delete, :list_volumes, :wipe, :space_used
 
     def initialize (url, args = {})
       @url = url

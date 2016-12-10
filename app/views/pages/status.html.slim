@@ -1,0 +1,35 @@
+main
+  h1 Status Information
+  h2 Resource Utilization
+  table
+    thead
+      tr
+        th 
+        th Capacity
+        th Allocated
+        th In Use
+        th Utilization
+    tr
+      th Servers
+      td -
+      td = Server.count
+      td = Server.up.count
+      td -
+    tr
+      th vCores
+      td = Host.sum(:cores)
+      td = Server.sum(:cores)
+      td = Server.up.sum(:cores)
+      td = "%d%%" % [100 * Server.up.sum(:cores) / Host.sum(:cores)]
+    tr
+      th RAM
+      td = "%d GiB" % [Host.sum(:memory) >> 10]
+      td = "%d GiB" % [Server.sum(:memory) >> 10]
+      td = "%d GiB" % [Server.up.sum(:memory) >> 10]
+      td = "%d%%" % [100 * Server.up.sum(:memory) / Host.sum(:memory)]
+    tr
+      th Storage (GB)
+      td = "%d GB" % [StoragePool.sum(:size)]
+      td = "%d GB" % [Volume.sum(:size)]
+      td = "%d GB" % [StoragePool.all.map(&:space_used).sum]
+      td = "%d%%" % [100 * Volume.sum(:size) / StoragePool.sum(:size)]
