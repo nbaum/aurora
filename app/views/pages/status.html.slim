@@ -33,3 +33,9 @@ main
       td = Volume.sum(:size).*(1_000_000_000).decimal_si
       td = StoragePool.all.map(&:used).sum.decimal_si
       td = "%d%%" % [100 * Volume.sum(:size) / StoragePool.sum(:size)]
+    tr
+      th IP Addresses
+      td = a = Network.all.map(&:free_address_count).sum
+      td = Address.where("server_id IS NOT NULL OR account_id IS NOT NULL").count
+      td = b = Address.where("server_id IS NOT NULL").count
+      td = "%d%%" % [100 * b / a]
