@@ -52,9 +52,3 @@ script src="/novnc/util.js"
         li = link_to icon('building-o', 'Zones', fw: true), :zones
         /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
     article.grow = yield
-coffee:
-  refreshJobs = ->
-    $.get "/users/me/jobs", (data) ->
-      $("#site-footer").html(data)
-      window.setTimeout(refreshJobs, 1000)
-  $(refreshJobs)
