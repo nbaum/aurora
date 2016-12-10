@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161208144535) do
+ActiveRecord::Schema.define(version: 20161210213114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,9 @@ ActiveRecord::Schema.define(version: 20161208144535) do
     t.integer  "zone_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "domains",      default: [], array: true
+    t.string   "ldap_host"
+    t.string   "ldap_pattern"
   end
 
   add_index "accounts", ["tariff_id"], name: "index_accounts_on_tariff_id", using: :btree

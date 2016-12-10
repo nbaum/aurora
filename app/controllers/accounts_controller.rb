@@ -47,7 +47,9 @@ class AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:name, :balance, :tariff_id, :zone_id)
+    p = params.require(:account).permit(:name, :balance, :tariff_id, :zone_id, :domains, :ldap_host, :ldap_pattern)
+    p[:domains] = p[:domains].split(",")
+    p
   end
 
 end

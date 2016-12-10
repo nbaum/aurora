@@ -10,15 +10,24 @@
     tr
       th = f.label :name
       td = f.text_field :name
-    tr
+    /tr
       th = f.label :balance
       td = f.text_field :balance
-    tr
+    /tr
       th = f.label :tariff_id
       td = f.select :tariff_id, Tariff.pluck(:name, :id)
     tr
       th = f.label :zone_id
       td = f.select :zone_id, Zone.pluck(:name, :id)
+    tr
+      th = f.label :domains, "Login Domains"
+      td = f.text_field :domains, role: :tags, value: @account.domains.join(",")
+    tr
+      th = f.label :domains, "LDAP Host"
+      td = f.text_field :ldap_host
+    tr
+      th = f.label :domains, "LDAP User DN Pattern"
+      td = f.text_field :ldap_pattern
     tr
       th
       td = f.button @account.new_record? ? "Create" : "Update"

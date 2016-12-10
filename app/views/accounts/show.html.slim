@@ -4,12 +4,21 @@ main
     tr
       th Name
       td = @account.name
-    tr
+    /tr
       th Balance
       td = @account.balance
-    tr
+    /tr
       th Tariff
       td = @account.tariff_link
+    tr
+      th Login Domains
+      td = @account.domains.join(", ")
+    tr
+      th LDAP Host
+      td = @account.ldap_host
+    tr
+      th LDAP User DN Pattern
+      td = @account.ldap_pattern
     tr
       th Zone
       td = @account.zone_link

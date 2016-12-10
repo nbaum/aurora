@@ -58,3 +58,5 @@ gem "puma"
 gem "tubesock"
 
 gem "exception_handler"
+
+gem "net-ldap"

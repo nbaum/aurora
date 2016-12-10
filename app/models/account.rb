@@ -26,4 +26,11 @@ class Account < ActiveRecord::Base
     transactions.create!(kind: kind, rate: amount, description: description, period: period)
   end
 
+  def authenticate (email, password)
+    username, _ = email.split(/@/)
+    ldap = Net::LDAP.new host: ldap_host, port: 636, encryption: :simple_tls
+    ldap.auth ldap_pattern % [username.gsub(/[#"+,;<>\\]/, '')], password
+    ldap.bind
+  end
+
 end

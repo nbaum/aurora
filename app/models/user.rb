@@ -14,8 +14,9 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   def self.authenticate (email, password)
-    if u = find_by(email: email)
-      u.authenticate(password) && u
+    username, domain = email.split("@")
+    if (a = Account.where("? = ANY(domains)", domain).first) && a.authenticate(email, password)
+      where(email: email).first_or_create!(account: a, name: email)
     end
   end
 
