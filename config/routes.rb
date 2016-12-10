@@ -51,6 +51,9 @@ Rails.application.routes.draw do
   resources :tariffs
 
   resources :networks do
+    collection do
+      get :addresses
+    end
     member do
       post :upgrade
     end

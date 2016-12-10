@@ -6,7 +6,7 @@ main
       th Address
       th Server
       th Account
-    - @network.addresses.order(:ip).decorate.each do |addr|
+    - Address.where("account_id IS NOT NULL OR server_id IS NOT NULL").order(:ip).decorate.each do |addr|
       tr
         td = addr.ip
         td = addr.server_link
