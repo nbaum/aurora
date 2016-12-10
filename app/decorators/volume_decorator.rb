@@ -1,7 +1,5 @@
 # Copyright (c) 2016 Nathan Baum
 
-using Aurora::Refinements::NumberFormatting
-
 class VolumeDecorator < Draper::Decorator
 
   include Draper::Linker

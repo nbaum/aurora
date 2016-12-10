@@ -20,3 +20,5 @@ Dotenv.load
 class Application < Rails::Application
   config.autoload_paths << Rails.root.join("lib")
 end
+
+require "aurora/refinements/number_formatting"

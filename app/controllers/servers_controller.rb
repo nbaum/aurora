@@ -1,7 +1,5 @@
 # Copyright (c) 2016 Nathan Baum
 
-using Aurora::Refinements::NumberFormatting
-
 Thread.abort_on_exception = true
 
 class ServersController < ApplicationController
