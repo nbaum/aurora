@@ -1,6 +1,9 @@
 # Copyright (c) 2016 Nathan Baum
 
 Rails.application.routes.draw do
+
+  root "pages#index"
+
   resources :errors
   resources :jobs do
     collection do
@@ -80,9 +83,6 @@ Rails.application.routes.draw do
       post :start, :pause, :unpause, :suspend, :stop, :reset, :clone
     end
   end
-
-  root "pages#index"
-  get "boom" => "pages#boom"
 
   match "errors/:status" => "pages#error", via: :all
 end
