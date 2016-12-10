@@ -11,4 +11,8 @@ class VolumeDecorator < Draper::Decorator
     h.content_tag(:abbr, (size * 1_000_000_000).decimal_si, title: size.delimited + " gigabytes")
   end
 
+  def used_format
+    h.content_tag(:abbr, used.decimal_si)
+  end
+
 end

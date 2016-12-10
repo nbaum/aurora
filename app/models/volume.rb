@@ -67,8 +67,8 @@ class Volume < ActiveRecord::Base
     api.realize(base: base && { pool: base.pool.path, path: base.path }, size: size * 1024 * 1024 * 1024)
   end
 
-  def space_used
-    api.used >> 30
+  def used
+    api.space_used
   end
 
   def wipe

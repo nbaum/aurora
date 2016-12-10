@@ -3,24 +3,22 @@ table.table
     tr
       th Name
       th Size
+      th Used
       th Ephemeral
-      th Optical
+      th ISO?
       th Server
-      th Base
       th Account
       th Bundle
       th Storage pool
-      th Published at
   tbody
     - volumes.each do |volume|
       tr
         td = link_to volume.name, volume
         td = volume.size_format
+        td = volume.used_format
         td = volume.ephemeral
         td = volume.optical
         td = volume.server_link
-        td = volume.base_link
         td = volume.account_link
         td = volume.bundle_link
         td = volume.pool_link
-        td = volume.published_at

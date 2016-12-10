@@ -23,13 +23,13 @@ main
       td = "%d%%" % [100 * Server.up.sum(:cores) / Host.sum(:cores)]
     tr
       th RAM
-      td = "%d GiB" % [Host.sum(:memory) >> 10]
-      td = "%d GiB" % [Server.sum(:memory) >> 10]
-      td = "%d GiB" % [Server.up.sum(:memory) >> 10]
+      td = (Host.sum(:memory) << 20).binary_si
+      td = (Server.sum(:memory) << 20).binary_si
+      td = (Server.up.sum(:memory) << 20).binary_si
       td = "%d%%" % [100 * Server.up.sum(:memory) / Host.sum(:memory)]
     tr
-      th Storage (GB)
-      td = "%d GB" % [StoragePool.sum(:size)]
-      td = "%d GB" % [Volume.sum(:size)]
-      td = "%d GB" % [StoragePool.all.map(&:space_used).sum]
+      th Storage
+      td = StoragePool.sum(:size).*(1_000_000_000).decimal_si
+      td = Volume.sum(:size).*(1_000_000_000).decimal_si
+      td = StoragePool.all.map(&:used).sum.decimal_si
       td = "%d%%" % [100 * Volume.sum(:size) / StoragePool.sum(:size)]
