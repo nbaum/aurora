@@ -19,7 +19,7 @@
 $(document).on "page:change", ->
   $(".tabs").tabs()
 
-$(document).on "turbolinks:load", ->
+$(document).on "ready page:load", ->
   $("input[role='tags']").tagEditor
     onChange: (field, editor, tags) ->
       $(field).val(tags.join(","))
