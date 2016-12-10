@@ -19,3 +19,7 @@ main
     h2 Reverse Clone
     p Clone this server into its template, #{link_to @server.template.name, @server.template}.
     p = button_to "Reverse Clone", [:push, @server]
+  - if @server.state == "stopped" and !@server.addresses.empty?
+    h2 Clear Addresses
+    p Return this server's IP addresses to the free pool.
+    p = button_to "Unassign network addresses", [:unaddress, @server]

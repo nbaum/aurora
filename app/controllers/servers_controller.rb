@@ -97,6 +97,9 @@ class ServersController < ApplicationController
 
   def push
     current_user.job :push_server, server: @server
+
+  def unaddress
+    @server.addresses.update_all server_id: nil
     redirect_to :back
   end
 
