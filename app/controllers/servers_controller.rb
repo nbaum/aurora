@@ -42,42 +42,42 @@ class ServersController < ApplicationController
   end
 
   def destroy
-    current_user.job :destroy_server, server: @server
+    current_user.job(:destroy_server, server: @server)
     redirect_to :servers
   end
 
   def start
-    current_user.job :start_server, server: @server
+    current_user.job(:start_server, server: @server)
     redirect_to :back
   end
 
   def pause
-    current_user.job :pause_server, server: @server
+    current_user.job(:pause_server, server: @server)
     redirect_to :back
   end
 
   def unpause
-    current_user.job :unpause_server, server: @server
+    current_user.job(:unpause_server, server: @server)
     redirect_to :back
   end
 
   def reset
-    current_user.job :reset_server, server: @server
+    current_user.job(:reset_server, server: @server)
     redirect_to :back
   end
 
   def stop
-    current_user.job :stop_server, server: @server
+    current_user.job(:stop_server, server: @server)
     redirect_to :back
   end
 
   def suspend
-    current_user.job :suspend_server, server: @server
+    current_user.job(:suspend_server, server: @server)
     redirect_to :back
   end
 
   def resume
-    current_user.job :resume_server, server: @server
+    current_user.job(:resume_server, server: @server)
     redirect_to :back
   end
 
@@ -86,17 +86,19 @@ class ServersController < ApplicationController
   end
 
   def migrate
-    current_user.job :migrate_server, server: @server, host_id: params[:server][:host_id]
+    current_user.job(:migrate_server, server: @server, host_id: params[:server][:host_id])
     redirect_to :back
   end
 
   def evict
-    current_user.job :migrate_server, server: @server
+    current_user.job(:migrate_server, server: @server)
     redirect_to :back
   end
 
   def push
-    current_user.job :push_server, server: @server
+    current_user.job(:push_server, server: @server)
+    redirect_to :back
+  end
 
   def unaddress
     @server.addresses.update_all server_id: nil

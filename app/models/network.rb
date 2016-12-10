@@ -6,7 +6,7 @@ class Network < ActiveRecord::Base
   belongs_to :bundle
   belongs_to :zone
 
-  has_many :addresses, dependent: :destroy
+  has_many :addresses, through: :subnets, dependent: :destroy
   has_many :subnets, dependent: :destroy
 
   after_initialize do
