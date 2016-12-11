@@ -107,20 +107,18 @@ main
         password = #{json @server.vnc_password};
         path = #{json console_socket_server_path(@server)};
         rfb = new RFB({'target':         $D('noVNC_canvas'),
-                       'encrypt':        false,
+                       'encrypt':        true,
                        'repeaterID':     false,
                        'true_color':     true,
-                       'local_cursor':   false,
+                       'local_cursor':   true,
                        'shared':         true,
                        'view_only':      false,
                        'onUpdateState':  updateState});
-        //rfb.connect(window.location.hostname, 9393, password, "/" + path);
         port = window.location.port;
         if (port === "")
-          port = 80;
+          port = 443;
         rfb.connect(window.location.hostname, port, password, path);
       }
     }
     $(document).ready(ready)
     $(document).on("page:load", ready)
-
