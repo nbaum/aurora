@@ -40,7 +40,12 @@ main
           input' type="button" value="Ctrl" id="sendCtrl"
           input' type="button" value="Meta" id="sendWindows"
           input' type="button" value="Alt" id="sendAlt"
-        td: div id="noVNC_status" style="position: relative; height: auto;" Loading
+        td width="100%": div id="noVNC_status" style="position: relative; height: auto;" Loading
+        td style="white-space: nowrap": div
+          strong> VNC Address:
+          ' #{@server.host.address}:#{5900 + @server.id}
+          strong> Password:
+          ' #{@server.vnc_password}
     canvas id="noVNC_canvas" Canvas not supported.
   javascript:
     ready = function () {
