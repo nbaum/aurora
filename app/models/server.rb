@@ -70,6 +70,14 @@ class Server < ActiveRecord::Base
     account.debit("server", charge, self.name, period = "second")
   end
 
+  def networks
+    @networks ||= self['networks_id'].map{|id|Network.find(id)}
+  end
+
+  def networks= (networks)
+    self['networks_id'] = networks.map{|n|Network.find(n)}.map(&:id)
+  end
+
   def tariff
     account.tariff
   end
@@ -308,14 +316,20 @@ class Server < ActiveRecord::Base
     root && root.id
   end
 
+  def network? (net)
+    networks_id.member?(net.id)
+  end
+
   def port_configs
     effective_zone.networks.order(:index).map.with_index do |net, i|
+      next unless network?(net)
       {
+        addr: net.index + 3,
         mac: generate_mac(i),
         net: net.bridge,
         if: "vm#{id}i#{i}",
       }
-    end
+    end.compact
   end
 
   def config

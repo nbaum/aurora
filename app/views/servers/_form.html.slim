@@ -46,6 +46,15 @@
     tr
       th = f.label :iso_id
       td = f.grouped_collection_select :iso_id, StoragePool.includes(:volumes).where(volumes: {optical: true}), :volumes, :full_name, :id, :name, include_blank: "(None)"
+    tr
+      th = f.label :networks
+      td
+        ul
+          - Network.all.each do |net|
+            = f.fields_for "networks[]", net do |f2|
+              li: label
+                = f2.check_box :assign, checked: @server.networks.member?(net)
+                | ens#{net.index + 3} : #{link_to net.name, net}
     /tr
       th = f.label :state
       td = f.select :state, [["unknown", nil], *Server::STATES]

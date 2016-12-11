@@ -9,8 +9,12 @@ class Network < ActiveRecord::Base
   has_many :addresses, through: :subnets, dependent: :destroy
   has_many :subnets, dependent: :destroy
 
-  after_initialize do
-    self.index ||= 0
+  after_initialize if: :new_record? do
+    self.index ||= Network.maximum(:index) + 1
+  end
+
+  def portname
+    "ens#{index + 3}"
   end
 
   def allocate_address (kind, to)

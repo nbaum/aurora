@@ -5,7 +5,6 @@
       ul
         - @network.errors.full_messages.each do |message|
           li = message
-
   table.properties
     tr
       th = f.label :name
@@ -14,8 +13,8 @@
       th = f.label :bridge
       td = f.text_field :bridge
     tr
-      th = f.label :index, "Order"
-      td = f.number_field :index
+      th = f.label :index, "VM Port"
+      td = f.select :index, 8.times.map{|i|["ens#{i + 3}", i]}
     tr
       th = f.label :account_id
       td = f.select :account_id, Account.pluck(:name, :id).or_none

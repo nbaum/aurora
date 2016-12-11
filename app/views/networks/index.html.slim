@@ -6,6 +6,7 @@ main
       tr
         th ID
         th Name
+        th VM Port
         th Bridge
         th Account
         th Bundle
@@ -16,6 +17,7 @@ main
         tr
           td = network.id
           td = link_to network.name, network
+          td = network.portname
           td = network.bridge
           td = network.account_link
           td = network.bundle_link

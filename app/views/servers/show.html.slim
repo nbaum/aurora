@@ -65,9 +65,12 @@ main
       td = @server.current
   h2 Network Settings
   - @server.effective_zone.networks.order(:index).each.with_index do |net, i|
-    h3 Port #{i} - #{net.name}
+    h3 #{net.portname} - #{link_to net.name, net}
     table.properties
-      - if @server.ipv4_address(net)
+      - if !@server.network?(net)
+        tr
+          th colspan=2 Port disabled
+      - elsif @server.ipv4_address(net)
         tr
           th IPv4 Address
           td

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210213114) do
+ActiveRecord::Schema.define(version: 20161210225212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 20161210213114) do
     t.boolean  "is_template",    default: false
     t.text     "notes"
     t.string   "tags",           default: [],    array: true
+    t.integer  "networks_id",    default: [],    array: true
   end
 
   add_index "servers", ["account_id"], name: "index_servers_on_account_id", using: :btree
@@ -178,6 +179,7 @@ ActiveRecord::Schema.define(version: 20161210213114) do
   add_index "servers", ["bundle_id"], name: "index_servers_on_bundle_id", using: :btree
   add_index "servers", ["current_id"], name: "index_servers_on_current_id", using: :btree
   add_index "servers", ["host_id"], name: "index_servers_on_host_id", using: :btree
+  add_index "servers", ["networks_id"], name: "index_servers_on_networks_id", using: :btree
   add_index "servers", ["template_id"], name: "index_servers_on_template_id", using: :btree
   add_index "servers", ["zone_id"], name: "index_servers_on_zone_id", using: :btree
 
