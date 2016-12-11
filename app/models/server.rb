@@ -153,7 +153,6 @@ class Server < ActiveRecord::Base
 
   def start (resume: false, migrate: false)
     return if started? && !migrate
-    raise Error, "Refusing to run a template. Instead, run a clone and then push its changes back" if is_template
     raise Error, "Server isn't stopped" unless stopped? || migrate
     transaction do |_tx|
       self.host ||= pick_host
