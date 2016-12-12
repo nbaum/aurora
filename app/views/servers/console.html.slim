@@ -32,98 +32,101 @@ css:
   }
 
 main
-  div id="noVNC_screen"
-    div id="noVNC_status_bar" class="noVNC_status_bar" style="margin-top: 0px;"
-      table border=0 width="100%": tr
-        td width="1%" style="white-space: nowrap": div id="noVNC_buttons"
-          input' type="button" value="<>" id="fullscreen"
-          input' type="button" value="Ctrl" id="sendCtrl"
-          input' type="button" value="Meta" id="sendWindows"
-          input' type="button" value="Alt" id="sendAlt"
-        td width="100%": div id="noVNC_status" style="position: relative; height: auto;" Loading
-        td style="white-space: nowrap": div
-          strong> VNC Address:
-          ' #{@server.host.address}:#{5900 + @server.id}
-          strong> Password:
-          ' #{@server.vnc_password}
-    canvas id="noVNC_canvas" Canvas not supported.
-  javascript:
-    ready = function () {
-      INCLUDE_URI = "/novnc/"
-      // Load supporting scripts
-      Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
-                         "keysymdef.js", "keyboard.js", "input.js", "display.js",
-                         "jsunzip.js", "rfb.js", "keysym.js"]);
-      var rfb;
-      function sendCtrlAltDel() {
-          rfb.sendCtrlAltDel();
-          return false;
-      }
-      function setupModifier(id, mod) {
-        var e = $D(id), state = 1
-        e.onclick = function () {
-          rfb.sendKey(mod, state)
-          if (state == 1) {
-            e.className = 'active'
-          } else {
-            e.className = ''
-          }
-          state = 1 - state
+  - unless @server.running?
+    ' There's no console access because the server isn't running.
+  - else
+    div id="noVNC_screen"
+      div id="noVNC_status_bar" class="noVNC_status_bar" style="margin-top: 0px;"
+        table border=0 width="100%": tr
+          td width="1%" style="white-space: nowrap": div id="noVNC_buttons"
+            input' type="button" value="<>" id="fullscreen"
+            input' type="button" value="Ctrl" id="sendCtrl"
+            input' type="button" value="Meta" id="sendWindows"
+            input' type="button" value="Alt" id="sendAlt"
+          td width="100%": div id="noVNC_status" style="position: relative; height: auto;" Loading
+          td style="white-space: nowrap": div
+            strong> VNC Address:
+            ' #{@server.host.address}:#{5900 + @server.id}
+            strong> Password:
+            ' #{@server.vnc_password}
+      canvas id="noVNC_canvas" Canvas not supported.
+    javascript:
+      ready = function () {
+        INCLUDE_URI = "/novnc/"
+        // Load supporting scripts
+        Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
+                           "keysymdef.js", "keyboard.js", "input.js", "display.js",
+                           "jsunzip.js", "rfb.js", "keysym.js"]);
+        var rfb;
+        function sendCtrlAltDel() {
+            rfb.sendCtrlAltDel();
+            return false;
         }
-      }
-      function setupFullscreen() {
-        var b = $D("fullscreen"), e = $D("noVNC_screen"), state = 0
-        b.onclick = function () {
-          if (state == 0) {
-            b.className = 'active'
-            e.className = 'fullscreen'
-          } else {
-            b.className = ''
-            e.className = ''
+        function setupModifier(id, mod) {
+          var e = $D(id), state = 1
+          e.onclick = function () {
+            rfb.sendKey(mod, state)
+            if (state == 1) {
+              e.className = 'active'
+            } else {
+              e.className = ''
+            }
+            state = 1 - state
           }
-          state = 1 - state
         }
-      }
-      function updateState(rfb, state, oldstate, msg) {
-          var s, sb, cad, level;
-          s = $D('noVNC_status');
-          sb = $D('noVNC_status_bar');
-          switch (state) {
-              case 'failed':       level = "error";  break;
-              case 'fatal':        level = "error";  break;
-              case 'normal':       level = "normal"; break;
-              case 'disconnected': level = "normal"; break;
-              case 'loaded':       level = "normal"; break;
-              default:             level = "warn";   break;
+        function setupFullscreen() {
+          var b = $D("fullscreen"), e = $D("noVNC_screen"), state = 0
+          b.onclick = function () {
+            if (state == 0) {
+              b.className = 'active'
+              e.className = 'fullscreen'
+            } else {
+              b.className = ''
+              e.className = ''
+            }
+            state = 1 - state
           }
+        }
+        function updateState(rfb, state, oldstate, msg) {
+            var s, sb, cad, level;
+            s = $D('noVNC_status');
+            sb = $D('noVNC_status_bar');
+            switch (state) {
+                case 'failed':       level = "error";  break;
+                case 'fatal':        level = "error";  break;
+                case 'normal':       level = "normal"; break;
+                case 'disconnected': level = "normal"; break;
+                case 'loaded':       level = "normal"; break;
+                default:             level = "warn";   break;
+            }
 
-          if (typeof(msg) !== 'undefined') {
-              sb.setAttribute("class", "noVNC_status_" + level);
-              s.innerHTML = msg;
-          }
+            if (typeof(msg) !== 'undefined') {
+                sb.setAttribute("class", "noVNC_status_" + level);
+                s.innerHTML = msg;
+            }
+        }
+        window.onscriptsload = function () {
+          var host, port, password, path, token;
+          setupFullscreen()
+          setupModifier('sendCtrl', XK_Control_L)
+          setupModifier('sendAlt', XK_Alt_L)
+          setupModifier('sendWindows', XK_Meta_L)
+          document.title = unescape(#{json @server.name});
+          password = #{json @server.vnc_password};
+          path = #{json console_socket_server_path(@server)};
+          rfb = new RFB({'target':         $D('noVNC_canvas'),
+                         'encrypt':        true,
+                         'repeaterID':     false,
+                         'true_color':     true,
+                         'local_cursor':   true,
+                         'shared':         true,
+                         'view_only':      false,
+                         'onUpdateState':  updateState});
+          port = window.location.port;
+          if (port === "")
+            port = 443;
+          rfb.connect(window.location.hostname, port, password, path);
+        }
       }
-      window.onscriptsload = function () {
-        var host, port, password, path, token;
-        setupFullscreen()
-        setupModifier('sendCtrl', XK_Control_L)
-        setupModifier('sendAlt', XK_Alt_L)
-        setupModifier('sendWindows', XK_Meta_L)
-        document.title = unescape(#{json @server.name});
-        password = #{json @server.vnc_password};
-        path = #{json console_socket_server_path(@server)};
-        rfb = new RFB({'target':         $D('noVNC_canvas'),
-                       'encrypt':        true,
-                       'repeaterID':     false,
-                       'true_color':     true,
-                       'local_cursor':   true,
-                       'shared':         true,
-                       'view_only':      false,
-                       'onUpdateState':  updateState});
-        port = window.location.port;
-        if (port === "")
-          port = 443;
-        rfb.connect(window.location.hostname, port, password, path);
-      }
-    }
-    $(document).ready(ready)
-    $(document).on("page:load", ready)
+      $(document).ready(ready)
+      $(document).on("page:load", ready)
