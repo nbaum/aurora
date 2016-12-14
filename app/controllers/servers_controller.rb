@@ -103,7 +103,7 @@ class ServersController < ApplicationController
     redirect_to :back
   end
 
-  BOOTSTRAP_INPUT = "pacman --noconfirm -Sy qemu-guest-agent; qemu-ga\n"
+  BOOTSTRAP_INPUT = "pacman --noconfirm -Sy qemu-guest-agent; qemu-ga -d\n"
 
   SCANCODE_LOWER_MAP = "\e1234567890-=\b\tqwertyuiop[]\n\001asdfghjkl;'#\002\\zxcvbnm,./\003\004\005 "
   SCANCODE_UPPER_MAP = "\e!\"£$%^&*()_+\b\tQWERTYUIOP{}\n\001ASDFGHJKL:@~\002|ZXCVBNM<>?\003"
