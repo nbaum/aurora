@@ -393,7 +393,7 @@ class Server < ActiveRecord::Base
     if status["exitcode"] == 0
       Base64.decode64(status["out-data"] || "").force_encoding("UTF-8").scrub
     else
-      fail Base64.decode64(status["err-data"] || "").force_encoding("UTF-8").scrub
+      fail Base64.decode64(status["out-data"] || "").force_encoding("UTF-8").scrub
     end
   end
 
