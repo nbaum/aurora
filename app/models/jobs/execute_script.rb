@@ -12,6 +12,7 @@ module Jobs
         path = "/tmp/aurora.script.#{id}.#{i}.sh"
         output = server.guest_execute! "cat > #{path} && source #{path} 2>&1 && rm #{path}", part
         state["result"] << output
+        save!
       end
       state["result"]
     end
