@@ -4,13 +4,11 @@ main
   table.table
     thead
       tr
-        th ID
-        th Name
         th Category
+        th Name
     tbody
       - @scripts.each do |script|
         tr
-          td = link_to script.id, script
-          td = script.name
           td = script.category
+          td = link_to script.name, script
   = paginate @scripts
