@@ -8,13 +8,17 @@ main
   table
     tr
       th Interface
-      th Address
+      th Addresses
     - @server.api.qga(execute: "guest-network-get-interfaces").each do |i|
-      - i["ip-addresses"].each do |a|
-        tr
-          td = i["name"]
-          td = [a["ip-address"], a["prefix"]].join("/")
-        - i["name"] = ""
+      tr
+        td = i["name"]
+        - if !i["ip-addresses"]
+          td None
+        - else
+          td
+            - i["ip-addresses"].each do |a|
+              = [a["ip-address"], a["prefix"]].join("/")
+              br
   h2 Filesystems
   table
     tr
