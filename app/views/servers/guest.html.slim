@@ -1,0 +1,30 @@
+= render("header")
+- @title << "Guest Status"
+main
+  h1 Guest Status
+  h2 Time
+  p = Time.at @server.api.qga(execute: "guest-get-time") / 1e9
+  h2 Network
+  table
+    tr
+      th Interface
+      th Address
+    - @server.api.qga(execute: "guest-network-get-interfaces").each do |i|
+      - i["ip-addresses"].each do |a|
+        tr
+          td = i["name"]
+          td = [a["ip-address"], a["prefix"]].join("/")
+        - i["name"] = ""
+  h2 Filesystems
+  table
+    tr
+      th Device
+      th Mountpoint
+      th Type
+    - @server.api.qga(execute: "guest-get-fsinfo").each do |fs|
+      - fs.merge!(fs["disk"][0]) if fs["disk"] && fs["disk"][0]
+      tr
+        td = fs["name"]
+        td = fs["mountpoint"]
+        td = fs["type"]
+  / pre = JSON.pretty_generate @server.config

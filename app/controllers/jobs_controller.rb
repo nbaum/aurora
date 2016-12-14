@@ -50,6 +50,10 @@ class JobsController < ApplicationController
     redirect_to :back
   end
 
+  def show
+    render @job.job.class.name.underscore
+  end
+
   private
 
   def set_jobs

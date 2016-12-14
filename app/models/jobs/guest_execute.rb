@@ -1,10 +1,10 @@
 # Copyright (c) 2016 Nathan Baum
 module Jobs
 
-  class PushServer < Job
+  class GuestExecute < Job
 
     def run
-      server.push
+      server.guest_execute! args["command"]
     end
 
   end

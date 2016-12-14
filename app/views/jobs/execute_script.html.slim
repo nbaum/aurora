@@ -1,0 +1,8 @@
+= render("header")
+main
+  h1 Running script #{Script.find(@job.args["script"]).name}
+  p The script is #{@job.status}.
+  - if err = @job.state["error"]
+    pre: samp = err["message"]
+  - else
+    pre: samp = @job.state["result"]

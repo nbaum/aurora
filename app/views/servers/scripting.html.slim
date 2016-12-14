@@ -1,0 +1,11 @@
+= render("header")
+- @title << "Scripting"
+main
+  h1 Scripting
+  - if @server.state == "running"
+    h2 Bootstrap
+    p = button_to "Bootstrap Arch Server", [:bootstrap, @server]
+    h2 Execute Script
+    = form_for [:script, @server], method: "POST" do |f|
+      p = select :script, :id, grouped_options_for_select(Script.all.group_by(&:category).map{|c,ss|[c, ss.map{|s|[s.name, s.id]}]})
+      p = f.submit "Execute"

@@ -1,0 +1,8 @@
+= render("header")
+main
+  h1 Executing <kbd>#{@job.args["command"]}</kbd>
+  p This job is #{@job.status}.
+  - if err = @job.state["error"]
+    pre: samp = err["message"]
+  - else
+    pre: samp = @job.state["result"]

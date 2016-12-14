@@ -42,10 +42,11 @@ script src="/novnc/util.js"
         li = link_to icon('users', 'Users', fw: true), :users
         li = link_to icon('newspaper-o', 'Sessions', fw: true), :sessions
         li = link_to icon('newspaper-o', 'Jobs', fw: true), :jobs
-        li = link_to "Status", :status
+        li = link_to icon('newspaper-o', 'Scripts', fw: true), :scripts
         /li = link_to icon('sliders', 'Settings', fw: true), '#'
       menu.admin
         li: h2 Administration
+        li = link_to "Status", :status
         li = link_to icon('institution', 'Accounts', fw: true), :accounts
         li = link_to icon('desktop', 'Hosts', fw: true), :hosts
         li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools

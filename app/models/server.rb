@@ -44,6 +44,7 @@ class Server < ActiveRecord::Base
     self.affinity_group ||= 0
     self.state ||= "stopped"
     self.password ||= SecureRandom.base64(6)
+    self.networks_id = Network.pluck(:id)
   end
 
   after_initialize do
@@ -228,7 +229,7 @@ class Server < ActiveRecord::Base
   def clone (**attrs)
     transaction do |_tx|
       s = Server.new(name: name.succ, template: self)
-      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order].each do |field|
+      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order networks_id].each do |field|
         s[field] = attrs[field] || self[field]
       end
       map = {}
@@ -250,7 +251,7 @@ class Server < ActiveRecord::Base
       t = template
       s = Server.new(t.attributes)
       template.destroy!
-      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order].each do |field|
+      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order networks_id].each do |field|
         s[field] = attrs[field] || self[field]
       end
       map = {}
@@ -367,6 +368,32 @@ class Server < ActiveRecord::Base
         return @effective_zone = vol.zone if vol.zone
       end
       zone ? zone : account ? account.zone : nil
+    end
+  end
+
+  def guest_password! (username, password)
+    api.qga(execute: "guest-set-user-password", arguments: {username: username, password: Base64.encode64(password), crypted: false})
+  end
+
+  def guest_execute! (command, input = "", capture: true)
+    args = if Array === command
+      { path: command[0], arg: command[1..-1] }
+    else
+      { path: "/bin/bash", arg: ["-c", command] }
+    end
+    args["capture-output"] = true if capture
+    args["input-data"] = Base64.encode64(input) if input
+    pid = api.qga(execute: "guest-exec", arguments: args)["pid"].to_i
+    status = nil
+    loop do
+      status = api.qga(execute: "guest-exec-status", arguments: {pid: pid})
+      break if status["exited"] == true
+      sleep 0.125
+    end
+    if status["exitcode"] == 0
+      Base64.decode64(status["out-data"] || "").force_encoding("UTF-8").scrub
+    else
+      fail Base64.decode64(status["err-data"] || "").force_encoding("UTF-8").scrub
     end
   end
 

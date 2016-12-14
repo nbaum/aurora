@@ -115,7 +115,7 @@ main
           password = #{json @server.vnc_password};
           path = #{json console_socket_server_path(@server)};
           rfb = new RFB({'target':         $D('noVNC_canvas'),
-                         'encrypt':        true,
+                         'encrypt':        false,
                          'repeaterID':     false,
                          'true_color':     true,
                          'local_cursor':   true,

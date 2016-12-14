@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
 
+  resources :scripts
   root "pages#index"
 
   get "status" => 'pages#status'
@@ -77,10 +78,11 @@ Rails.application.routes.draw do
 
   resources :servers do
     member do
-      get :storage, :network, :console, :debug, :admin
+      get :storage, :network, :console, :debug, :admin, :guest, :scripting
       get "console/socket" => "servers#socket"
       post :start, :pause, :unpause, :suspend, :stop, :reset, :clone, :resume
       post :migrate, :evict, :push, :bootstrap, :unaddress
+      post :guest_password, :guest_execute, :script
     end
   end
 

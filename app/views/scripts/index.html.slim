@@ -1,0 +1,16 @@
+= render("header")
+main
+  = paginate @scripts
+  table.table
+    thead
+      tr
+        th ID
+        th Name
+        th Category
+    tbody
+      - @scripts.each do |script|
+        tr
+          td = link_to script.id, script
+          td = script.name
+          td = script.category
+  = paginate @scripts

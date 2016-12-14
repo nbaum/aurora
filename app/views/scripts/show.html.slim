@@ -1,0 +1,12 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Name
+      td = @script.name
+    tr
+      th Category
+      td = @script.category
+    tr
+      th Script
+      td: pre: kbd = @script[:script]

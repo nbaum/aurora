@@ -40,42 +40,42 @@ class ServersController < ApplicationController
   end
 
   def destroy
-    current_user.job(:destroy_server, server: @server)
+    @server.destroy
     redirect_to :servers
   end
 
   def start
-    current_user.job(:start_server, server: @server)
+    @server.start
     redirect_to :back
   end
 
   def pause
-    current_user.job(:pause_server, server: @server)
+    @server.pause
     redirect_to :back
   end
 
   def unpause
-    current_user.job(:unpause_server, server: @server)
+    @server.unpause
     redirect_to :back
   end
 
   def reset
-    current_user.job(:reset_server, server: @server)
+    @server.reset
     redirect_to :back
   end
 
   def stop
-    current_user.job(:stop_server, server: @server)
+    @server.stop
     redirect_to :back
   end
 
   def suspend
-    current_user.job(:suspend_server, server: @server)
+    @server.suspend
     redirect_to :back
   end
 
   def resume
-    current_user.job(:resume_server, server: @server)
+    @server.resume
     redirect_to :back
   end
 
@@ -94,7 +94,7 @@ class ServersController < ApplicationController
   end
 
   def push
-    current_user.job(:push_server, server: @server)
+    @server.push
     redirect_to :back
   end
 
@@ -103,7 +103,7 @@ class ServersController < ApplicationController
     redirect_to :back
   end
 
-  BOOTSTRAP_INPUT = "systemctl start sshd && mkdir -p .ssh && wget -O .ssh/authorized_keys p12a.org.uk/key && ip -c -4 addr show scope global up\n"
+  BOOTSTRAP_INPUT = "pacman --noconfirm -Sy qemu-guest-agent; qemu-ga\n"
 
   SCANCODE_LOWER_MAP = "\e1234567890-=\b\tqwertyuiop[]\n\001asdfghjkl;'#\002\\zxcvbnm,./\003\004\005 "
   SCANCODE_UPPER_MAP = "\e!\"£$%^&*()_+\b\tQWERTYUIOP{}\n\001ASDFGHJKL:@~\002|ZXCVBNM<>?\003"
@@ -159,6 +159,24 @@ class ServersController < ApplicationController
         end
       end
     end
+  end
+
+  def guest_password
+    p = params.require(:password).permit(:username, :password)
+    @server.guest_password! p[:username], p[:password]
+    redirect_to :back
+  end
+
+  def guest_execute
+    job = current_user.job(:guest_execute, server: @server, command: params.require(:execute).permit(:command)[:command])
+    sleep 0.5
+    redirect_to job_url(job)
+  end
+
+  def script
+    job = current_user.job(:execute_script, server: @server, script: params.require(:script).permit(:id)[:id])
+    sleep 0.5
+    redirect_to job_url(job)
   end
 
   private

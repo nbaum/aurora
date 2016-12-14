@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210225212) do
+ActiveRecord::Schema.define(version: 20161214030433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,6 +143,14 @@ ActiveRecord::Schema.define(version: 20161210225212) do
   add_index "networks", ["account_id"], name: "index_networks_on_account_id", using: :btree
   add_index "networks", ["bundle_id"], name: "index_networks_on_bundle_id", using: :btree
   add_index "networks", ["zone_id"], name: "index_networks_on_zone_id", using: :btree
+
+  create_table "scripts", force: true do |t|
+    t.string   "name"
+    t.string   "category"
+    t.text     "script"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "servers", force: true do |t|
     t.string   "name"

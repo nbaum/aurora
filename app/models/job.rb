@@ -21,8 +21,11 @@ class Job < ActiveRecord::Base
   def invoke (action)
     update_attributes started_at: Time.now, status: "running", finished_at: nil
     begin
-      send(action)
+      puts "#{type}: started"
+      state["result"] = send(action)
+      state_will_change!
       self.status = "finished"
+      puts "#{type}: succeeded"
     rescue => e
       state["error"] = {
         "backtrace" => e.backtrace,
@@ -31,6 +34,7 @@ class Job < ActiveRecord::Base
       }
       state_will_change!
       self.status = "failed"
+      puts "#{type}: failed"
     ensure
       self.finished_at = Time.now
       save!
@@ -50,9 +54,10 @@ class Job < ActiveRecord::Base
   end
 
   def wait
-    sleep 0.5
+    sleep 0.125
     reload
-    return self if state != "running"
+    return wait if state != "running"
+    self
   end
 
   def schedule (action = :run)

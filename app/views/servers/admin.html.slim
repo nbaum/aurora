@@ -11,15 +11,26 @@ main
         tr
           th
           td = f.button "Move"
-  - if @server.state == "running"
-    h2 Inject Bootstrap Sequence
-    p Inject a command to prepare an Arch server for installation over SSH. The server must have booted off the Arch ISO and be at the bash prompt.
-    p = button_to "Bootstrap Arch Server", [:bootstrap, @server]
   - if @server.state == "stopped" and @server.template
     h2 Reverse Clone
     p Clone this server into its template, #{link_to @server.template.name, @server.template}.
     p = button_to "Reverse Clone", [:push, @server]
-  - if @server.state == "stopped" and !@server.addresses.empty?
+  - if !@server.addresses.empty?
     h2 Clear Addresses
     p Return this server's IP addresses to the free pool.
     p = button_to "Unassign network addresses", [:unaddress, @server]
+  - if @server.state == "running"
+    h2 Set Password
+    = form_for [:guest_password, @server], method: "POST" do |f|
+      table
+        tr
+          th = f.label :username
+          td = text_field :password, :username, value: "root"
+        tr
+          th = f.label :password, "Password"
+          td = text_field :password, :password
+      p = f.submit "Set"
+    h2 Run Command In Guest
+    = form_for [:guest_execute, @server], method: "POST" do |f|
+      p = text_field :execute, :command, style: "width: 100%"
+      p = f.submit "Run"

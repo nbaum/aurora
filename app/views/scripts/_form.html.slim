@@ -1,0 +1,21 @@
+= form_for @script do |f|
+  - if @script.errors.any?
+    .errors
+      i.fa.fa-exclamation-triangle.fa-fw
+      h2 = "#{pluralize(@script.errors.count, "error")} prohibited this script from being saved:"
+      ul
+        - @script.errors.full_messages.each do |message|
+          li = message
+  table.properties width="100%"
+    tr
+      th = f.label :name
+      td width="100%" = f.text_field :name
+    tr
+      th = f.label :category
+      td = f.text_field :category
+    tr
+      th = f.label :script
+      td = f.text_area :script, rows: 20, style: "width: 100%; font-family: monospace"
+    tr
+      th
+      td = f.button @script.new_record? ? "Create" : "Update"
