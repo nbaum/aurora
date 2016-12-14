@@ -6,10 +6,11 @@ module Jobs
     def run
       state["result"] = ""
       script = Script.find(args["script"])
-      script.split(/^\#\#$/).each do |part|
+      id = script.id
+      script.script.split(/^\#\#$/).each.with_index do |part, i|
         part = "set -e\n" + part
-        path = "/tmp/aurora.script.#{script.id}.sh"
-        output = server.guest_execute! "cat > #{path} && source #{path} 2>&1 && rm #{path}", script.script
+        path = "/tmp/aurora.script.#{id}.#{i}.sh"
+        output = server.guest_execute! "cat > #{path} && source #{path} 2>&1 && rm #{path}", part
         state["result"] << output
       end
       state["result"]
