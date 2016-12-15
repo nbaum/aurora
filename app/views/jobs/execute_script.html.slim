@@ -6,7 +6,7 @@ main
     pre: samp = err["message"]
   - else
     pre: samp = @job.state["result"]
-  - if %w("pending running").member? @job.status 
+  - if %w(pending running).member? @job.status 
     coffee:
       prepare = ->
         reload = ->
