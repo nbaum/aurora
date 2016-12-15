@@ -12,5 +12,5 @@ main
         reload = ->
           Turbolinks.visit window.location
         setTimeout(reload, 1000)
-      $(document).on "page:load", prepare
+      $(document).one "page:load", prepare
       $ prepare
