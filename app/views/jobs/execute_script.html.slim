@@ -6,3 +6,10 @@ main
     pre: samp = err["message"]
   - else
     pre: samp = @job.state["result"]
+  coffee:
+    prepare = ->
+      reload = ->
+        Turbolinks.visit window.location
+      setTimeout(reload, 1000)
+    $(document).on "page:load", prepare
+    $ prepare
