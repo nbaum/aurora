@@ -316,6 +316,16 @@ class Server < ActiveRecord::Base
     root && root.id
   end
 
+  def root_id= (id)
+    if id.to_i == 0
+      attachments.joins(:volume).where(volumes: { optical: false }).delete_all
+    elsif i = root_attachment
+      i.update! volume_id: id
+    else
+      attachments.new(volume: Volume.find(id), attachment: "hda")
+    end
+  end
+
   def network? (net)
     networks_id.member?(net.id)
   end

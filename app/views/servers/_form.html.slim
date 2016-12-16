@@ -24,16 +24,14 @@
       th = f.label :memory
       td
         =' f.number_field :memory, min: 128, max: 2**16, step: 128
-        ' MiB 
+        ' MiB
     tr
       th = f.label :storage
       td
-        - if @server.root
-          =' @server.root_link
-          ' (#{@server.root.size} GB)
-        - else
-          =' f.number_field :storage, min: 0, max: 1000
-          ' GB
+        => f.grouped_collection_select :root_id, StoragePool.includes(:volumes).where(volumes: {optical: false}), :volumes, :full_name, :id, :name, include_blank: "(None)"
+        ' or
+        =' f.number_field :storage, min: 0, max: 1000
+        ' GB
     /tr
       th = f.label :password
       td = f.text_field :password
