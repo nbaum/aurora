@@ -72,7 +72,7 @@ class Server < ActiveRecord::Base
   end
 
   def networks
-    @networks ||= self['networks_id'].map{|id|Network.find(id)}
+    @networks ||= self['networks_id'].map{|id|Network.find(id) rescue nil}.compact
   end
 
   def networks= (networks)
