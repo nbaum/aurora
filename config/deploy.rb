@@ -17,7 +17,7 @@ namespace :deploy do
   task :restart do
     on roles :app do
       execute :systemctl, "--user daemon-reload"
-      execute :systemctl, "--user restart aurora"
+      execute :systemctl, "--user restart aurora aurora-worker"
     end
   end
 end

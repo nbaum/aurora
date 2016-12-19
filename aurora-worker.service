@@ -1,0 +1,6 @@
+[Service]
+ExecStart=/bin/bash -lc '/home/aurora/current/run-worker'
+Environment=RACK_ENV=production
+
+[Install]
+WantedBy=multi-user.target
