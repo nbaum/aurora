@@ -109,10 +109,13 @@ class ServersController < ApplicationController
       sock = TCPSocket.new(*@server.vnc_address)
       Thread.new do
         loop do
-          IO.select([sock])
+          IO.select([sock], [], [sock])
           begin
-            ws.send_data Base64.strict_encode64(sock.recv(8192))
-          rescue
+            data = sock.recv(8192)
+            raise "EOF" if data.length == 0
+            ws.send_data Base64.strict_encode64(data)
+          rescue => e
+            ws.close!
             break
           end
         end
@@ -121,7 +124,8 @@ class ServersController < ApplicationController
         begin
           sock << Base64.decode64(data)
         rescue
-          nil
+          sock.close
+          ws.close!
         end
       end
     end
