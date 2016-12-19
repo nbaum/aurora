@@ -115,7 +115,7 @@ class ServersController < ApplicationController
             raise "EOF" if data.length == 0
             ws.send_data Base64.strict_encode64(data)
           rescue => e
-            ws.close!
+            ws.close
             break
           end
         end
@@ -125,7 +125,7 @@ class ServersController < ApplicationController
           sock << Base64.decode64(data)
         rescue
           sock.close
-          ws.close!
+          ws.close
         end
       end
     end
