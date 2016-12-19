@@ -36,7 +36,7 @@ class Script < ActiveRecord::Base
   end
 
   def do_reboot (server, &stater)
-    server.stop
+    server.stop if server.running?
     server.start
     stater.("Rebooting server")
   end
