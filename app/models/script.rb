@@ -67,7 +67,7 @@ class Script < ActiveRecord::Base
   end
 
   def execute (server, &stater)
-    steps.each do |step|
+    YAML.load(steps).each do |step|
       send("do_#{step["action"]}", *[server, step["data"]].compact, &stater)
     end
   end
