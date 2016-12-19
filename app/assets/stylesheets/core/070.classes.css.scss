@@ -44,3 +44,15 @@
   background: #666;
   color: #fff;
 }
+
+.hide
+{
+  display: none;
+}
+
+pre samp {
+  white-space: pre-line;
+  display: block;
+  width: 100%;
+  overflow: auto;
+}

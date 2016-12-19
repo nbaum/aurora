@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214030433) do
+ActiveRecord::Schema.define(version: 20161216181605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20161214030433) do
     t.text     "script"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "steps"
   end
 
   create_table "servers", force: true do |t|
@@ -179,6 +180,7 @@ ActiveRecord::Schema.define(version: 20161214030433) do
     t.text     "notes"
     t.string   "tags",           default: [],    array: true
     t.integer  "networks_id",    default: [],    array: true
+    t.text     "script"
   end
 
   add_index "servers", ["account_id"], name: "index_servers_on_account_id", using: :btree

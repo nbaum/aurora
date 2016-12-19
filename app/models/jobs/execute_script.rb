@@ -4,17 +4,16 @@ module Jobs
   class ExecuteScript < Job
 
     def run
+      state["error"] = nil
       state["result"] = ""
-      script = Script.find(args["script"])
-      id = script.id
-      script.script.split(/^\#\#$/).each.with_index do |part, i|
-        part = "set -e\n" + part
-        path = "/tmp/aurora.script.#{id}.#{i}.sh"
-        output = server.guest_execute! "cat > #{path} && source #{path} 2>&1 && rm #{path}", part
-        state["result"] << output
+      state_will_change!
+      save!
+      script = args["script"] ? Script.find(args["script"]) : Script.new(steps: server.script)
+      script.execute(server) do |msg|
+        self.state["result"] << "\n" << msg
+        state_will_change!
         save!
       end
-      state["result"]
     end
 
   end

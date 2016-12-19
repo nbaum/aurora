@@ -14,8 +14,40 @@
       th = f.label :category
       td = f.text_field :category
     tr
-      th = f.label :script
-      td = f.text_area :script, rows: 20, style: "width: 100%; font-family: monospace"
+      th Steps
+      td
+        = f.text_area :steps, value: @script.steps, style: "font-family: monospace; width: 100%", rows: 20
+    /- @script.steps.each.with_index do |step, i|
+      tr
+        th Step #{i + 1}
+      tr
+        td: label Action
+        td width="100%" = select_tag "script[steps][#{i}][action]", options_for_select(["skip", "wait", "sendkeys", "reboot", "shell", "invoke", "stop", "clone"], step["action"]), "data-id" => i
+      tr class="step-#{i} wait hide"
+        td: label Seconds
+        td = number_field "script[steps][#{i}]", "data", value: step["data"], length: 5
+      tr class="step-#{i} invoke hide"
+        td: label Script
+        td = select_tag "script[steps][#{i}][data]", options_from_collection_for_select(Script.all, "id", "name")
+      tr class="step-#{i} sendkeys hide"
+        td: label Input
+        td = text_field "script[steps][#{i}]", "data", value: step["data"], style: "width: 100%"
+      tr class="step-#{i} shell hide"
+        td: label Script
+        td = text_area "script[steps][#{i}]", "data", value: step["data"], style: "width: 100%", rows: 20
     tr
       th
       td = f.button @script.new_record? ? "Create" : "Update"
+    coffee:
+      prepare = ->
+        es = $("select[data-id]")
+        es.on "change", ->
+          e = $(this)
+          did = e.data("id")
+          $(".step-#{did}").hide()
+          $(".step-#{did} *").attr("disabled", true)
+          $(".step-#{did}.#{e.val()}").show()
+          $(".step-#{did}.#{e.val()} *").attr("disabled", false)
+        es.change()
+      $(document).one "page:load", prepare
+      $ prepare

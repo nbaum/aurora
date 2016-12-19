@@ -56,6 +56,10 @@ class Server < ActiveRecord::Base
     self.tags = [] if self.tags == {}
   end
 
+  def script
+    super || [{"action" => "stop"}].to_yaml
+  end
+
   before_create do
     self.state = "suspended" if template && template.started?
   end
@@ -220,9 +224,32 @@ class Server < ActiveRecord::Base
   end
 
   def reset
-    raise Error, "Server isn't started" unless started?
+    if started?
+      transaction do |_tx|
+        api.reset
+      end
+    else
+      start
+    end
+  end
+
+  def clone_from (other)
     transaction do |_tx|
-      api.reset
+      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order networks_id].each do |field|
+        self[field] = other[field]
+      end
+      map = {}
+      other.volumes.each do |vol|
+        nvol = vol.clone
+        self.volumes << nvol
+        map[vol.id] = nvol
+      end
+      attachments.where("volume_id IS NOT NULL").each do |att|
+        self.attachments.where(attachment: att.attachment).delete_all
+        self.attachments << ServerVolume.new(attachment: att.attachment, volume: map[att.volume.id] || att.volume)
+      end
+      save!
+      self
     end
   end
 
@@ -407,7 +434,36 @@ class Server < ActiveRecord::Base
     end
   end
 
-  private
+  SCANCODE_LOWER_MAP = "\e1234567890-=\b\tqwertyuiop[]\n\001asdfghjkl;'#\002\\zxcvbnm,./\003\004\005 ".freeze
+  SCANCODE_UPPER_MAP = "\e!\"£$%^&*()_+\b\tQWERTYUIOP{}\n\001ASDFGHJKL:@~\002|ZXCVBNM<>?\003".freeze
+
+  def sendkeys (string)
+    string_to_sendkeys(string).each do |keys|
+      api.qmp(execute: "send-key", arguments: {keys: keys})
+    end
+  end
+
+  def rune_to_sendkey (rune)
+    if i = SCANCODE_LOWER_MAP.index(rune)
+      [ i + 1 ]
+    elsif i = SCANCODE_UPPER_MAP.index(rune)
+      [ "shift", i + 1 ]
+    else
+      fail "No sendkey conversion for `#{rune}'"
+    end
+  end
+
+  def string_to_sendkeys (string)
+    string.chars.map do |c|
+      rune_to_sendkey(c).map do |d|
+        if String === d
+          { type: "qcode", data: d }
+        else
+          { type: "number", data: d }
+        end
+      end
+    end
+  end
 
   def allocate_address
     effective_zone.networks.order(:index).each do |network|

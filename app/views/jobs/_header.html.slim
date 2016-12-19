@@ -8,6 +8,9 @@
   - @title << "Job"
   header
     h1 = @title.last
+    aside
+      menu
+        li = button_to "Retry", [:restart, @job]
   menu
     li = link_to "← Job List", :jobs, exact: true, class: "bare"
     li = link_to "View", @job, exact: true

@@ -22,7 +22,7 @@ class ScriptsController < ApplicationController
 
   def update
     if @script.update(script_params)
-      redirect_to @script, notice: 'Script was successfully updated.'
+      redirect_to :back, notice: 'Script was successfully updated.'
     else
       render :edit
     end
@@ -45,7 +45,7 @@ class ScriptsController < ApplicationController
   end
 
   def script_params
-    params.require(:script).permit(:name, :category, :script)
+    params.require(:script).permit(:name, :category, :script, :steps)
   end
 
 end

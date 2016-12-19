@@ -1,9 +1,11 @@
 = render("header")
+- script = @job.args["script"] ? Script.find(@job.args["script"]).name : "for #{Server.name}"
 main
-  h1 Running script #{Script.find(@job.args["script"]).name}
-  p The script is #{@job.status}.
+  h1 Running script #{script}
+  p Status: #{@job.status}.
   - if err = @job.state["error"]
     pre: samp = err["message"]
+    pre: samp = err["backtrace"].join("\n")
   - else
     pre: samp = @job.state["result"]
   - if %w(pending running).member? @job.status 

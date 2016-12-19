@@ -22,7 +22,7 @@ class Job < ActiveRecord::Base
     update_attributes started_at: Time.now, status: "running", finished_at: nil
     begin
       puts "#{type}: started"
-      state["result"] = send(action)
+      send(action)
       state_will_change!
       self.status = "finished"
       puts "#{type}: succeeded"

@@ -38,7 +38,7 @@
     /tr
       th = f.label :machine_type
       td = f.select :machine_type, Server::MACHINE_TYPES.invert
-    /tr
+    tr
       th = f.label :boot_order
       td = f.select :boot_order, [["Disk, ISO, Network", "cdn"], ["ISO, Disk, Network", "dcn"], ["Network, ISO, Disk", "ncd"]]
     tr

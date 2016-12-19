@@ -103,40 +103,6 @@ class ServersController < ApplicationController
     redirect_to :back
   end
 
-  BOOTSTRAP_INPUT = "pacman --noconfirm -Sy qemu-guest-agent; qemu-ga -d\n"
-
-  SCANCODE_LOWER_MAP = "\e1234567890-=\b\tqwertyuiop[]\n\001asdfghjkl;'#\002\\zxcvbnm,./\003\004\005 "
-  SCANCODE_UPPER_MAP = "\e!\"£$%^&*()_+\b\tQWERTYUIOP{}\n\001ASDFGHJKL:@~\002|ZXCVBNM<>?\003"
-
-  def rune_to_sendkey (rune)
-    if i = SCANCODE_LOWER_MAP.index(rune)
-      [ i + 1 ]
-    elsif i = SCANCODE_UPPER_MAP.index(rune)
-      [ "shift", i + 1 ]
-    else
-      fail "No sendkey conversion for `#{rune}'"
-    end
-  end
-
-  def string_to_sendkeys (string)
-    string.chars.map do |c|
-      rune_to_sendkey(c).map do |d|
-        if String === d
-          { type: "qcode", data: d }
-        else
-          { type: "number", data: d }
-        end
-      end
-    end
-  end
-
-  def bootstrap
-    string_to_sendkeys(BOOTSTRAP_INPUT).each do |keys|
-      @server.api.qmp(execute: "send-key", arguments: {keys: keys})
-    end
-    redirect_to :back
-  end
-
   # TODO: Figure out what to do about errors.
   def socket
     hijack do |ws|
@@ -174,9 +140,15 @@ class ServersController < ApplicationController
   end
 
   def script
-    job = current_user.job(:execute_script, server: @server, script: params.require(:script).permit(:id)[:id])
-    sleep 0.5
-    redirect_to job_url(job)
+    if params[:script]
+      job = current_user.job(:execute_script, server: @server, script: params.require(:script).permit(:id)[:id])
+      sleep 0.5
+      redirect_to job_url(job)
+    else
+      job = current_user.job(:execute_script, server: @server)
+      sleep 0.5
+      redirect_to job_url(job)
+    end
   end
 
   private
@@ -204,8 +176,8 @@ class ServersController < ApplicationController
                                    :published_at, :base_id, :current_id,
                                    :iso_id, :machine_type, :boot_order,
                                    :pinned, :new_host, :notes, :is_template, :tags,
-                                   :root_id, :networks => [:assign])
-    p[:networks] = p[:networks].select{|id,a| a["assign"] == "1"}.keys
+                                   :root_id, :script, :networks => [:assign])
+    p[:networks] = p[:networks].select{|id,a| a["assign"] == "1"}.keys if p[:networks]
     p[:tags] = p[:tags].split(",") if p[:tags]
     p
   end
