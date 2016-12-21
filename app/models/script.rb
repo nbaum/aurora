@@ -61,7 +61,7 @@ class Script < ActiveRecord::Base
       script = "set -e\n" + script.gsub("\r", "")
       path = "/tmp/aurora.script.#{uuid}.sh"
       output = server.guest_execute! "set -e; cat > #{path} && sh #{path} 2>&1; rm #{path}", script
-      log "    " + output.strip.split("\n").join("\n    ")
+      log "    " + output.strip.split("\n").join("\n    ") if output.strip != ""
     end
 
     alias sh execute
