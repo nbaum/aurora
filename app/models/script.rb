@@ -51,7 +51,7 @@ class Script < ActiveRecord::Base
 
     def write (path, content)
       log "Writing #{path}"
-      server.guest_execute! "set -e; cat > #{path}", script
+      server.guest_execute! "set -e; cat > #{path}", content
     end
 
     def execute (script)

@@ -3,15 +3,16 @@
 main.vbox
   h1 Running script #{script}
   p Status: #{@job.status.capitalize}.
-  - if err = @job.state["error"]
-    pre style="overflow: auto": samp = err["message"]
-    pre style="overflow: auto": samp = err["backtrace"].join("\n")
-  - else
-    pre style="overflow: auto": samp = @job.state["result"]
+  pre.result style="overflow: auto"
+    samp = @job.state["result"]
+    - if err = @job.state["error"]
+      samp style="color: red": strong = "\n" + err["type"]
+      samp style="color: red" = err["message"]
+      samp style="color: red" = err["backtrace"].join("\n")
   - if %w(pending running).member? @job.status 
     coffee:
       prepare = ->
-        e = $("pre")[0]
+        e = $("pre.result")[0]
         reload = ->
           if e.scrollTop + e.offsetHeight == e.scrollHeight
             Turbolinks.visit window.location
@@ -20,3 +21,8 @@ main.vbox
         e.scrollTop = e.scrollHeight
         setTimeout(reload, 500)
       $(document).one "page:load ready", prepare
+  - else
+    coffee:
+      $(document).one "page:load ready", ->
+        e = $("pre.result")[0]
+        e.scrollTop = e.scrollHeight
