@@ -1,18 +1,22 @@
 = render("header")
 - script = @job.args["script"] ? Script.find(@job.args["script"]).name : "for #{Server.name}"
-main
+main.vbox
   h1 Running script #{script}
-  p Status: #{@job.status}.
+  p Status: #{@job.status.capitalize}.
   - if err = @job.state["error"]
-    pre: samp = err["message"]
-    pre: samp = err["backtrace"].join("\n")
+    pre style="overflow: auto": samp = err["message"]
+    pre style="overflow: auto": samp = err["backtrace"].join("\n")
   - else
-    pre: samp = @job.state["result"]
+    pre style="overflow: auto": samp = @job.state["result"]
   - if %w(pending running).member? @job.status 
     coffee:
       prepare = ->
+        e = $("pre")[0]
         reload = ->
-          Turbolinks.visit window.location
-        setTimeout(reload, 1000)
-      $(document).one "page:load", prepare
-      $ prepare
+          if e.scrollTop + e.offsetHeight == e.scrollHeight
+            Turbolinks.visit window.location
+          else
+            setTimeout(reload, 500)
+        e.scrollTop = e.scrollHeight
+        setTimeout(reload, 500)
+      $(document).one "page:load ready", prepare

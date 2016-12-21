@@ -203,6 +203,8 @@ class Server < ActiveRecord::Base
       api_ = api
       self.host = nil
       save!
+      api_.qmp(execute: "quit") rescue nil
+      sleep 0.125
       api_.stop
     end
   end

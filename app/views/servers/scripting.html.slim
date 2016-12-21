@@ -8,31 +8,12 @@ main
       tr
         th Steps
         td width="100%"
-          = f.text_area :script, value: @server.script, style: "font-family: monospace; width: 100%", rows: 20
-      /- @server.script.each.with_index do |step, i|
-        tr
-          th Step #{i + 1}
-        tr
-          td: label Action
-          td width="100%" = select_tag "server[script][#{i}][action]", options_for_select(["skip", "wait", "sendkeys", "reboot", "shell", "invoke", "stop"], step["action"]), "data-id" => i
-        tr class="step-#{i} wait hide"
-          td: label Seconds
-          td = number_field "server[script][#{i}]", "data", value: step["data"], length: 5
-        tr class="step-#{i} invoke hide"
-          td: label Script
-          td = select_tag "server[script][#{i}][data]", options_from_collection_for_select(Script.all, "id", "name")
-        tr class="step-#{i} sendkeys hide"
-          td: label Input
-          td = text_field "server[script][#{i}]", "data", value: step["data"], style: "width: 100%"
-        tr class="step-#{i} shell hide"
-          td: label Script
-          td = text_area "server[script][#{i}]", "data", value: step["data"], style: "width: 100%", rows: 20
+          = f.text_area :script, value: @server.script, rows: 20, "data-ace-mode": "ruby"
     p = f.submit "Update"
-  - if @server.state == "running"
-    h2 Execute Script
-    = form_for [:script, @server], method: "POST" do |f|
-      / p = select :script, :id, grouped_options_for_select(Script.all.group_by(&:category).map{|c,ss|[c, ss.map{|s|[s.name, s.id]}]})
-      p = f.submit "Execute"
+  h2 Execute Script
+  = form_for [:script, @server], method: "POST" do |f|
+    / p = select :script, :id, grouped_options_for_select(Script.all.group_by(&:category).map{|c,ss|[c, ss.map{|s|[s.name, s.id]}]})
+    p = f.submit "Execute"
   coffee:
     prepare = ->
       es = $("select[data-id]")

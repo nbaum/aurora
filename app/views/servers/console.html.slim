@@ -99,7 +99,7 @@ main
                 case 'loaded':       level = "normal"; break;
                 default:             level = "warn";   break;
             }
-
+            console.log(state);
             if (typeof(msg) !== 'undefined') {
                 sb.setAttribute("class", "noVNC_status_" + level);
                 s.innerHTML = msg;
@@ -121,6 +121,7 @@ main
                          'local_cursor':   true,
                          'shared':         true,
                          'view_only':      false,
+                         'disconnectTimeout': 5,
                          'onUpdateState':  updateState});
           port = window.location.port;
           if (port === "")
