@@ -235,10 +235,11 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def clone_from (other)
+  def clone_from (other, **attrs)
     transaction do |_tx|
+      save!
       %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order networks_id].each do |field|
-        self[field] = other[field]
+        self[field] = attrs[field] || other[field]
       end
       map = {}
       other.volumes.each do |vol|
@@ -247,32 +248,16 @@ class Server < ActiveRecord::Base
         map[vol.id] = nvol
       end
       attachments.where("volume_id IS NOT NULL").each do |att|
-        self.attachments.where(attachment: att.attachment).delete_all
         self.attachments << ServerVolume.new(attachment: att.attachment, volume: map[att.volume.id] || att.volume)
+        att.volume.destroy
+        att.destroy
       end
-      save!
       self
     end
   end
 
   def clone (**attrs)
-    transaction do |_tx|
-      s = Server.new(name: name.succ, template: self)
-      %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order networks_id].each do |field|
-        s[field] = attrs[field] || self[field]
-      end
-      map = {}
-      volumes.each do |vol|
-        nvol = vol.clone
-        s.volumes << nvol
-        map[vol.id] = nvol
-      end
-      attachments.where("volume_id IS NOT NULL").each do |att|
-        s.attachments << ServerVolume.new(attachment: att.attachment, volume: map[att.volume.id] || att.volume)
-      end
-      s.save!
-      s
-    end
+    Server.new(name: name.succ, template: self).clone_from(self, **attrs)
   end
 
   def push (**attrs)
