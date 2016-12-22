@@ -248,6 +248,7 @@ class Server < ActiveRecord::Base
         map[vol.id] = nvol
       end
       other.attachments.where("volume_id IS NOT NULL").each do |att|
+        next unless att.volume
         attachments.where(attachment: att.attachment).each do |a|
           a.volume.destroy
           a.destroy
