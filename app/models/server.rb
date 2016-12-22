@@ -329,6 +329,62 @@ class Server < ActiveRecord::Base
     root_attachment && root_attachment.volume
   end
 
+  def hda
+    hda_id && Volume.find(hda_id)
+  end
+
+  def hdb
+    hdb_id && Volume.find(hdb_id)
+  end
+
+  def hdc
+    hdc_id && Volume.find(hdc_id)
+  end
+
+  def hdd
+    hdd_id && Volume.find(hdd_id)
+  end
+
+  def hda_id
+    attachments.where(attachment: :hda).first&.volume&.id
+  end
+
+  def hdb_id
+    attachments.where(attachment: :hdb).first&.volume&.id
+  end
+
+  def hdc_id
+    attachments.where(attachment: :hdc).first&.volume&.id
+  end
+
+  def hdd_id
+    attachments.where(attachment: :hdd).first&.volume&.id
+  end
+
+  def hda_id= (id)
+    return if hda_id == id
+    attachments.where(attachment: :hda).destroy_all
+    attachments.create! attachment: :hda, volume_id: id
+  end
+
+  def hdb_id= (id)
+    return if hdb_id == id
+    attachments.where(attachment: :hdb).destroy_all
+    attachments.create! attachment: :hdb, volume_id: id
+  end
+
+  def hdc_id= (id)
+    return if hdc_id == id
+    attachments.where(attachment: :hdc).destroy_all
+    attachments.create! attachment: :hdc, volume_id: id
+  end
+
+  def hdd_id= (id)
+    return if hdd_id == id
+    attachments.where(attachment: :hdd).destroy_all
+    attachments.create! attachment: :hdd, volume_id: id
+  end
+
   def root_id
     root && root.id
   end
@@ -368,11 +424,13 @@ class Server < ActiveRecord::Base
       display: id,
       ports: port_configs,
       password: vnc_password,
-      type: machine_type,
       boot_order: boot_order,
       name: name,
       cd: iso && iso.config,
-      hd: root && root.config,
+      hda: hda&.config,
+      hdb: hdb&.config,
+      hdc: hdc&.config,
+      hdd: hdd&.config,
       guest_data: guest_data,
     }
   end

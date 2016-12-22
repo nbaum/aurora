@@ -2,17 +2,17 @@
 - @title << "Storage"
 main
   h2 Attached
-  table
-    thead: tr
-      th Volume
-      th Attached as
-    - @server.attachments.each do |att|
-      tr
-        - if att.volume
-          td = link_to att.volume.name, att.volume
-        - else
-          td Volume missing!
-        td = att.attachment
+  = form_for @server do |f|
+    table
+      thead: tr
+        th Attachment
+        th Volume
+      - %i(hda hdb hdc hdd).each do |point|
+        - att = @server.attachments.where(attachment: point).first
+        tr
+          td = point
+          td = f.grouped_collection_select "#{point}_id", StoragePool.includes(:volumes).order(:name), :volumes, :full_name, :id, :name, include_blank: "(None)"
+    p = f.submit "Update attachments"
   h2 Owned
   table
     thead: tr

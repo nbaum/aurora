@@ -48,6 +48,7 @@ class Volume < ActiveRecord::Base
   def config
     {
       path: full_path,
+      serial: path,
       ephemeral: ephemeral,
       optical: optical,
     }
