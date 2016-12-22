@@ -68,7 +68,7 @@ class Script < ActiveRecord::Base
 
     def __runcode__ (script, &stater)
       @stater = stater
-      instance_eval(script)
+      instance_eval(script, "(script)", 1)
     end
 
     private
