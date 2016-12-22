@@ -247,7 +247,7 @@ class Server < ActiveRecord::Base
         self.volumes << nvol
         map[vol.id] = nvol
       end
-      attachments.where("volume_id IS NOT NULL").each do |att|
+      other.attachments.where("volume_id IS NOT NULL").each do |att|
         self.attachments << ServerVolume.new(attachment: att.attachment, volume: map[att.volume.id] || att.volume)
         att.volume.destroy
         att.destroy
