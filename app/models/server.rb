@@ -237,10 +237,10 @@ class Server < ActiveRecord::Base
 
   def clone_from (other, **attrs)
     transaction do |_tx|
-      save!
       %i[cores memory storage affinity_group appliance_data account_id zone_id appliance_id bundle_id machine_type boot_order networks_id].each do |field|
         self[field] = attrs[field] || other[field]
       end
+      save!
       map = {}
       other.volumes.each do |vol|
         nvol = vol.clone
