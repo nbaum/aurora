@@ -260,27 +260,31 @@ class Server < ActiveRecord::Base
   end
 
   def clone_name
-    patterns = [
-      "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s",
-      "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s",
-      "Another %s",
-      "Yet another %s",
-      "%s's doppelganger",
-      "What do you get when you cross %s with a clone button?",
-      "%s 2",
-      "%s II",
-      "Son of %s",
-      "The original %s... Or is it?",
-    ]
-    new_name = patterns.sample % [name]
-    if Server.where(name: new_name).first
-      new_name = new_name + "(0)"
-      while true
-        new_name = new_name.succ
-        break unless Server.where(name: new_name).first
+    if name.end_with?(/\d+/)
+      name.succ
+    else
+      patterns = [
+        "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s",
+        "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s",
+        "Another %s",
+        "Yet another %s",
+        "%s's doppelganger",
+        "What do you get when you cross %s with a clone button?",
+        "%s 2",
+        "%s II",
+        "Son of %s",
+        "The original %s... Or is it?",
+      ]
+      new_name = patterns.sample % [name]
+      if Server.where(name: new_name).first
+        new_name = new_name + "(0)"
+        while true
+          new_name = new_name.succ
+          break unless Server.where(name: new_name).first
+        end
       end
+      new_name
     end
-    new_name
   end
 
   def clone (**attrs)
