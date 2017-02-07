@@ -492,6 +492,7 @@ class Server < ActiveRecord::Base
 
   def allocate_address
     effective_zone.networks.order(:index).each do |network|
+      next unless network?(network)
       unless ipv4_address(network)
         network.allocate_address("IPv4", server: self)
       end
