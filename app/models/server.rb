@@ -519,6 +519,7 @@ class Server < ActiveRecord::Base
     gd = {}
     gd["hostname"] = name.downcase.tr(" ", "-").tr("^a-z0-9-", "")
     effective_zone.networks.order(:index).map.with_index do |net, i|
+      next unless network?(net)
       ipv4 = ipv4_address(net)
       ipv6 = ipv6_address(net)
       if ipv4
