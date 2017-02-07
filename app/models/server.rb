@@ -260,7 +260,7 @@ class Server < ActiveRecord::Base
   end
 
   def clone_name
-    if name.end_with?(/\d+/)
+    if name =~ /\d+$/
       name.succ
     else
       patterns = [
