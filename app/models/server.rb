@@ -272,7 +272,7 @@ class Server < ActiveRecord::Base
       "Son of %s",
       "The original %s... Or is it?",
     ]
-    new_name = patterns.sample.format()
+    new_name = patterns.sample % [name]
     if Server.where(name: new_name).first
       new_name = new_name + "(0)"
       while true
