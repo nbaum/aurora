@@ -259,8 +259,32 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def clone_name
+    patterns = [
+      "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s",
+      "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s", "Clone of %s",
+      "Another %s",
+      "Yet another %s",
+      "%s's doppelganger",
+      "What do you get when you cross %s with a clone button?",
+      "%s 2",
+      "%s II",
+      "Son of %s",
+      "The original %s... Or is it?",
+    ]
+    new_name = patterns.sample.format()
+    if Server.where(name: new_name).first
+      new_name = new_name + "(0)"
+      while true
+        new_name = new_name.succ
+        break unless Server.where(name: new_name).first
+      end
+    end
+    new_name
+  end
+
   def clone (**attrs)
-    Server.new(name: name.succ, template: self).clone_from(self, **attrs)
+    Server.new(name: clone_name, template: self).clone_from(self, **attrs)
   end
 
   def vnc_address
