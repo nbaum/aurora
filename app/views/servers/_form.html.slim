@@ -23,7 +23,7 @@
     tr
       th = f.label :memory
       td
-        =' f.number_field :memory, min: 128, max: 2**16, step: 128
+        =' f.number_field :memory, min: 128, max: 2**24, step: 128
         ' MiB
     tr
       th = f.label :storage
