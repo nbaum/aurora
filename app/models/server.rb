@@ -12,10 +12,8 @@ class Server < ActiveRecord::Base
   Error = Class.new(StandardError)
 
   MACHINE_TYPES = {
-    "pc"  => "PC (IDE storage)",
-    "sas" => "PC (SCSI storage)",
-    "virtio" => "PC (VirtIO storage)",
-    "vmware" => "PC (Simulated VMware storage)",
+    "pc"  => "Paravirtualized PC",
+    "windows" => "Windows-compatible PC",
     "mac" => "Apple Macintosh",
   }.freeze
 
