@@ -41,46 +41,46 @@ class ServersController < ApplicationController
 
   def destroy
     @server.destroy
-    redirect_to :servers
+    redirect_to :servers, notice: "Server destroyed."
   end
 
   def start
     @server.start
-    redirect_to :back
+    redirect_to :back, notice: "Server started."
   end
 
   def pause
     @server.pause
-    redirect_to :back
+    redirect_to :back, notice: "Server paused."
   end
 
   def unpause
     @server.unpause
-    redirect_to :back
+    redirect_to :back, notice: "Server unpaused."
   end
 
   def reset
     @server.reset
-    redirect_to :back
+    redirect_to :back, notice: "Server reset."
   end
 
   def stop
     @server.stop
-    redirect_to :back
+    redirect_to :back, notice: "Server stopped."
   end
 
   def suspend
     @server.suspend
-    redirect_to :back
+    redirect_to :back, notice: "Server suspended."
   end
 
   def resume
     @server.resume
-    redirect_to :back
+    redirect_to :back, notice: "Server resumed."
   end
 
   def clone
-    redirect_to @server.clone
+    redirect_to @server.clone, notice: "Server cloned."
   end
 
   def migrate
