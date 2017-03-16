@@ -429,6 +429,7 @@ class Server < ActiveRecord::Base
       display: id,
       ports: port_configs,
       password: vnc_password,
+      type: machine_type,
       boot_order: boot_order,
       name: name,
       cd: iso && iso.config,
