@@ -16,6 +16,12 @@
       th = f.label :keyword
       td = f.text_field :keyword
     tr
+      th
+      td
+        = f.label :default
+          => f.check_box :default
+          ' Enabled by default on new VMs
+    tr
       th = f.label :index, "VM Port"
       td = f.select :index, 8.times.map{|i|["ens#{i + 3}", i]}
     tr

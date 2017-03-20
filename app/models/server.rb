@@ -43,7 +43,7 @@ class Server < ActiveRecord::Base
     self.affinity_group ||= 0
     self.state ||= "stopped"
     self.password ||= SecureRandom.base64(6)
-    self.networks_id = Network.pluck(:id)
+    self.networks_id = Network.where(default: true).pluck(:id)
   end
 
   after_initialize do
