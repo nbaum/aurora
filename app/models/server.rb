@@ -49,7 +49,7 @@ class Server < ActiveRecord::Base
   after_initialize do
     self.cores ||= 1
     self.memory ||= 1024
-    self.storage ||= 20
+    self.storage ||= 50
     self.machine_type ||= "pc"
     self.boot_order ||= "cdn"
     self.tags = [] if self.tags == {}
