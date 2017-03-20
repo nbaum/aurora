@@ -22,6 +22,12 @@ class Volume < ActiveRecord::Base
     self.path ||= uuid
   end
 
+  before_update do
+    if size_changed?
+      api.resize size: size * 1_000_000_000
+    end
+  end
+
   after_destroy do
     api.delete if pool
   end
