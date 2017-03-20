@@ -18,17 +18,17 @@ script src="/novnc/util.js"
         i.fa.fa-fw.fa-info
         = msg
   header#site-header
-    h1 = image_tag("logo.png", style: "height: 1em") + " Aurora"
+    h1.grow = image_tag("logo.png", style: "height: 1em") + " Aurora"
     - if current_user
       menu.account
         /li: strong = number_to_currency current_account.balance, unit: "£"
         /li
           - current_account.rate.each do |prd, rate|
             => "#{number_to_currency rate, unit: "£"}/#{prd}"
-        li = link_to "#{current_account.name}", current_account
+        /li = link_to "#{current_account.name}", current_account
         li = link_to "#{current_user.name}", current_user
         li = link_to "Logout", [:terminate, current_session]
-  main.grow.hbox class=@main_class
+  main#site-main class=@main_class
     nav#site-nav
       menu.site
         li: h2 Resources
@@ -47,7 +47,7 @@ script src="/novnc/util.js"
         /li = link_to icon('sliders', 'Settings', fw: true), '#'
       menu.admin
         li: h2 Administration
-        li = link_to "Status", :status
+        li = link_to icon('info', "Status", fw: true), :status
         li = link_to icon('institution', 'Accounts', fw: true), :accounts
         li = link_to icon('desktop', 'Hosts', fw: true), :hosts
         li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools

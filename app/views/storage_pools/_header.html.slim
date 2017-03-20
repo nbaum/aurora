@@ -9,8 +9,8 @@
 - else
   - @title << @storage_pool.name
   header
-    .hbox
-      h1 = @title.last
+    h1 = @title.last
+    aside
       menu
         li = button_to [:refresh, @storage_pool] do
           = icon("refresh", "Refresh")

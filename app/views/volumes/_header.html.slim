@@ -5,19 +5,19 @@
   menu
     li = link_to "List", [:volumes], exact: true
     li = link_to "New", [:new, :volume]
+    li = link_to "New ISO", [:new_iso, :volumes]
   - @title << "New" if !@volume.nil?
 - else
   - @title << @volume.name
   header
-    .hbox
-      h1 = @title.last
+    h1 = @title.last
+    aside
+      = button_to @volume, method: :delete do
+        = icon("trash-o", "Delete")
+    - if !@volume.optical
       aside
-        = button_to @volume, method: :delete do
-          = icon("trash-o", "Delete")
-      - if !@volume.optical
-        aside
-          = button_to [:wipe, @volume] do
-            = icon("trash-o", "Wipe")
+        = button_to [:wipe, @volume] do
+          = icon("trash-o", "Wipe")
   menu
     li = link_to "← Volume List", :volumes, exact: true, class: "bare"
     li = link_to "View", @volume, exact: true

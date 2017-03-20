@@ -1,4 +1,14 @@
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css");
 @import "compass";
 @import "core/*";
-@import "bare/*";
+@import "style/*";
+
+article {
+  background: rgba(#aff, 0.1);
+  width: 30em;
+  margin: 0 auto 0;
+  padding: 2em;
+  box-shadow: rgba(#aff, 0.2) 0 0 10px;
+  border: 1px solid rgba(#aff, 0.3);
+  border-radius: 3px;
+}

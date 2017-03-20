@@ -21,16 +21,21 @@
       th = f.label :cores
       td = f.number_field :cores, min: 1, max: 8
     tr
+      th = f.label :mhz, "MHz"
+      td
+        => f.number_field :mhz, min: 0, max: 2000
+        ' (0 means no limit)
+    tr
       th = f.label :memory
       td
-        =' f.number_field :memory, min: 128, max: 2**24, step: 128
+        => f.number_field :memory, min: 128, max: 2**24, step: 128
         ' MiB
     tr
       th = f.label :storage
       td
         => f.grouped_collection_select :root_id, StoragePool.includes(:volumes).where(volumes: {optical: false}).order(:name), :volumes, :full_name, :id, :name, include_blank: "(None)"
         ' or
-        =' f.number_field :storage, min: 0, max: 1000
+        => f.number_field :storage, min: 0, max: 1000
         ' GB
     /tr
       th = f.label :password
@@ -92,13 +97,16 @@
     tr
       th Pinned
       td: label
-        =' f.check_box :pinned
+        => f.check_box :pinned
         | Server may not be migrated or evicted
     tr
       th Template
       td: label
-        =' f.check_box :is_template
+        => f.check_box :is_template
         | Classify as a template in the server list
+    tr
+      th style="vertical-align: top" = f.label :custom_guest_data
+      td = f.text_area :custom_guest_data, cols: 80, rows: 4, style: "width: 100%"
     tr
       th
       td

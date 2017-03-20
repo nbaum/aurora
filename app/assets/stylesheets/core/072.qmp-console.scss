@@ -1,0 +1,13 @@
+#qmp-output {
+  overflow: auto;
+  padding: 1em;
+  background: #000;
+  color: #fff;
+  .request {
+    font-weight: bold;
+  }
+}
+
+#qmp-input {
+  width: 100%;
+}

@@ -1,0 +1,54 @@
+
+input[type='text'],
+input[type='search'],
+input[type='tel'],
+input[type='url'],
+input[type='email'],
+input[type='password'],
+input[type='date'],
+input[type='month'],
+input[type='week'],
+input[type='time'],
+input[type='datetime-local'],
+input[type='number'],
+textarea,
+input:not([type])
+{
+  border: 1px solid rgba(#aff, 0.4);
+  background: rgba(#aff, 0.05);
+  padding: 0.5ex 1ex;
+}
+
+input[type='submit'],
+input[type='reset'],
+input[type='button'],
+input[type='color'],
+::-webkit-file-upload-button,
+button,
+summary,
+a[href].button,
+select
+{
+  border: 1px solid rgba(#aff, 0.4);
+  border-radius: 3px;
+  background: linear-gradient(rgba(#aff, 0.15), rgba(#aff, 0.2));
+  display: inline-block;
+  padding: 0.5ex 1ex;
+  box-shadow: rgba(#000, 1.0) 0 0 1px 1px inset;
+  // color: #000;
+  // border: 1px solid #aaa;
+  // border-radius: 1px;
+  // padding: 0.5ex 1ex;
+  // background: #fff linear-gradient(#fafafa, #f0f0f0);
+  &:hover {
+    background: linear-gradient(rgba(#aff, 0.2), rgba(#aff, 0.25));
+  }
+  &:active {
+    background: linear-gradient(rgba(#aff, 0.1), rgba(#aff, 0.15));
+  }
+}
+
+option, optgroup {
+  -webkit-appearance: none;
+  background: #000;
+}
