@@ -181,6 +181,7 @@ class ServersController < ApplicationController
                                    :iso_id, :machine_type, :boot_order,
                                    :pinned, :new_host, :notes, :is_template, :tags,
                                    :hda_id, :hdb_id, :hdc_id, :hdd_id,
+                                   :custom_guest_data, :mhz,
                                    :root_id, :script, :networks => [:assign])
     p[:networks] = p[:networks].select{|id,a| a["assign"] == "1"}.keys if p[:networks]
     p[:tags] = p[:tags].split(",") if p[:tags]
