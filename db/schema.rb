@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216181605) do
+ActiveRecord::Schema.define(version: 20170222003237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20161216181605) do
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.json     "custom_guest_data", default: {}
   end
 
   add_index "bundles", ["account_id"], name: "index_bundles_on_account_id", using: :btree
@@ -138,6 +139,7 @@ ActiveRecord::Schema.define(version: 20161216181605) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "index"
+    t.string   "keyword"
   end
 
   add_index "networks", ["account_id"], name: "index_networks_on_account_id", using: :btree
@@ -152,6 +154,16 @@ ActiveRecord::Schema.define(version: 20161216181605) do
     t.datetime "updated_at"
     t.text     "steps"
   end
+
+  create_table "server_events", force: true do |t|
+    t.integer  "server_id"
+    t.string   "name"
+    t.json     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "server_events", ["server_id"], name: "index_server_events_on_server_id", using: :btree
 
   create_table "servers", force: true do |t|
     t.string   "name"
@@ -175,12 +187,14 @@ ActiveRecord::Schema.define(version: 20161216181605) do
     t.datetime "updated_at"
     t.string   "machine_type"
     t.string   "boot_order"
-    t.boolean  "pinned",         default: false
-    t.boolean  "is_template",    default: false
+    t.boolean  "pinned",            default: false
+    t.boolean  "is_template",       default: false
     t.text     "notes"
-    t.string   "tags",           default: [],    array: true
-    t.integer  "networks_id",    default: [],    array: true
+    t.string   "tags",              default: [],    array: true
+    t.integer  "networks_id",       default: [],    array: true
     t.text     "script"
+    t.json     "custom_guest_data", default: {}
+    t.integer  "mhz",               default: 0
   end
 
   add_index "servers", ["account_id"], name: "index_servers_on_account_id", using: :btree

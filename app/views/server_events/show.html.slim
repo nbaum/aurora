@@ -1,0 +1,12 @@
+= render("header")
+main
+  table.properties
+    tr
+      th Server
+      td = @server_event.server
+    tr
+      th Name
+      td = @server_event.name
+    tr
+      th Data
+      td = @server_event.data

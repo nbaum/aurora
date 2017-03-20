@@ -185,6 +185,7 @@ class ServersController < ApplicationController
                                    :root_id, :script, :networks => [:assign])
     p[:networks] = p[:networks].select{|id,a| a["assign"] == "1"}.keys if p[:networks]
     p[:tags] = p[:tags].split(",") if p[:tags]
+    p[:custom_guest_data] = JSON.parse(p[:custom_guest_data]) if p[:custom_guest_data]
     p
   end
 

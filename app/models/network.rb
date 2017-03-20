@@ -13,6 +13,10 @@ class Network < ActiveRecord::Base
     self.index ||= Network.maximum(:index) + 1
   end
 
+  def netname
+    name.downcase.tr(" ", "-").tr("^a-z0-9-", "")
+  end
+
   def portname
     "ens#{index + 3}"
   end

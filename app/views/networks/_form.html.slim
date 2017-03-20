@@ -13,6 +13,9 @@
       th = f.label :bridge
       td = f.text_field :bridge
     tr
+      th = f.label :keyword
+      td = f.text_field :keyword
+    tr
       th = f.label :index, "VM Port"
       td = f.select :index, 8.times.map{|i|["ens#{i + 3}", i]}
     tr

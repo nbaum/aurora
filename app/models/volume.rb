@@ -12,6 +12,7 @@ class Volume < ActiveRecord::Base
   has_many :attachments, class_name: "ServerVolume", dependent: :destroy
 
   after_initialize if: :new_record? do
+    self.zone = Zone.first
     self.name ||= Chaucer.volume_name
     self.size ||= 10
     self.pool = @zone && @zone.pools.first

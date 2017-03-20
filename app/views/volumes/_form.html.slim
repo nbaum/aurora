@@ -40,7 +40,7 @@
     tr
       th = f.label :storage_pool_id
       td = f.select :storage_pool_id, [*StoragePool.pluck(:name, :id)]
-    tr
+    /tr
       th = f.label :published_at
       td = f.datetime_select :published_at
     tr

@@ -78,7 +78,9 @@ class BundlesController < ApplicationController
   end
 
   def bundle_params
-    params.require(:bundle).permit(:name, :published_at, :account_id)
+    p = params.require(:bundle).permit(:name, :published_at, :account_id, :custom_guest_data)
+    p[:custom_guest_data] = JSON.parse(p[:custom_guest_data]) if p[:custom_guest_data]
+    return p
   end
 
 end

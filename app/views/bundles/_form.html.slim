@@ -10,12 +10,15 @@
     tr
       th = f.label :name
       td = f.text_field :name
-    tr
+    /tr
       th = f.label :published_at
       td = f.datetime_select :published_at
-    tr
+    /tr
       th = f.label :account
       td = f.text_field :account
+    tr
+      th style="vertical-align: top" = f.label :custom_guest_data
+      td = f.text_area :custom_guest_data, cols: 80, rows: 4, style: "width: 100%"
     tr
       th
       td = f.button @bundle.new_record? ? "Create" : "Update"

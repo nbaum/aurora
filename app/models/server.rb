@@ -31,6 +31,7 @@ class Server < ActiveRecord::Base
   has_many :volumes, dependent: :destroy
   has_many :attachments, class_name: "ServerVolume", dependent: :destroy
   has_many :addresses, dependent: :nullify
+  has_many :events, class_name: "ServerEvent", dependent: :destroy
 
   validates :name, presence: true
   validates :password, presence: true, allow_nil: true, length: { is: 8 }
@@ -424,6 +425,7 @@ class Server < ActiveRecord::Base
       state: state,
       memory: memory,
       cores: cores,
+      mhz: mhz,
       display: id,
       ports: port_configs,
       password: vnc_password,
@@ -542,9 +544,13 @@ class Server < ActiveRecord::Base
     effective_zone.pick_compute_host(exclude: exclude)
   end
 
+  def hostname
+    name.downcase.tr(" ", "-").tr("^a-z0-9-", "")
+  end
+
   def guest_data
     gd = {}
-    gd["hostname"] = name.downcase.tr(" ", "-").tr("^a-z0-9-", "")
+    gd["hostname"] = hostname
     effective_zone.networks.order(:index).map.with_index do |net, i|
       next unless network?(net)
       ipv4 = ipv4_address(net)
@@ -556,6 +562,18 @@ class Server < ActiveRecord::Base
       else
         gd["net#{i}.dhcp"] = 1
       end
+    end
+    gd.merge! custom_guest_data
+    if bundle
+      gd.merge! bundle.custom_guest_data
+      gd["hosts"] = bundle.servers.flat_map do |server|
+        server.addresses.map do |addr|
+          next if addr.network.keyword.blank?
+          server.tags.map do |tag|
+            "%s %s-%s" % [addr.ip, tag, addr.network.keyword]
+          end
+        end
+      end.join("\n")
     end
     gd
   end

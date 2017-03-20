@@ -2,10 +2,11 @@
 
 Rails.application.routes.draw do
 
-  resources :scripts
   root "pages#index"
 
   get "status" => 'pages#status'
+
+  resources :scripts
 
   resources :errors
 
@@ -84,6 +85,7 @@ Rails.application.routes.draw do
       post :migrate, :evict, :push, :bootstrap, :unaddress
       post :guest_password, :guest_execute, :script
     end
+    resources :server_events
   end
 
   resources :bundles do
@@ -91,6 +93,8 @@ Rails.application.routes.draw do
       post :start, :pause, :unpause, :suspend, :stop, :reset, :clone
     end
   end
+
+  post '/callback/server_event' => "callback#server_event"
 
   match "errors/:status" => "pages#error", via: :all
 end

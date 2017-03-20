@@ -1,0 +1,1 @@
+json.array! @server_events, partial: 'server_events/server_event', as: :server_event

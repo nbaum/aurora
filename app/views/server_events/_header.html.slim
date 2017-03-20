@@ -1,0 +1,14 @@
+- @title << "Server events"
+- if @server_event.nil? or @server_event.new_record?
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Server", @server, exact: true, class: "bare"
+    li = link_to "List", [@server, :server_events], exact: true
+- else
+  - @title << "Server event"
+  header
+    h1 = @title.last
+  menu
+    li = link_to "← Server", @server, exact: true, class: "bare"
+    li = link_to "← List", [@server, :server_events], exact: true, class: "bare"

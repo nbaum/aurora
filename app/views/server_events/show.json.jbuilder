@@ -1,0 +1,1 @@
+json.partial! "server_events/server_event", server_event: @server_event

@@ -58,3 +58,4 @@
     li = link_to "Guest", [:guest, @server]
     li = link_to "Scripting", [:scripting, @server]
     li = link_to "Debug", [:debug, @server]
+    li = link_to "→ Events", [@server, :server_events], class: "bare"

@@ -1,0 +1,16 @@
+= render("header")
+main
+  = paginate @server_events
+  table.table
+    thead
+      tr
+        th Time
+        th Event
+        th Data
+    tbody
+      - @server_events.each do |server_event|
+        tr
+          td = server_event.created_at
+          td = server_event.name
+          td = server_event.data
+  = paginate @server_events

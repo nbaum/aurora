@@ -1,0 +1,22 @@
+= form_for @server_event do |f|
+  - if @server_event.errors.any?
+    .errors
+      i.fa.fa-exclamation-triangle.fa-fw
+      h2 = "#{pluralize(@server_event.errors.count, "error")} prohibited this server_event from being saved:"
+      ul
+        - @server_event.errors.full_messages.each do |message|
+          li = message
+
+  table.properties
+    tr
+      th = f.label :server
+      td = f.text_field :server
+    tr
+      th = f.label :name
+      td = f.text_field :name
+    tr
+      th = f.label :data
+      td = f.text_field :data
+    tr
+      th
+      td = f.button @server_event.new_record? ? "Create" : "Update"
