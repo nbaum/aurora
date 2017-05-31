@@ -12,7 +12,8 @@ class Server < ActiveRecord::Base
   Error = Class.new(StandardError)
 
   MACHINE_TYPES = {
-    "pc"  => "Paravirtualized PC",
+    "pc"  => "Standard PC",
+    "pvpc"  => "Paravirtualized PC",
     "windows" => "Windows-compatible PC",
     "mac" => "Apple Macintosh",
   }.freeze
