@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root "pages#index"
 
   get "status" => 'pages#status'
-  get "keys" => 'pages#keys'
+  get "authorized_keys" => 'pages#keys'
 
   resources :scripts
 
