@@ -2,6 +2,12 @@
 
 class PagesController < ApplicationController
 
+  skip_before_filter :check_authentication, only: [:keys]
+
+  def keys
+    render text: User.to_a.map(&:ssh_keys).join("\n"), content_type: "text/plain"
+  end
+
   def boom
     raise "!"
   end
