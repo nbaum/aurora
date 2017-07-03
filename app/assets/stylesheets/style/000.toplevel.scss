@@ -1,68 +1,98 @@
+
 body {
-  background: image-url("background.png");
-  color: #cff;
-}
-
-a[href] {
-  color: #6af;
-}
-
-#site-header {
-  @extend .hbox;
-  background: rgba(#0ff, 0.1);
-  padding: 1ex;
-  menu {
-    @extend .hbox;
-  }
-  li {
-    margin-left: 1em;
-  }
-}
-
-#site-main {
-  @extend .grow;
-  @extend .hbox;
-}
-
-#site-nav {
-  padding: 0 1em;
-  h2 {
-    margin: 1em 0;
-  }
-}
-
-article {
-  padding: 1em;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "header header"
+                       "nav    content"
+                       "footer footer";
   > header {
-    @extend .hbox;
-    width: 100%;
-    align-items: center;
-    > * {
-      margin-left: 1em;
-    }
-    > :first-child {
-      margin-left: 0;
-    }
-    > h1 {
-      font-weight: bold;
-      font-size: 1.5em;
-      @extend .grow;
-    }
+    grid-area: header;
+    display: flex;
+    color: #fff;
+    background: #333;
+    border-bottom: 1px solid #660;
+    padding: 1ex 1em;
     menu {
-      @extend .hbox;
-      li:not(:first-child) {
-        margin-left: 1ex;
+      display: flex;
+      li {
+        margin-left: 1em;
+      }
+    }
+    a:link, a:visited {
+      color: #fff;
+    }
+  }
+
+  > nav {
+    grid-area: nav;
+    background: #eee;
+    padding: 0 1em;
+    h2 {
+      margin: 1em 0 1ex;
+    }
+  }
+
+  > main {
+    grid-area: content;
+    padding: 1em;
+    > header {
+      display: flex;
+      align-items: baseline;
+      menu {
+        display: flex;
+      }
+      aside, li {
+        margin-left: 1em;
+      }
+      h2 {
+        font-size: 2em;
+        color: #999;
+        &::after {
+          content: "/";
+        }
+      }
+      &:hover {
+        color: #333;
+      }
+      h1 {
+        flex-grow: 1;
+        font-size: 2em;
+        margin-bottom: 1rem;
+      }
+    }
+    > main {
+      h2 {
+        font-size: 1.5em;
+        margin: 1em 0 1ex;
+      }
+      h3 {
+        font-size: 1.25em;
+        margin: 1em 0 1ex;
+      }
+      p {
+        margin: 1em 0 1ex;
+      }
+    }
+    > menu {
+      margin-bottom: 1rem;
+      padding: 1ex;
+      display: flex;
+      background: #eee;
+      li {
+        margin-right: 1em;
       }
     }
   }
-  > menu {
-    margin-top: 1em;
-    @extend .hbox;
-    li {
-      margin-right: 1em;
-    }
+
+  > footer {
+    grid-area: footer;
   }
-  > main {
-    margin-top: 1em;
+
+}
+
+table {
+  th, td {
+    padding: 1ex;
   }
 }

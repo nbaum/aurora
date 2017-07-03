@@ -14,9 +14,16 @@ input[type='number'],
 textarea,
 input:not([type])
 {
-  border: 1px solid rgba(#aff, 0.4);
+  border: 1px solid rgba(#000, 0.4);
   background: rgba(#aff, 0.05);
   padding: 0.5ex 1ex;
+}
+
+select {
+}
+
+textarea {
+  width: 100%;
 }
 
 input[type='submit'],
@@ -27,28 +34,19 @@ input[type='color'],
 button,
 summary,
 a[href].button,
-select
 {
-  border: 1px solid rgba(#aff, 0.4);
-  border-radius: 3px;
-  background: linear-gradient(rgba(#aff, 0.15), rgba(#aff, 0.2));
-  display: inline-block;
   padding: 0.5ex 1ex;
-  box-shadow: rgba(#000, 1.0) 0 0 1px 1px inset;
-  // color: #000;
-  // border: 1px solid #aaa;
-  // border-radius: 1px;
-  // padding: 0.5ex 1ex;
-  // background: #fff linear-gradient(#fafafa, #f0f0f0);
+  border: 1px solid rgba(#000, 0.3);
+  display: inline-block;
   &:hover {
-    background: linear-gradient(rgba(#aff, 0.2), rgba(#aff, 0.25));
+    background: #eee;
   }
   &:active {
-    background: linear-gradient(rgba(#aff, 0.1), rgba(#aff, 0.15));
+    background: #999;
   }
 }
 
-option, optgroup {
-  -webkit-appearance: none;
-  background: #000;
-}
+// option, optgroup {
+//   -webkit-appearance: none;
+//   background: #000;
+// }
