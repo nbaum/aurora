@@ -6,7 +6,7 @@ title = ["Aurora", *@title].reverse.join(" - ")
 = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/ace.js"
 script src="/novnc/util.js"
 = csrf_meta_tags
-.vbox
+body
   - if msg = flash[:alert]
     .flash.alert
       div
@@ -17,7 +17,7 @@ script src="/novnc/util.js"
       div
         i.fa.fa-fw.fa-info
         = msg
-  header#site-header
+  header
     h1.grow = image_tag("logo.png", style: "height: 1em") + " Aurora"
     - if current_user
       menu.account
@@ -28,29 +28,31 @@ script src="/novnc/util.js"
         /li = link_to "#{current_account.name}", current_account
         li = link_to "#{current_user.name}", current_user
         li = link_to "Logout", [:terminate, current_session]
-  main#site-main class=@main_class
-    nav#site-nav
-      menu.site
-        li: h2 Resources
-        li = link_to icon('cubes', 'Bundles', fw: true), :bundles
-        li = link_to icon('cube', 'Servers', fw: true), :servers
-        li = link_to icon('database', 'Storage', fw: true), :volumes
-        li = link_to icon('sitemap', 'Networks', fw: true), :networks
-        /li: h2 Financials
-        /li = link_to icon('book', 'Tariffs', fw: true), :tariffs
-        /li = link_to icon('gbp', 'Transactions', fw: true), :transactions
-        li: h2 Management
-        li = link_to icon('users', 'Users', fw: true), :users
-        li = link_to icon('newspaper-o', 'Sessions', fw: true), :sessions
-        li = link_to icon('newspaper-o', 'Jobs', fw: true), :jobs
-        li = link_to icon('newspaper-o', 'Scripts', fw: true), :scripts
-        /li = link_to icon('sliders', 'Settings', fw: true), '#'
-      menu.admin
-        li: h2 Administration
-        li = link_to icon('info', "Status", fw: true), :status
-        li = link_to icon('institution', 'Accounts', fw: true), :accounts
-        li = link_to icon('desktop', 'Hosts', fw: true), :hosts
-        li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools
-        li = link_to icon('building-o', 'Zones', fw: true), :zones
-        /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
-    article.grow = yield
+  nav#site-nav
+    menu.site
+      li: h2 Resources
+      li = link_to icon('cubes', 'Bundles', fw: true), :bundles
+      li = link_to icon('cube', 'Servers', fw: true), :servers
+      li = link_to icon('database', 'Storage', fw: true), :volumes
+      li = link_to icon('sitemap', 'Networks', fw: true), :networks
+      /li: h2 Financials
+      /li = link_to icon('book', 'Tariffs', fw: true), :tariffs
+      /li = link_to icon('gbp', 'Transactions', fw: true), :transactions
+      li: h2 Management
+      li = link_to icon('users', 'Users', fw: true), :users
+      li = link_to icon('newspaper-o', 'Sessions', fw: true), :sessions
+      li = link_to icon('newspaper-o', 'Jobs', fw: true), :jobs
+      li = link_to icon('newspaper-o', 'Scripts', fw: true), :scripts
+      /li = link_to icon('sliders', 'Settings', fw: true), '#'
+    menu.admin
+      li: h2 Administration
+      li = link_to icon('info', "Status", fw: true), :status
+      li = link_to icon('institution', 'Accounts', fw: true), :accounts
+      li = link_to icon('desktop', 'Hosts', fw: true), :hosts
+      li = link_to icon('archive', 'Storage Pools', fw: true), :storage_pools
+      li = link_to icon('building-o', 'Zones', fw: true), :zones
+      /li = link_to icon('rocket', 'Appliances', fw: true), :appliances
+  main class=@main_class
+    = yield
+  footer
+    p Powerful Jedi.
