@@ -66,11 +66,9 @@ class Server < ActiveRecord::Base
 
   after_create do
     if template
-      template.api.suspend(tag: id.to_s) if suspended = template.started?
       volumes.each do |vol|
         vol.realize if vol.base
       end
-      template.api.unpause if suspended
     end
     account.debit("server", charge, self.name, period = "second")
   end
