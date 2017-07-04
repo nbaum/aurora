@@ -3,7 +3,7 @@
 	.screen {
 		min-width: 219.5px;
 		min-height: 173.5px;
-		background: image-url("screen.png");
+		background-image: url(image-path("screen.png"));
 		background-size: 100% 100%;
 		color: #fff;
 		position: relative;
