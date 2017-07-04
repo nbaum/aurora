@@ -1,25 +1,37 @@
 - if servers.empty?
   p No servers to show
 - else
-  table.table
-    thead
-      tr
-        /th ID
-        th Status
-        th Name
-        th Address
-        th Tags
-        th Spec
-        th Host
-        th Bundle
-    tbody
-      - servers.each do |server|
-        tr
-          /td = server.id, server
-          td = server.state_icon
-          td = link_to server.name, server
-          td = server.addresses.first&.ip || "-"
-          td = server.tags.join(", ")
-          td == [server.cores, server.memory_format, server.storage_format].join("/")
-          td = server.host_link
-          td = server.bundle_link
+  - servers.each do |server|
+    .server-box
+      .screen
+        .address = server.addresses.first&.ip
+        ' &nbsp;
+        .spec == [server.cores, server.memory_format, server.storage_format].join("/")
+        ' &nbsp;
+        .tags = server.tags.join(", ")
+        ' &nbsp;
+        .state class=server.state
+      = link_to server
+        .name = server.name
+  / table.table
+  /   thead
+  /     tr
+  /       /th ID
+  /       th Status
+  /       th Name
+  /       th Address
+  /       th Tags
+  /       th Spec
+  /       th Host
+  /       th Bundle
+  /   tbody
+  /     - servers.each do |server|
+  /       tr
+  /         /td = server.id, server
+  /         td = server.state_icon
+  /         td = link_to server.name, server
+  /         td = server.addresses.first&.ip || "-"
+  /         td = server.tags.join(", ")
+  /         td == [server.cores, server.memory_format, server.storage_format].join("/")
+  /         td = server.host_link
+  /         td = server.bundle_link
