@@ -2,7 +2,10 @@
   p No servers to show
 - else
   - servers.group_by{|s|s.bundle}.sort_by{|x|x[0] ? x[0].name : "\000"}.each do |bundle, servers|
-    h2 = bundle ? bundle.name : "Unbundled Servers"
+    - if bundle
+       h2 = link_to bundle.name, bundle
+    - else
+      h2 Unbundled
     - servers.sort_by{|s|s.name}.each do |server|
       .server-box
         = link_to server
