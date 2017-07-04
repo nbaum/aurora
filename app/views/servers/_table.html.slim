@@ -3,16 +3,15 @@
 - else
   - servers.each do |server|
     .server-box
-      .screen
-        .address = server.addresses.first&.ip
-        ' &nbsp;
-        .spec == [server.cores, server.memory_format, server.storage_format].join("/")
-        ' &nbsp;
-        .tags = server.tags.join(", ")
-        ' &nbsp;
-        .state class=server.state
       = link_to server
-        .name = server.name
+        .screen
+          .name = server.name
+          .state class=server.state
+      .tags = server.tags.join(", ")
+      span
+      .address = server.addresses.first&.ip
+      span
+      .spec == [server.cores, server.memory_format, server.storage_format].join("/")
   / table.table
   /   thead
   /     tr
