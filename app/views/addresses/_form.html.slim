@@ -10,7 +10,7 @@
     tr
       th = f.label :ip
       td = f.text_field :ip
-    tr
+    /tr
       th = f.label :account_id
       td = f.select :account_id, Account.pluck(:name, :id).or_none
     tr

@@ -13,7 +13,7 @@
     tr
       th = f.label :email
       td = f.text_field :email, size: 40
-    tr
+    /tr
       th = f.label :account_id
       td = f.select :account_id, Account.pluck(:name, :id)
     tr

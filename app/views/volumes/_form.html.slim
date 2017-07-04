@@ -5,7 +5,6 @@
       ul
         - @volume.errors.full_messages.each do |message|
           li = message
-
   table.properties
     tr
       th = f.label :name
@@ -31,7 +30,7 @@
     tr
       th = f.label :base_id
       td = f.select :base_id, [["(None)", 0], *Volume.pluck(:name, :id)]
-    tr
+    /tr
       th = f.label :account_id
       td = f.select :account_id, [["(None)", 0], *Account.pluck(:name, :id)]
     tr

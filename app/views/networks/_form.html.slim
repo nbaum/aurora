@@ -24,7 +24,7 @@
     tr
       th = f.label :index, "VM Port"
       td = f.select :index, 8.times.map{|i|["ens#{i + 3}", i]}
-    tr
+    /tr
       th = f.label :account_id
       td = f.select :account_id, Account.pluck(:name, :id).or_none
     tr
