@@ -14,7 +14,9 @@ class ServersController < ApplicationController
     @servers = @servers.where("is_template = FALSE") unless params[:templates]
     @servers = @servers.where("is_template = TRUE") if params[:templates]
     @servers = @servers.where("tags @> ARRAY[?]::VARCHAR[]", params[:tags].split(",")) if params[:tags]
-    @servers = @servers.page(params[:page]).decorate
+    @servers = @servers.order("name")
+    @servers = @servers.page(params[:page])
+    @servers = @servers.decorate
   end
 
   def new
