@@ -52,7 +52,7 @@ class StoragePoolsController < ApplicationController
   end
 
   def storage_pool_params
-    params.require(:storage_pool).permit(:name, :size, :path, :account_id, :host_id)
+    params.require(:storage_pool).permit(:name, :size, :path, :account_id, :host_id, :readonly)
   end
 
 end

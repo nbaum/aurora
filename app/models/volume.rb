@@ -58,6 +58,7 @@ class Volume < ActiveRecord::Base
       serial: path,
       ephemeral: ephemeral,
       optical: optical,
+      readonly: pool.readonly
     }
   end
 
