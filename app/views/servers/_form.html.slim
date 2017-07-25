@@ -67,7 +67,7 @@
     /tr
       th = f.label :appliance_data
       td = f.text_field :appliance_data
-    tr
+    / tr
       th = f.label :template_id
       td = f.select :template_id, [["(None)", 0], *Server.pluck(:name, :id)]
     /tr
