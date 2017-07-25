@@ -60,10 +60,6 @@ class Server < ActiveRecord::Base
     super || [{"action" => "stop"}].to_yaml
   end
 
-  before_create do
-    self.state = "suspended" if template && template.started?
-  end
-
   after_create do
     if template
       volumes.each do |vol|
