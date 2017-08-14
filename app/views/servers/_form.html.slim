@@ -70,7 +70,7 @@
     / tr
       th = f.label :template_id
       td = f.select :template_id, [["(None)", 0], *Server.pluck(:name, :id)]
-    /tr
+    tr
       th = f.label :host_id
       td = f.select :host_id, [["(None)", 0], *Host.pluck(:name, :id)]
     /tr
