@@ -1,8 +1,32 @@
 .server-box {
 	display: inline-block;
 	margin-bottom: 1em;
+	width: 25%;
+	border: 1px solid rgba(black, 0.25);
+	border-radius: 2px;
+	box-shadow: rgba(#000, 0.25) 1px 1px 4px;
+	padding: 10px;
 	position: relative;
-	color: #fff;
+	background: #f0f0f0;
+	.state {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 2px;
+		&.state-stopped {
+			background: rgba(#000, 0.6);
+		}
+		&.state-running {
+			background: rgba(#0f0, 0.6);
+		}
+		&.state-paused {
+			background: rgba(#f80, 0.6);
+		}
+	}
+}
+
+.q.server-box {
 	.data {
 		display: flex;
 	}

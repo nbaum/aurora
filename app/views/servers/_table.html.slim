@@ -3,20 +3,20 @@
 - else
   - servers.group_by{|s|s.bundle}.sort_by{|x|x[0] ? x[0].name : "\000"}.each do |bundle, servers|
     - if bundle
-       h2 = link_to bundle.name, bundle
+       p: strong = link_to bundle.name, bundle
     - else
-      h2 Unbundled
+      p: strong Unbundled
     - servers.sort_by{|s|s.name}.each do |server|
       .server-box
-        = link_to server
-          .screen
-            .name = server.name
-            .state class=server.state
-        .tags = server.tags.join(", ")
-        span
-        .address = server.addresses.first&.ip
-        span
-        .spec == [server.cores, server.memory_format, server.storage_format].join("/")
+        .state class="state-#{server.state}"
+        .line
+          = link_to server
+            = server.name
+          - unless server.tags.blank?
+            = " (#{server.tags.join(", ")})"
+        .line: .address = server.addresses.map(&:ip).join(", ")
+        / span
+        / .spec == [server.cores, server.memory_format, server.storage_format].join("/")
   / table.table
   /   thead
   /     tr
